@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,6 +14,14 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
+            ->add('name')
+            ->add('surname')
+            ->add('isMale')
+            ->add('birthDate', BirthdayType::class, [
+                'widget' => 'single_text',
+                // this is actually the default format for single_text
+                'format' => 'yyyy-MM-dd',
+            ])
             //->add('roles')
             //->add('password')
             //->add('isVerified')
