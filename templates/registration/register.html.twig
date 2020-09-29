@@ -1,21 +1,36 @@
-{% extends 'base.html.twig' %}
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}{% trans %}register{% endtrans %}{% endblock %}
+    </title>
+    {% block stylesheets %}
+        {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+        {{ encore_entry_link_tags('app') }}
 
-{% block title %}{% trans %}register{% endtrans %}{% endblock %}
+        <!-- Renders a link tag (if your module requires any CSS)
+             <link rel="stylesheet" href="/build/app.css"> -->
+    {% endblock %}
+</head>
 
 {% block body %}
+<body class="text-center">
+<div class="d-flex flex-column justify-content-center align-content-center h-100">
+    <div class="d-flex flex-row justify-content-center w-100">
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
-    <h1>{% trans %}register{% endtrans %}</h1>
-
     {{ form_start(registrationForm) }}
+        <h1 class="h3 mb-3 font-weight-normal">{% trans %}register{% endtrans %}</h1>
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">{% trans %}register{% endtrans %}</button>
+        <button type="submit" class="btn btn-primary btn-block">{% trans %}register{% endtrans %}</button>
     {{ form_end(registrationForm) }}
+    </div>
+</div>
+</body>
 {% endblock %}

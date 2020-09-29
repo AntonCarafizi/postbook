@@ -1,23 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale }}">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+            {{ encore_entry_link_tags('app') }}
+
+            <!-- Renders a link tag (if your module requires any CSS)
+                 <link rel="stylesheet" href="/build/app.css"> -->
+        {% endblock %}
     </head>
     <body>
-        {% block header %}
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">{% trans %}logout{% endtrans %}</a>
-                </div>
-                {% elseif app.request.attributes.get('_route') != 'app_login' %}
-                    <a href="{{ path('app_login') }}">{% trans %}login{% endtrans %}</a>
-                    <a href="{{ path('app_register') }}">{% trans %}register{% endtrans %}</a>
-            {% endif %}
-        {% endblock %}
+    {% block header %}
+        <header class="container d-flex justify-content-center text-center p-3">
+            <h1 class="h1">{% trans %}welcome.to{% endtrans %} {{ app.request.server.get('SERVER_NAME')|upper }} </h1>
+        </header>
+    {% endblock %}
+
+    {% block navigation %}
+        {{ include('template-parts/nav.html.twig') }}
+    {% endblock %}
+
+    <main class="min-vh-100">
+        <div role="main" class="container">
+            {% block user %}
+            <div class="float-right">
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as <a class="btn btn-default" href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>
+                        <a class="btn btn-default" href="{{ path('app_logout') }}">{% trans %}logout{% endtrans %}</a>
+                    </div>
+                {% else %}
+                    <div class="mb-3">
+                        {% if app.request.attributes.get('_route') != 'app_login' %}
+                            <a class="btn btn-default" href="{{ path('app_login') }}">{% trans %}login{% endtrans %}</a>
+                        {% endif %}
+                        {% if app.request.attributes.get('_route') != 'app_register' %}
+                            <a class="btn btn-default" href="{{ path('app_register') }}">{% trans %}register{% endtrans %}</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            {% endblock %}
+
         {% block body %}{% endblock %}
         {% block footer %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+
+            <!-- Renders app.js & a webpack runtime.js file
+                <script src="/build/runtime.js"></script>
+                <script src="/build/app.js"></script> -->
+        {% endblock %}
     </body>
 </html>

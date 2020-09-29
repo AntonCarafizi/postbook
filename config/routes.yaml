@@ -1,3 +1,29 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\UserController::index
+
+
+user_index:
+    path: /user
+    controller: App\Controller\UserController::index
+
+user_show:
+    path: /user/{id}
+    requirements:
+        id: '\d+'
+    controller: App\Controller\UserController::show
+    methods: GET|HEAD
+
+user_edit:
+    path: /user/{id}/edit
+    requirements:
+        id: '\d+'
+    controller: App\Controller\UserController::edit
+    methods: GET|POST
+
+user_delete:
+    path: /user/{id}
+    requirements:
+        id: '\d+'
+    controller: App\Controller\UserController::delete
+    methods: DELETE
