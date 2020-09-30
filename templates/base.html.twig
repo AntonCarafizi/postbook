@@ -29,16 +29,16 @@
             <div class="float-right">
                 {% if app.user %}
                     <div class="mb-3">
-                        You are logged in as <a class="btn btn-default" href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>
-                        <a class="btn btn-default" href="{{ path('app_logout') }}">{% trans %}logout{% endtrans %}</a>
+                        {% trans %}you.are.logged.in.as{% endtrans %} <a class="btn btn-default" href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>
+                        <a class="btn btn-default" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}</a>
                     </div>
                 {% else %}
                     <div class="mb-3">
                         {% if app.request.attributes.get('_route') != 'app_login' %}
-                            <a class="btn btn-default" href="{{ path('app_login') }}">{% trans %}login{% endtrans %}</a>
+                            <a class="btn btn-default" href="{{ path('app_login', {'_locale' : app.request.locale}) }}"><i class="fas fa-sign-in-alt"></i> {% trans %}login{% endtrans %}</a>
                         {% endif %}
                         {% if app.request.attributes.get('_route') != 'app_register' %}
-                            <a class="btn btn-default" href="{{ path('app_register') }}">{% trans %}register{% endtrans %}</a>
+                            <a class="btn btn-default" href="{{ path('app_register', {'_locale' : app.request.locale}) }}"><i class="fas fa-user-plus"></i> {% trans %}register{% endtrans %}</a>
                         {% endif %}
                     </div>
                 {% endif %}
@@ -46,7 +46,6 @@
             {% endblock %}
 
         {% block body %}{% endblock %}
-        {% block footer %}{% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
 
@@ -54,5 +53,12 @@
                 <script src="/build/runtime.js"></script>
                 <script src="/build/app.js"></script> -->
         {% endblock %}
+        </div>
+    </main>
+    {% block footer %}
+        <footer class="footer d-flex justify-content-center p-4">
+            <span>&copy; {{ "now"|date("Y") }} - {{ app.request.server.get('SERVER_NAME')|upper }}</span>
+        </footer>
+    {% endblock %}
     </body>
 </html>

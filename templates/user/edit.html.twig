@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}edit.user{% endtrans %}{% endblock %}
+{% block title %}{% trans %}edit.user{% endtrans %} {{ user.id }}{% endblock %}
 
 {% block body %}
     <h1>{% trans %}edit.user{% endtrans %}</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('user/_form.html.twig', {'button_label': 'update'|trans}) }}
 
-    <a class="btn btn-primary" href="{{ path('user_index') }}">{% trans %}back.to.list{% endtrans %}</a>
+    <a class="btn btn-primary" href="{{ path('user_index') }}"><i class="fas fa-caret-left"></i> {% trans %}back.to.list{% endtrans %}</a>
 
     {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

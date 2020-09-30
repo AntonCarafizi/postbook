@@ -5,30 +5,28 @@
 {% block body %}
     <h1>{% trans %}user.index{% endtrans %}</h1>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>{% trans %}id{% endtrans %}</th>
-                <th>{% trans %}name{% endtrans %}</th>
-                <th>{% trans %}surname{% endtrans %}</th>
-                <th>{% trans %}sex{% endtrans %}</th>
-                <th>{% trans %}birthDate{% endtrans %}</th>
-                <th>{% trans %}email{% endtrans %}</th>
-                <th>{% trans %}actions{% endtrans %}</th>
+                <th scope="col">{% trans %}id{% endtrans %}</th>
+                <th scope="col">{% trans %}name{% endtrans %}</th>
+                <th scope="col">{% trans %}surname{% endtrans %}</th>
+                <th scope="col">{% trans %}sex{% endtrans %}</th>
+                <th scope="col">{% trans %}age{% endtrans %}</th>
+                <th scope="col">{% trans %}actions{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.surname }}</td>
-                <td>{{ user.isMale == 1 ? 'Male' : 'Female' }}</td>
-                <td>{{ user.birthDate|date("d M Y") }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <a class="btn btn-primary" href="{{ path('user_show', {'id': user.id}) }}">{% trans %}show{% endtrans %}</a>
-                    <a class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}edit{% endtrans %}</a>
+                <th class="align-middle" scope="row">{{ user.id }}</th>
+                <td class="align-middle">{{ user.name }}</td>
+                <td class="align-middle">{{ user.surname }}</td>
+                <td class="align-middle">{{ user.isMale == 1 ? 'Male' : 'Female' }}</td>
+                <td class="align-middle">{{ date('now').diff((date(user.birthDate))).format('%y') }}</td>
+                <td class="align-middle">
+                    <a id="btn_show" class="btn btn-primary" href="{{ path('user_show', {'id': user.id}) }}"><i class="far fa-eye"></i> {% trans %}show{% endtrans %}</a>
+                    <a id="btn_edit" class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}"><i class="far fa-edit"></i> {% trans %}edit{% endtrans %}</a>
                 </td>
             </tr>
         {% else %}

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
     <div class="container">
-        <a class="navbar-brand" href="{{ path('index') }}">{{ app.request.server.get('SERVER_NAME')|upper }}</a>
+        <a class="navbar-brand" href="{{ path('homepage') }}">{{ app.request.server.get('SERVER_NAME')|upper }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
                 aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -13,7 +13,21 @@
                         Filter
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('index') }}">{% trans %}all.users{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}all.users{% endtrans %}</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-globe"></i>
+                        {% trans %}language{% endtrans %}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('user_index', {'_locale' : 'de'}) }}"><i class="fas fa-language"></i> {% trans %}german{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('user_index', {'_locale' : 'en'}) }}"><i class="fas fa-language"></i> {% trans %}english{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('user_index', {'_locale' : 'fr'}) }}"><i class="fas fa-language"></i> {% trans %}french{% endtrans %}</a>
                     </div>
                 </li>
             </ul>

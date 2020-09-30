@@ -1,6 +1,10 @@
 // customize some Bootstrap variables
-$primary: darken(#428bca, 20%);
+$primary: darken(#428bca, 10%);
 
+footer {
+  background-color: #eae9e9;
+}
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";

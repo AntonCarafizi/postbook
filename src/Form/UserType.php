@@ -5,6 +5,10 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,11 +17,24 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email')
-            ->add('name')
-            ->add('surname')
-            ->add('isMale')
+            ->add('email', EmailType::class, [
+                'label' => 'email'
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'name'
+            ])
+            ->add('surname', TextType::class, [
+                'label' => 'surname'
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'description'
+            ])
+            ->add('isMale', CheckboxType::class, [
+                'label' => 'is.male',
+                'required' => false
+            ])
             ->add('birthDate', BirthdayType::class, [
+                'label' => 'birthDate',
                 'widget' => 'single_text',
                 // this is actually the default format for single_text
                 'format' => 'yyyy-MM-dd',
