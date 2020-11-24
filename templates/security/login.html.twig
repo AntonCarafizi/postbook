@@ -12,14 +12,12 @@
 
 {% block body %}
 <body class="text-center">
-<div class="d-flex flex-column justify-content-center align-content-center h-100">
+<div class="d-flex flex-column justify-content-center h-100">
     <div class="d-flex flex-row justify-content-center w-100">
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
-
-
             <h1 class="h3 mb-3 font-weight-normal">{% trans %}please.sign.in{% endtrans %}</h1>
             <div class="form-group">
                 <label for="inputEmail">{% trans %}email{% endtrans %}</label>

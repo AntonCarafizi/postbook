@@ -1,0 +1,42 @@
+welcome.to: Wilkommen zu
+user: Benutzer
+user.index: Benutzer index
+show: Anzeigen
+show.user: Benutzer anzeigen
+edit: Bearbeiten
+edit.user: Benutzer bearbeiten
+delete: Löschen
+delete.user: Benutzer löschen
+login: Anmelden
+logout: Abmelden
+register: Registrieren
+id: ID
+name: Vorname
+surname: Nachname
+sex: Geschlecht
+birthDate: Geburtstag
+email: Email
+password: Password
+actions: Aktionen
+back.to.list: Zurück zur Liste
+all.users: Alle Benutzern
+is.male: Männlich
+please.sign.in: Bitte anmelden Sie sich
+sign.in: Anmelden
+you.should.agree.to.our.terms: You should agree to our terms
+agree.terms: Bedingungen vereinbaren
+remember.me: Erinnern mich
+update: Aktualisieren
+save: Speichern
+age: Alter
+language: Sprache
+german: Deutsch
+english: Englisch
+french: Französisch
+you.are.logged.in.as: Sie sind algemldet wie
+description: Beschreibung
+hello: Hallo
+filter: Filter
+user.successfully.updated: Benutzer erfolgreich aktualisiert
+images.jpg: Bilder (.jpg)
+read.more: Mehr lesen

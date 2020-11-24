@@ -66,6 +66,11 @@ class User implements UserInterface
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $images = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -212,6 +217,18 @@ class User implements UserInterface
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImages(): ?array
+    {
+        return $this->images;
+    }
+
+    public function setImages(?array $images): self
+    {
+        $this->images = $images;
 
         return $this;
     }

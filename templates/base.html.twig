@@ -15,7 +15,7 @@
     <body>
     {% block header %}
         <header class="container d-flex justify-content-center text-center p-3">
-            <h1 class="h1">{% trans %}welcome.to{% endtrans %} {{ app.request.server.get('SERVER_NAME')|upper }} </h1>
+            <h1 class="h1">{% trans %}welcome.to{% endtrans %} {{ app.request.server.get('SERVER_NAME')|upper }}</h1>
         </header>
     {% endblock %}
 
@@ -29,16 +29,16 @@
             <div class="float-right">
                 {% if app.user %}
                     <div class="mb-3">
-                        {% trans %}you.are.logged.in.as{% endtrans %} <a class="btn btn-default" href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.username }}</a>
-                        <a class="btn btn-default" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}</a>
+                        {% trans %}hello{% endtrans %}, <a class="btn-link" href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.name }}</a>
+                        <a class="btn btn-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}</a>
                     </div>
                 {% else %}
                     <div class="mb-3">
                         {% if app.request.attributes.get('_route') != 'app_login' %}
-                            <a class="btn btn-default" href="{{ path('app_login', {'_locale' : app.request.locale}) }}"><i class="fas fa-sign-in-alt"></i> {% trans %}login{% endtrans %}</a>
+                            <a class="btn btn-link" href="{{ path('app_login', {'_locale' : app.request.locale}) }}"><i class="fas fa-sign-in-alt"></i> {% trans %}login{% endtrans %}</a>
                         {% endif %}
                         {% if app.request.attributes.get('_route') != 'app_register' %}
-                            <a class="btn btn-default" href="{{ path('app_register', {'_locale' : app.request.locale}) }}"><i class="fas fa-user-plus"></i> {% trans %}register{% endtrans %}</a>
+                            <a class="btn btn-link" href="{{ path('app_register', {'_locale' : app.request.locale}) }}"><i class="fas fa-user-plus"></i> {% trans %}register{% endtrans %}</a>
                         {% endif %}
                     </div>
                 {% endif %}

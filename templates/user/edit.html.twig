@@ -3,11 +3,43 @@
 {% block title %}{% trans %}edit.user{% endtrans %} {{ user.id }}{% endblock %}
 
 {% block body %}
-    <h1>{% trans %}edit.user{% endtrans %}</h1>
+    <a class="h1 d-inline-block" href="{{ path('user_index') }}"><i class="fas fa-caret-left"></i> {% trans %}all.users{% endtrans %}</a>
+    &nbsp;<h1 class="d-inline-block">/&nbsp;{{ user.name }} {{ user.surname }}</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'update'|trans}) }}
-
-    <a class="btn btn-primary" href="{{ path('user_index') }}"><i class="fas fa-caret-left"></i> {% trans %}back.to.list{% endtrans %}</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+    <div class="card my-3 p-0 mx-auto col-sm-12 col-md-6 col-lg-6">
+        {% if user.images %}
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            {% if user.images|length > 1 %}
+                <ol class="carousel-indicators">
+                {% for key in user.images|keys %}
+                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ key }}" {% if key == 0 %} class="active" {% endif %}></li>
+                {% endfor %}
+                </ol>
+            {% endif %}
+            <div class="carousel-inner">
+            {% for key, image in user.images %}
+                <div class="carousel-item {% if key == 0 %} active {% endif %}">
+                <img class="card-img-top" src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
+                </div>
+            {% endfor %}
+            </div>
+            {% if user.images|length > 1 %}
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            {% endif %}
+            </div>
+        {% else %}
+            <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
+        {% endif %}
+        <div class="card-body">
+            {{ include('user/_form.html.twig', {'button_label': 'update'|trans}) }}
+            {{ include('user/_delete_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

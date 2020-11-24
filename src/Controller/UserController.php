@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\ImageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 class UserController extends AbstractController
@@ -50,15 +52,21 @@ class UserController extends AbstractController
     }
 
 
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, ImageService $imageService, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+        $itemImages = $user->getImages();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFiles = $form->get('images')->getData();
+            $formImages = $imageService->uploadImages($imageFiles);
+            $images = array_merge($itemImages, $formImages);
+            $user->setImages($images);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', $translator->trans('user.successfully.updated'));
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
         }
 
         return $this->render('user/edit.html.twig', [

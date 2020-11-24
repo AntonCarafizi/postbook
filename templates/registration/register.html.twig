@@ -14,7 +14,7 @@
 
 {% block body %}
 <body class="text-center">
-<div class="d-flex flex-column justify-content-center align-content-center h-100">
+<div class="d-flex flex-column justify-content-center h-100">
     <div class="d-flex flex-row justify-content-center w-100">
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>

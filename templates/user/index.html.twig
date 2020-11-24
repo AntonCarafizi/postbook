@@ -1,39 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}user.index{% endtrans %}{% endblock %}
+{% block title %}{% trans %}all.users{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>{% trans %}user.index{% endtrans %}</h1>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">{% trans %}id{% endtrans %}</th>
-                <th scope="col">{% trans %}name{% endtrans %}</th>
-                <th scope="col">{% trans %}surname{% endtrans %}</th>
-                <th scope="col">{% trans %}sex{% endtrans %}</th>
-                <th scope="col">{% trans %}age{% endtrans %}</th>
-                <th scope="col">{% trans %}actions{% endtrans %}</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h1>{% trans %}all.users{% endtrans %}</h1>
+    <div class="row">
         {% for user in users %}
-            <tr>
-                <th class="align-middle" scope="row">{{ user.id }}</th>
-                <td class="align-middle">{{ user.name }}</td>
-                <td class="align-middle">{{ user.surname }}</td>
-                <td class="align-middle">{{ user.isMale == 1 ? 'Male' : 'Female' }}</td>
-                <td class="align-middle">{{ date('now').diff((date(user.birthDate))).format('%y') }}</td>
-                <td class="align-middle">
-                    <a id="btn_show" class="btn btn-primary" href="{{ path('user_show', {'id': user.id}) }}"><i class="far fa-eye"></i> {% trans %}show{% endtrans %}</a>
-                    <a id="btn_edit" class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}"><i class="far fa-edit"></i> {% trans %}edit{% endtrans %}</a>
-                </td>
-            </tr>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card my-3 mx-auto">
+                {% if user.images %}
+                <a href="{{ path('user_show', {'id': user.id}) }}">
+                    <img class="card-img-top" src="{{ asset('media/image/' ~ user.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+                </a>
+                {% else %}
+                <a href="{{ path('user_show', {'id': user.id}) }}">
+                    <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+                </a>
+                {% endif %}
+                <a class="card-link" href="{{ path('user_show', {'id': user.id}) }}">
+                    <h5 class="card-title card-header">{{ user.name }} {{ user.surname }}</h5>
+                </a>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ user.isMale == 1 ? '<i class="fas fa-male"></i>' : '<i class="fas fa-female"></i>' }}</li>
+                    {% if user.description %}
+                    <li class="list-group-item">
+                        <p class="card-text">{{ user.description|striptags|slice(0, 30) }}
+                            <a class="-external-link" href="{{ path('user_show', {'id': user.id}) }}">[...]</a>
+                        </p>
+                    </li>
+                    {% endif %}
+                    <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }}</li>
+                </ul>
+                <div class="card-body">
+                    <a class="btn btn-primary" href="{{ path('user_show', {'id': user.id}) }}"><i
+                                class="far fa-eye"></i> {% trans %}show{% endtrans %}</a>
+                    <a class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}"><i
+                                class="far fa-edit"></i> {% trans %}edit{% endtrans %}</a>
+                    {{ include('user/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
         {% else %}
-            <tr>
-                <td colspan="6">{% trans %}no.records.found{% endtrans %}</td>
-            </tr>
+            {% trans %}no.records.found{% endtrans %}
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 {% endblock %}

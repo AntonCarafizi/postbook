@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
     <div class="container">
-        <a class="navbar-brand" href="{{ path('homepage') }}">{{ app.request.server.get('SERVER_NAME')|upper }}</a>
+        <a id="logo" class="navbar-brand" href="{{ path('homepage', {'_locale' : app.request.locale}) }}"><i class="fas fa-users mr-2"></i> {{ app.request.server.get('SERVER_NAME')|upper }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
                 aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -10,7 +10,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Filter
+                        <i class="fas fa-filter"></i> {% trans %}filter{% endtrans %}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}all.users{% endtrans %}</a>
@@ -25,9 +25,9 @@
                         {% trans %}language{% endtrans %}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('user_index', {'_locale' : 'de'}) }}"><i class="fas fa-language"></i> {% trans %}german{% endtrans %}</a>
-                        <a class="dropdown-item" href="{{ path('user_index', {'_locale' : 'en'}) }}"><i class="fas fa-language"></i> {% trans %}english{% endtrans %}</a>
-                        <a class="dropdown-item" href="{{ path('user_index', {'_locale' : 'fr'}) }}"><i class="fas fa-language"></i> {% trans %}french{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'de'}) }}"><i class="fas fa-language"></i> {% trans %}german{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'en'}) }}"><i class="fas fa-language"></i> {% trans %}english{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'fr'}) }}"><i class="fas fa-language"></i> {% trans %}french{% endtrans %}</a>
                     </div>
                 </li>
             </ul>

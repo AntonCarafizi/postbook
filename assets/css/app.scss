@@ -1,8 +1,12 @@
 // customize some Bootstrap variables
-$primary: darken(#428bca, 10%);
+$primary: darken(#428bca, 30%);
 
 footer {
   background-color: #eae9e9;
+}
+
+a {
+  text-decoration: none!important;
 }
 
 // the ~ allows you to reference things in node_modules

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,6 +39,16 @@ class UserType extends AbstractType
                 'widget' => 'single_text',
                 // this is actually the default format for single_text
                 'format' => 'yyyy-MM-dd',
+            ])
+            ->add('images', FileType::class, [
+                'label' => 'images.jpg',
+                'mapped' => false,
+                'required' => false,
+                'multiple' => true,
+                'attr'     => [
+                    'accept' => 'image/jpeg',
+                    'multiple' => 'multiple'
+                ],
             ])
             //->add('roles')
             //->add('password')
