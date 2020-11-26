@@ -22,10 +22,12 @@ class PostController extends AbstractController
     public function new(Request $request): Response
     {
         $post = new Post();
+        $user = $this->getUser();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->addPost($post);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();

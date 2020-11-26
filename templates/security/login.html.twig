@@ -1,6 +1,6 @@
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}{% trans %}please.sign.in{% endtrans %}{% endblock %}</title>
     {% block stylesheets %}
         {# 'app' must match the first argument to addEntry() in webpack.config.js #}
         {{ encore_entry_link_tags('app') }}
@@ -14,7 +14,7 @@
 <body class="text-center">
 <div class="d-flex flex-column justify-content-center h-100">
     <div class="d-flex flex-row justify-content-center w-100">
-        <form method="post">
+        <form action="{{ path('app_login') }}" method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
