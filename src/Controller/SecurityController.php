@@ -25,6 +25,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+
     public function logout()
     {
         //throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

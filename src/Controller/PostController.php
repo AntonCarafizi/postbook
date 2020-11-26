@@ -8,6 +8,7 @@ use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PostController extends AbstractController
 {
@@ -19,7 +20,7 @@ class PostController extends AbstractController
         ]);
     }
 
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $post = new Post();
         $user = $this->getUser();
@@ -31,8 +32,9 @@ class PostController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
+            $this->addFlash('success', $translator->trans('post.successfully.updated'));
 
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('post_show', ['id' => $post->getId()]);
         }
 
         return $this->render('post/new.html.twig', [
@@ -48,15 +50,16 @@ class PostController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, Post $post): Response
+    public function edit(Request $request, TranslatorInterface $translator, Post $post): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', $translator->trans('post.successfully.updated'));
 
-            return $this->redirectToRoute('post_index');
+            return $this->redirectToRoute('post_show', ['id' => $post->getId()]);
         }
 
         return $this->render('post/edit.html.twig', [

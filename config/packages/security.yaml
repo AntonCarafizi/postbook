@@ -18,19 +18,19 @@ security:
         main:
             anonymous: false
             lazy: true
-            # provider: app_user_provider
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
             form_login:
-                login_path: app_login
-                check_path: app_login
+                login_path: login
+                check_path: login
                 use_forward: true
+                use_referer: true
                 csrf_token_generator: security.csrf.token_manager
             logout:
-                path: app_logout
+                path: logout
                 # where to redirect after logout
-                target: app_login
+                target: login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

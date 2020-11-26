@@ -5,6 +5,7 @@
 {% block body %}
 
     <h1>{% trans %}all.users{% endtrans %}</h1>
+    {% if users %}
     <div class="row">
         {% for user in users %}
         <div class="col-sm-12 col-md-6 col-lg-4">
@@ -18,9 +19,10 @@
                     <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
                 </a>
                 {% endif %}
-                <a class="card-link" href="{{ path('user_show', {'id': user.id}) }}">
-                    <h5 class="card-title card-header">{{ user.name }} {{ user.surname }}</h5>
+                <a class="card-header" href="{{ path('user_show', {'id': user.id}) }}">
+                    <h3 class="card-link">{{ user.name }} {{ user.surname }}</h3>
                 </a>
+                <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ user.isMale == 1 ? '<i class="fas fa-male"></i>' : '<i class="fas fa-female"></i>' }}</li>
                     {% if user.description %}
@@ -32,17 +34,18 @@
                     {% endif %}
                     <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }}</li>
                 </ul>
-                <div class="card-body">
-                    <a class="btn btn-primary" href="{{ path('user_show', {'id': user.id}) }}"><i
-                                class="far fa-eye"></i> {% trans %}show{% endtrans %}</a>
-                    <a class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}"><i
-                                class="far fa-edit"></i> {% trans %}edit{% endtrans %}</a>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-link" role="button" href="{{ path('user_edit', {'id': user.id}) }}">
+                        <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
+                    </a>
                     {{ include('user/_delete_form.html.twig') }}
                 </div>
             </div>
         </div>
-        {% else %}
-            {% trans %}no.records.found{% endtrans %}
         {% endfor %}
     </div>
+    {% else %}
+        <p class="card-text">{% trans %}no.records.found{% endtrans %}</p>
+    {% endif %}
 {% endblock %}

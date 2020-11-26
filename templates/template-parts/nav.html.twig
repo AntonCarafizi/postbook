@@ -14,6 +14,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}all.users{% endtrans %}</a>
+                        <a class="dropdown-item" href="{{ path('post_index', {'_locale' : app.request.locale}) }}">{% trans %}all.posts{% endtrans %}</a>
                     </div>
                 </li>
             </ul>
@@ -27,7 +28,6 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'de'}) }}"><i class="fas fa-language"></i> {% trans %}german{% endtrans %}</a>
                         <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'en'}) }}"><i class="fas fa-language"></i> {% trans %}english{% endtrans %}</a>
-                        <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'fr'}) }}"><i class="fas fa-language"></i> {% trans %}french{% endtrans %}</a>
                     </div>
                 </li>
             </ul>

@@ -1,41 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Post index{% endblock %}
+{% block title %}{% trans %}all.posts{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>Post index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Created</th>
-                <th>Author</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h1>{% trans %}all.posts{% endtrans %}</h1>
+    {% if posts %}
         {% for post in posts %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.title }}</td>
-                <td>{{ post.content }}</td>
-                <td>{{ post.created ? post.created|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.user.name }} {{ post.user.surname }}</td>
-                <td>
-                    <a href="{{ path('post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            <div class="card my-3 mx-auto">
+                <a class="card-header" href="{{ path('post_show', {'id': post.id}) }}">
+                    <h3 class="card-link float-left">{{ post.title }}</h3>
+                    <span class="card-subtitle float-right">{{ post.created ? post.created|date('F j, Y, g:i a') : '' }}</span><br>
+                    <span class="card-subtitle float-right">{{ post.user.name }} {{ post.user.surname }}</span>
+                </a>
+                <div class="card-body">
+                    <p class="card-text">{{ post.content }}</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-link" role="button" href="{{ path('post_edit', {'id': post.id}) }}">
+                        <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
+                    </a>
+                    {{ include('post/_delete_form.html.twig') }}
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('post_new') }}">Create new</a>
+    {% else %}
+        <p class="card-text">{% trans %}no.records.found{% endtrans %}</p>
+    {% endif %}
+    <a class="btn btn-link" href="{{ path('post_new') }}"><i class="fas fa-plus"></i> {% trans %}new.post{% endtrans %}</a>
 {% endblock %}

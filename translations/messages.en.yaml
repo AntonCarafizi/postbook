@@ -20,6 +20,7 @@ password: Password
 actions: Actions
 back.to.list: Back to list
 all.users: All Users
+all.posts: All Posts
 is.male: Is male
 please.sign.in: Please Sign in
 sign.in: Sign in
@@ -38,5 +39,9 @@ description: Description
 hello: Hello
 filter: Filter
 user.successfully.updated: User successfully updated
+post.successfully.updated: Post successfully updated
 images.jpg: Images (.jpg)
 read.more: Read more
+new.post: New Post
+previous: Previous
+next: Next

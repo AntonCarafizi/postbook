@@ -30,15 +30,15 @@
                 {% if app.user %}
                     <div class="mb-3">
                         {% trans %}hello{% endtrans %}, <a class="btn-link" href="{{ path('user_show', {'id': app.user.id}) }}">{{ app.user.name }}</a>
-                        <a class="btn btn-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}</a>
+                        <a class="btn btn-link" href="{{ path('logout') }}"><i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}</a>
                     </div>
                 {% else %}
                     <div class="mb-3">
                         {% if app.request.attributes.get('_route') != 'app_login' %}
-                            <a class="btn btn-link" href="{{ path('app_login', {'_locale' : app.request.locale}) }}"><i class="fas fa-sign-in-alt"></i> {% trans %}login{% endtrans %}</a>
+                            <a class="btn btn-link" href="{{ path('login', {'_locale' : app.request.locale}) }}"><i class="fas fa-sign-in-alt"></i> {% trans %}login{% endtrans %}</a>
                         {% endif %}
                         {% if app.request.attributes.get('_route') != 'app_register' %}
-                            <a class="btn btn-link" href="{{ path('app_register', {'_locale' : app.request.locale}) }}"><i class="fas fa-user-plus"></i> {% trans %}register{% endtrans %}</a>
+                            <a class="btn btn-link" href="{{ path('register', {'_locale' : app.request.locale}) }}"><i class="fas fa-user-plus"></i> {% trans %}register{% endtrans %}</a>
                         {% endif %}
                     </div>
                 {% endif %}

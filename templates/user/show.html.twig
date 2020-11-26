@@ -3,12 +3,19 @@
 {% block title %}{{ user.name }} {{ user.surname }}{% endblock %}
 
 {% block body %}
-    <a class="h1 d-inline-block" href="{{ path('user_index') }}"><i class="fas fa-caret-left"></i> {% trans %}all.users{% endtrans %}</a>
-    &nbsp;<h1 class="d-inline-block">/&nbsp;{{ user.name }} {{ user.surname }}</h1>
+    <h1>{{ user.name }} {{ user.surname }}</h1>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white">
+            <li class="breadcrumb-item"><a href="{{ path('user_index') }}"><i class="fas fa-caret-left mr-2"></i>{% trans %}all.users{% endtrans %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ user.name }} {{ user.surname }}</li>
+        </ol>
+    </nav>
 
     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">{{ message }}</div>
     {% endfor %}
+
     <div class="card my-3 p-0 mx-auto col-sm-12 col-md-6 col-lg-6">
         {% if user.images %}
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -40,17 +47,22 @@
         {% else %}
             <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
         {% endif %}
-        <a class="card-link" href="{{ path('user_show', {'id': user.id}) }}">
-            <h5 class="card-title card-header">{{ user.name }} {{ user.surname }}</h5>
+        <a class="card-header" href="{{ path('user_show', {'id': user.id}) }}">
+            <h5 class="card-link">{{ user.name }} {{ user.surname }}</h5>
         </a>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">{{ user.isMale == 1 ? '<i class="fas fa-male"></i>' : '<i class="fas fa-female"></i>' }}</li>
-            <li class="list-group-item"><p class="card-text">{{ user.description }}</p></li>
-            <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }}</li>
-        </ul>
         <div class="card-body">
-            <a class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}"><i class="far fa-edit"></i> {% trans %}edit{% endtrans %}</a>
-            {{ include('user/_delete_form.html.twig') }}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ user.isMale == 1 ? '<i class="fas fa-male"></i>' : '<i class="fas fa-female"></i>' }}</li>
+                <li class="list-group-item"><p class="card-text">{{ user.description }}</p></li>
+                <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }}</li>
+            </ul>
         </div>
+        <div class="card-footer">
+        <a class="btn btn-link" role="button" href="{{ path('user_edit', {'id': user.id}) }}">
+            <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
+        </a>
+        {{ include('user/_delete_form.html.twig') }}
+        </div>
+
     </div>
 {% endblock %}
