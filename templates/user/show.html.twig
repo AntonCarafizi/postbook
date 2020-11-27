@@ -57,7 +57,7 @@
                 <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }}</li>
             </ul>
         </div>
-        <div class="card-footer">
+        <div class="card-footer d-flex justify-content-end">
         <a class="btn btn-link" role="button" href="{{ path('user_edit', {'id': user.id}) }}">
             <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
         </a>

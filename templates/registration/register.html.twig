@@ -1,8 +1,9 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
 <head>
     <meta charset="UTF-8">
-    <title>
-        {% block title %}{% trans %}register{% endtrans %}{% endblock %}
-    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% trans %}please.sign.in{% endtrans %}{% endblock %}</title>
     {% block stylesheets %}
         {# 'app' must match the first argument to addEntry() in webpack.config.js #}
         {{ encore_entry_link_tags('app') }}
@@ -13,9 +14,9 @@
 </head>
 
 {% block body %}
-<body class="text-center">
-<div class="d-flex flex-column justify-content-center h-100">
-    <div class="d-flex flex-row justify-content-center w-100">
+<body>
+<div class="d-flex align-items-center vh-100">
+    <div class="d-flex justify-content-center w-100">
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
@@ -32,3 +33,4 @@
 </div>
 </body>
 {% endblock %}
+</html>

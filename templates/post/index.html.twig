@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <p class="card-text">{{ post.content }}</p>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer d-flex justify-content-end">
                     <a class="btn btn-link" role="button" href="{{ path('post_edit', {'id': post.id}) }}">
                         <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
                     </a>
@@ -27,5 +27,7 @@
     {% else %}
         <p class="card-text">{% trans %}no.records.found{% endtrans %}</p>
     {% endif %}
-    <a class="btn btn-link" href="{{ path('post_new') }}"><i class="fas fa-plus"></i> {% trans %}new.post{% endtrans %}</a>
+    <div class="card my-3 mx-auto">
+        <a class="btn btn-link" href="{{ path('post_new') }}"><i class="fas fa-plus"></i> {% trans %}new.post{% endtrans %}</a>
+    </div>
 {% endblock %}

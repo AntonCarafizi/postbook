@@ -5,6 +5,7 @@
 {% block body %}
 
     <h1>{% trans %}all.users{% endtrans %}</h1>
+
     {% if users %}
     <div class="row">
         {% for user in users %}
@@ -32,10 +33,10 @@
                         </p>
                     </li>
                     {% endif %}
-                    <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }}</li>
+                    <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }} {% trans %}years.old{% endtrans %}</li>
                 </ul>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer d-flex justify-content-end">
                     <a class="btn btn-link" role="button" href="{{ path('user_edit', {'id': user.id}) }}">
                         <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
                     </a>

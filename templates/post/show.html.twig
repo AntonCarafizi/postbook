@@ -26,7 +26,7 @@
         <div class="card-body">
             <p class="card-text">{{ post.content }}</p>
         </div>
-        <div class="card-footer">
+        <div class="card-footer d-flex justify-content-end">
             <a class="btn btn-link" role="button" href="{{ path('post_edit', {'id': post.id}) }}">
                 <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
             </a>

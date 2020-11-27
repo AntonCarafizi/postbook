@@ -12,7 +12,8 @@
         </ol>
     </nav>
 
-    <div class="card my-3 p-3 mx-auto col-sm-12 col-md-6 col-lg-6">
+    <div class="row">
+        <div class="card p-3 mx-auto col-sm-12 col-md-6 col-lg-6">
         {% if user.images %}
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             {% if user.images|length > 1 %}
@@ -43,9 +44,10 @@
         {% else %}
             <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
         {% endif %}
+        </div>
+        <div class="card p-3 mx-auto col-sm-12 col-md-6 col-lg-6">
+            {{ include('user/_form.html.twig', {'button_label': 'update'|trans}) }}
+            {{ include('user/_delete_form.html.twig') }}
+        </div>
     </div>
-
-    {{ include('user/_form.html.twig', {'button_label': 'update'|trans}) }}
-    {{ include('user/_delete_form.html.twig') }}
-
 {% endblock %}
