@@ -21,7 +21,11 @@
         <div class="card-header">
             <h3 class="card-link float-left">{{ post.title }}</h3>
             <span class="card-subtitle float-right">{{ post.created ? post.created|date('F j, Y, g:i a') : '' }}</span><br>
-            <span class="card-subtitle float-right">{{ post.user.name }} {{ post.user.surname }}</span>
+            <span class="card-subtitle float-right">
+                <a class="card-link" href="{{ path('user_show', {'id': post.user.id}) }}">
+                    {{ post.user.name }} {{ post.user.surname }}
+                </a>
+            </span>
         </div>
         <div class="card-body">
             <p class="card-text">{{ post.content }}</p>

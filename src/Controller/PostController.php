@@ -52,6 +52,11 @@ class PostController extends AbstractController
 
     public function edit(Request $request, TranslatorInterface $translator, Post $post): Response
     {
+        $currentUser = $this->getUser();
+        $postUser = $post->getUser();
+        if ($currentUser != $postUser) {
+            $this->denyAccessUnlessGranted('edit', $post);
+        }
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 

@@ -54,6 +54,12 @@ class UserController extends AbstractController
 
     public function edit(Request $request, User $user, ImageService $imageService, TranslatorInterface $translator): Response
     {
+        $currentUser = $this->getUser();
+        // check for "edit" access
+        if ($currentUser != $user) {
+            $this->denyAccessUnlessGranted('edit', $user);
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         $itemImages = $user->getImages();
