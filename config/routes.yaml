@@ -3,11 +3,12 @@ _liip_imagine:
 
 homepage:
     path: /{_locale}
-    controller: App\Controller\PostController::index
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
     methods: GET|HEAD
     requirements:
         _locale: '%app_locales%'
     defaults:
+        template: default/homepage.html.twig
         _locale: '%locale%'
 
 login:
@@ -66,11 +67,14 @@ user_delete:
         id: '\d+'
 
 post_index:
-    path: /{_locale}/post/
+    path: /{_locale}/post/page/{page}
     controller: App\Controller\PostController::index
     methods: GET|HEAD
+    defaults:
+        page: 1
     requirements:
         _locale: '%app_locales%'
+        page: '\d+'
 
 post_show:
     path: /{_locale}/post/{id}

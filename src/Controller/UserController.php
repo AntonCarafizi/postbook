@@ -57,7 +57,7 @@ class UserController extends AbstractController
         $currentUser = $this->getUser();
         // check for "edit" access
         if ($currentUser != $user) {
-            $this->denyAccessUnlessGranted('edit', $user);
+            throw $this->createAccessDeniedException();
         }
 
         $form = $this->createForm(UserType::class, $user);

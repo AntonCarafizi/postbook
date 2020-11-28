@@ -1,5 +1,6 @@
 welcome.to: Wilkommen zu
 user: Benutzer
+users: Benutzern
 user.index: Benutzer index
 show: Anzeigen
 show.user: Benutzer anzeigen
@@ -46,3 +47,16 @@ new.post: Neue Post
 previous: Vorhergehend
 next: Nächste
 years.old: Jahre alt
+page.not.found: Seite nicht gefunden
+access.denied: Zugang verboten
+check.posts: Posts anzeigen
+check.users: Benutzern anzeigen
+my.messages: Meine Nachrichten
+my.profile: Mein Profil
+my.posts: Meine Posts
+my.friends: Meine Freunde
+all: Alle
+new: Neue
+online: Online
+homepage: Home
+was.online.at: war online um

@@ -9,14 +9,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class PostController extends AbstractController
 {
 
-    public function index(PostRepository $postRepository): Response
+    public function index(Request $request, PostRepository $postRepository, $page = 1, PaginatorInterface $paginator): Response
     {
+        $allPosts = $postRepository->findAll();
+        $posts = $paginator->paginate(
+            $allPosts,
+            $request->query->getInt('page', $page),
+            5
+        );
+
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => $posts,
         ]);
     }
 
@@ -52,11 +60,7 @@ class PostController extends AbstractController
 
     public function edit(Request $request, TranslatorInterface $translator, Post $post): Response
     {
-        $currentUser = $this->getUser();
-        $postUser = $post->getUser();
-        if ($currentUser != $postUser) {
-            $this->denyAccessUnlessGranted('edit', $post);
-        }
+        $this->denyAccessUnlessGranted('edit', $post);
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
@@ -75,6 +79,7 @@ class PostController extends AbstractController
 
     public function delete(Request $request, Post $post): Response
     {
+        $this->denyAccessUnlessGranted('edit', $post);
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($post);

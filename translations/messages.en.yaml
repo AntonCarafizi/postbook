@@ -1,5 +1,6 @@
 welcome.to: Welcome To
 user: User
+users: Users
 user.index: User index
 show: Show
 show.user: Show User
@@ -46,3 +47,16 @@ new.post: New Post
 previous: Previous
 next: Next
 years.old: years old
+page.not.found: Page not found
+access.denied: Access denied
+check.posts: Check posts
+check.users: Check users
+my.messages: My messages
+my.profile: My profile
+my.posts: My posts
+my.friends: My friends
+all: All
+new: New
+online: Online
+homepage: Home
+was.online.at: was online at
