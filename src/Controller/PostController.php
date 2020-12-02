@@ -14,9 +14,9 @@ use Knp\Component\Pager\PaginatorInterface;
 class PostController extends AbstractController
 {
 
-    public function index(Request $request, PostRepository $postRepository, $page = 1, PaginatorInterface $paginator): Response
+    public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
     {
-        $allPosts = $postRepository->findAll();
+        $allPosts = $postRepository->findby([], ['id' => 'DESC']);
         $posts = $paginator->paginate(
             $allPosts,
             $request->query->getInt('page', $page),

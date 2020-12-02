@@ -6,34 +6,23 @@
 
     <h1>{% trans %}all.users{% endtrans %}</h1>
     <hr class="my-4">
-    {% if users %}
+    {% if users is not empty %}
     <div class="row">
         {% for user in users %}
         <div class="col-sm-12 col-md-6 col-lg-4">
             <div class="card my-3 mx-auto">
                 {% if user.images %}
                 <a href="{{ path('user_show', {'id': user.id}) }}">
-                    <img class="card-img-top" src="{{ asset('media/image/' ~ user.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+                    <img class="card-img-top rounded" src="{{ asset('media/image/' ~ user.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
                 </a>
                 {% else %}
                 <a href="{{ path('user_show', {'id': user.id}) }}">
                     <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
                 </a>
                 {% endif %}
-                <a class="card-header" href="{{ path('user_show', {'id': user.id}) }}">
-                    <h5 class="card-link">{{ user.name }} {{ user.surname }}</h5>
-                    {% if user.lastLogin %}
-                        {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
-                        date('now').diff((date(user.lastLogin))).format('%i') < 30 %}
-                            <span class="dot green"></span>
-                            <span class="font-italic text-small">online</span>
-                        {% else %}
-                            <span class="dot grey"></span>
-                            <span class="font-italic text-small">{% trans %}was.online.at{% endtrans %} {{ user.lastLogin|date() }}</span>
-                        {% endif %}
-                    {% endif %}
 
-                </a>
+                {{ include('template-parts/card-header.html.twig') }}
+
                 <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ user.isMale == 1 ? '<i class="fas fa-male"></i>' : '<i class="fas fa-female"></i>' }}</li>
@@ -48,17 +37,15 @@
                 </ul>
                 </div>
 
-                {% if app.user and app.user.id == user.id %}
-                <div class="card-footer d-flex justify-content-end">
-                    <a class="btn btn-link" role="button" href="{{ path('user_edit', {'id': user.id}) }}">
-                        <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
-                    </a>
-                    {{ include('user/_delete_form.html.twig') }}
-                </div>
+                {% if app.user %}
+                    {{ include('template-parts/card-footer.html.twig') }}
                 {% endif %}
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="navigation">
+        {{ knp_pagination_render(users) }}
     </div>
     {% else %}
         <p class="card-text">{% trans %}no.records.found{% endtrans %}</p>

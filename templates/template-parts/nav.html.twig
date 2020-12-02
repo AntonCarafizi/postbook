@@ -9,16 +9,16 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('post_index', {'_locale' : app.request.locale}) }}">
-                        <i class="fas fa-file-alt"></i> {% trans %}all.posts{% endtrans %}
+                        <i class="fas fa-file-alt"></i> {% trans %}posts{% endtrans %}
                     </a>
                 </li>
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarUsersDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i> {% trans %}users{% endtrans %}
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu" aria-labelledby="navbarUsersDropdown">
                             <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}all{% endtrans %}</a>
                             <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}online{% endtrans %}</a>
                             <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}new{% endtrans %}</a>
@@ -28,12 +28,12 @@
             </ul>
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLocaleDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-globe"></i>
                         {% trans %}language{% endtrans %}
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu" aria-labelledby="navbarLocaleDropdown">
                         <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'de'}) }}"><i class="fas fa-language"></i> {% trans %}german{% endtrans %}</a>
                         <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'en'}) }}"><i class="fas fa-language"></i> {% trans %}english{% endtrans %}</a>
                     </div>

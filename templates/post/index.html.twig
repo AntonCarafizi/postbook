@@ -6,28 +6,9 @@
 
     <h1>{% trans %}all.posts{% endtrans %}</h1>
     <hr class="my-4">
-    {% if posts %}
+    {% if posts is not empty %}
         {% for post in posts %}
-            <div class="card my-4">
-                <a class="card-header" href="{{ path('post_show', {'id': post.id}) }}">
-                    <h3 class="card-link float-left">{{ post.title }}</h3>
-                    <span class="card-subtitle float-right">{{ post.created ? post.created|date() : '' }}</span><br>
-                    <span class="card-subtitle float-right">{{ post.user.name }} {{ post.user.surname }}</span>
-                </a>
-                <div class="card-body">
-                    <p class="card-text">{{ post.content }}</p>
-                </div>
-
-                {% if app.user and app.user.id == post.user.id %}
-                <div class="card-footer d-flex justify-content-start">
-                    <a class="btn btn-link" role="button" href="{{ path('post_edit', {'id': post.id}) }}">
-                        <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
-                    </a>
-                    {{ include('post/_delete_form.html.twig') }}
-                </div>
-                {% endif %}
-
-            </div>
+            {{ include('template-parts/post-card.html.twig') }}
         {% endfor %}
         <div class="navigation">
             {{ knp_pagination_render(posts) }}

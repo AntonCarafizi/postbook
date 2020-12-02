@@ -54,9 +54,13 @@ check.users: Benutzern anzeigen
 my.messages: Meine Nachrichten
 my.profile: Mein Profil
 my.posts: Meine Posts
-my.friends: Meine Freunde
+my.favorites: Meine Favoriten
 all: Alle
 new: Neue
 online: Online
 homepage: Home
-was.online.at: war online um
+online.at: online am
+posts: Posts
+add.to.favorites: Zu Favoriten hinzufügen
+remove.from.favorites: Von Favoriten entfernen
+no.records.found: Keine data gefunden

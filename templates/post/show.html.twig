@@ -17,28 +17,6 @@
         <div class="alert alert-success" role="alert">{{ message }}</div>
     {% endfor %}
 
-    <div class="card my-3 mx-auto">
-        <div class="card-header">
-            <h3 class="card-link float-left">{{ post.title }}</h3>
-            <span class="card-subtitle float-right">{{ post.created ? post.created|date('F j, Y, g:i a') : '' }}</span><br>
-            <span class="card-subtitle float-right">
-                <a class="card-link" href="{{ path('user_show', {'id': post.user.id}) }}">
-                    {{ post.user.name }} {{ post.user.surname }}
-                </a>
-            </span>
-        </div>
-        <div class="card-body">
-            <p class="card-text">{{ post.content }}</p>
-        </div>
-
-        {% if app.user and app.user.id == post.user.id %}
-        <div class="card-footer d-flex justify-content-end">
-            <a class="btn btn-link" role="button" href="{{ path('post_edit', {'id': post.id}) }}">
-                <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
-            </a>
-            {{ include('post/_delete_form.html.twig') }}
-        </div>
-        {% endif %}
-    </div>
+    {{ include('template-parts/post-card.html.twig') }}
 
 {% endblock %}

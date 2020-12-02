@@ -54,9 +54,13 @@ check.users: Check users
 my.messages: My messages
 my.profile: My profile
 my.posts: My posts
-my.friends: My friends
+my.favorites: My favorites
 all: All
 new: New
 online: Online
 homepage: Home
-was.online.at: was online at
+online.at: online at
+posts: Posts
+add.to.favorites: Add to favorites
+remove.from.favorites: Remove from favorites
+no.records.found: No records found

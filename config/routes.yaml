@@ -36,16 +36,19 @@ verify_email:
         _locale: '%app_locales%'
 
 user_index:
-    path: /{_locale}/user
+    path: /{_locale}/users/{page}
     controller: App\Controller\UserController::index
-    methods: GET|HEAD
+    methods: GET|HEAD|POST
+    defaults:
+        page: 1
     requirements:
         _locale: '%app_locales%'
+        page: '\d+'
 
 user_show:
     path: /{_locale}/user/{id}
     controller: App\Controller\UserController::show
-    methods: GET|HEAD
+    methods: GET|HEAD|POST
     requirements:
         id: '\d+'
         _locale: '%app_locales%'
@@ -66,8 +69,42 @@ user_delete:
         _locale: '%app_locales%'
         id: '\d+'
 
+user_posts:
+    path: /{_locale}/user/{id}/posts/{page}
+    controller: App\Controller\UserController::showPosts
+    methods: GET|HEAD
+    defaults:
+        page: 1
+    requirements:
+        id: '\d+'
+        page: '\d+'
+        _locale: '%app_locales%'
+
+user_favorites:
+    path: /{_locale}/user/{id}/favorites/{page}
+    controller: App\Controller\UserController::showFavorites
+    methods: GET|HEAD|POST
+    defaults:
+        page: 1
+    requirements:
+        id: '\d+'
+        page: '\d+'
+        _locale: '%app_locales%'
+
+user_favorites_edit:
+    path: /{_locale}/user/{id}/favorites/edit
+    controller: App\Controller\UserController::editFavorites
+    methods: GET|HEAD|POST
+    format: 'json'
+    defaults:
+        page: 1
+    requirements:
+        id: '\d+'
+        page: '\d+'
+        _locale: '%app_locales%'
+
 post_index:
-    path: /{_locale}/post/page/{page}
+    path: /{_locale}/posts/{page}
     controller: App\Controller\PostController::index
     methods: GET|HEAD
     defaults:

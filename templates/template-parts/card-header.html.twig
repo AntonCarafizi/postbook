@@ -1,0 +1,13 @@
+<a class="card-header" href="{{ path('user_show', {'id': user.id}) }}">
+    <h5 class="card-link">{{ user.name }} {{ user.surname }}</h5>
+    {% if user.lastLogin %}
+        {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
+        date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
+            <span class="dot green"></span>
+            <span class="font-italic text-small">online</span>
+        {% else %}
+            <span class="dot grey"></span>
+            <span class="font-italic text-small">{% trans %}online.at{% endtrans %} {{ user.lastLogin|date() }}</span>
+        {% endif %}
+    {% endif %}
+</a>

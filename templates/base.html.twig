@@ -31,22 +31,22 @@
                     <div class="mb-3">
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                <a class="nav-link dropdown-toggle" href="#" id="currentUserDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {% trans %}hello{% endtrans %}, {{ app.user.name }}
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu" aria-labelledby="currentUserDropdown">
                                     <a class="dropdown-item" href="{{ path('user_show', {'id': app.user.id}) }}">
                                         <i class="fas fa-user"></i> {% trans %}my.profile{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('post_index', {'_locale' : app.request.locale}) }}">
+                                    <a class="dropdown-item" href="{{ path('user_posts', {'id': app.user.id}) }}">
                                         <i class="fas fa-file-alt"></i> {% trans %}my.posts{% endtrans %}
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-comment-dots"></i> {% trans %}my.messages{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user-friends"></i> {% trans %}my.friends{% endtrans %}
+                                    <a class="dropdown-item" href="{{ path('user_favorites', {'id': app.user.id}) }}">
+                                        <i class="far fa-star"></i> {% trans %}my.favorites{% endtrans %}
                                     </a>
                                     <a class="dropdown-item" href="{{ path('logout') }}">
                                         <i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}

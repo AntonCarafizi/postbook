@@ -81,7 +81,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $LastLogin;
+    private $lastLogin;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $favorites = [];
 
     public function __construct()
     {
@@ -282,12 +287,24 @@ class User implements UserInterface
 
     public function getLastLogin(): ?\DateTimeInterface
     {
-        return $this->LastLogin;
+        return $this->lastLogin;
     }
 
-    public function setLastLogin(?\DateTimeInterface $LastLogin): self
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
-        $this->LastLogin = $LastLogin;
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getFavorites(): ?array
+    {
+        return $this->favorites;
+    }
+
+    public function setFavorites(?array $favorites): self
+    {
+        $this->favorites = $favorites;
 
         return $this;
     }

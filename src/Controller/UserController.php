@@ -10,15 +10,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class UserController extends AbstractController
 {
 
-    public function index(UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
     {
+        $allUsers = $userRepository->findAll();
+        $users = $paginator->paginate($allUsers, $request->query->getInt('page', $page), 5);
+
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
         ]);
     }
 
@@ -44,10 +48,10 @@ class UserController extends AbstractController
     }
 
 
-    public function show(User $user): Response
+    public function show(Request $request, User $user): Response
     {
         return $this->render('user/show.html.twig', [
-            'user' => $user,
+            'user' => $user
         ]);
     }
 
@@ -65,6 +69,7 @@ class UserController extends AbstractController
         $itemImages = $user->getImages();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // add images to User
             $imageFiles = $form->get('images')->getData();
             $formImages = $imageService->uploadImages($imageFiles);
             $images = array_merge($itemImages, $formImages);
@@ -92,4 +97,58 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+
+    public function showPosts(Request $request, User $user, $page, PaginatorInterface $paginator): Response
+    {
+        $posts = $paginator->paginate(
+            $user->getPosts(),
+            $request->query->getInt('page', $page),
+            5
+        );
+        return $this->render('post/index.html.twig', [
+            'posts' => $posts,
+        ]);
+    }
+
+    public function showFavorites(Request $request, User $user, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    {
+        $favorites = ($user->getFavorites()) ? $user->getFavorites() : [];
+
+        $users = $paginator->paginate(
+            $favorites = $userRepository->findBy(['id' => $favorites]),
+            $request->query->getInt('page', $page),
+            5
+        );
+        return $this->render('user/index.html.twig', [
+            'users' => $users
+        ]);
+    }
+
+    public function editFavorites(Request $request, User $user): Response
+    {
+        $favorites = ($user->getFavorites()) ? $user->getFavorites() : [];
+
+        if ($request->isMethod('post')) {
+            if ($request->get('fav-add')) {
+                $id = $request->get('fav-add');
+                if (!in_array($id, $favorites)) {
+                    array_push($favorites, $id);
+                }
+            }
+
+            if ($request->get('fav-remove')) {
+                $id = $request->get('fav-remove');
+                if (in_array($id, $favorites)) {
+                    foreach (array_keys($favorites, $id) as $key) {
+                        unset($favorites[$key]);
+                    }
+                }
+            }
+
+            $user->setFavorites($favorites);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->render('user/favorites/success.html.twig');
+    }
+
 }
