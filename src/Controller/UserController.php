@@ -21,13 +21,11 @@ class UserController extends AbstractController
         $allUsers = $userRepository->findAll();
         $users = $paginator->paginate($allUsers, $request->query->getInt('page', $page), 5);
 
-        return $this->render('user/index.html.twig', [
-            'users' => $users,
-        ]);
+        return $this->render('user/index.html.twig', ['users' => $users]);
     }
 
 
-    public function new(Request $request): Response
+    public function new(Request $request, TranslatorInterface $translator): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -38,7 +36,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->json($translator->trans('user.successfully.created'));
         }
 
         return $this->render('user/new.html.twig', [
@@ -50,9 +48,7 @@ class UserController extends AbstractController
 
     public function show(Request $request, User $user): Response
     {
-        return $this->render('user/show.html.twig', [
-            'user' => $user
-        ]);
+        return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
 
@@ -75,9 +71,7 @@ class UserController extends AbstractController
             $images = array_merge($itemImages, $formImages);
             $user->setImages($images);
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', $translator->trans('user.successfully.updated'));
-
-            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+            return $this->json($translator->trans('user.successfully.updated'));
         }
 
         return $this->render('user/edit.html.twig', [
@@ -87,14 +81,14 @@ class UserController extends AbstractController
     }
 
 
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request, User $user, TranslatorInterface $translator): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
+            return $this->json($translator->trans('user.successfully.deleted'));
         }
-
         return $this->redirectToRoute('user_index');
     }
 
@@ -105,9 +99,7 @@ class UserController extends AbstractController
             $request->query->getInt('page', $page),
             5
         );
-        return $this->render('post/index.html.twig', [
-            'posts' => $posts,
-        ]);
+        return $this->render('post/index.html.twig', ['posts' => $posts]);
     }
 
     public function showFavorites(Request $request, User $user, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
@@ -119,12 +111,10 @@ class UserController extends AbstractController
             $request->query->getInt('page', $page),
             5
         );
-        return $this->render('user/index.html.twig', [
-            'users' => $users
-        ]);
+        return $this->render('user/index.html.twig', ['users' => $users]);
     }
 
-    public function editFavorites(Request $request, User $user): Response
+    public function editFavorites(Request $request, User $user, TranslatorInterface $translator): Response
     {
         $favorites = ($user->getFavorites()) ? $user->getFavorites() : [];
 
@@ -147,8 +137,10 @@ class UserController extends AbstractController
 
             $user->setFavorites($favorites);
             $this->getDoctrine()->getManager()->flush();
+
+            return $this->json($translator->trans('favorites.successfully.updated'));
         }
-        return $this->render('user/favorites/success.html.twig');
+        return $this->redirectToRoute('user_favorites', ['id' => $user->getId()]);
     }
 
 }
