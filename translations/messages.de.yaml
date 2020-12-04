@@ -45,7 +45,10 @@ user.successfully.deleted: Benutzer erfolgreich gelöscht
 post.successfully.created: Post erfolgreich erstellt
 post.successfully.updated: Post erfolgreich aktualisiert
 post.successfully.deleted: Post erfolgreich gelöscht
-favorites.successfully.updated: Favoriten erfolgreich aktualisiert
+you.successfully.added.favorite: You successfully added favorite
+you.successfully.removed.favorite: You successfully removed favorite
+you.successfully.liked.post: You successfully liked post
+you.successfully.unliked.post: You successfully unliked post
 images.jpg: Bilder (.jpg)
 read.more: Mehr lesen
 new.post: Neue Post
@@ -69,3 +72,6 @@ posts: Posts
 add.to.favorites: Zu Favoriten hinzufügen
 remove.from.favorites: Von Favoriten entfernen
 no.records.found: Keine data gefunden
+like: Like
+unlike: Unlike
+my.likes: Meine likes

@@ -1,0 +1,11 @@
+<form action="{{ path('user_likes_edit', {'id': app.user.id}) }}" method="post">
+    {% if post.id in app.user.likes %}
+        <button class="btn btn-link" id="unlike" name="unlike" value="{{ post.id }}">
+            <i class="fas fa-heart"></i> {% trans %}unlike{% endtrans %}
+        </button>
+    {% else %}
+        <button class="btn btn-link" id="like" name="like" value="{{ post.id }}">
+            <i class="far fa-heart"></i> {% trans %}like{% endtrans %}
+        </button>
+    {% endif %}
+</form>

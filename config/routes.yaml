@@ -103,6 +103,29 @@ user_favorites_edit:
         page: '\d+'
         _locale: '%app_locales%'
 
+user_likes:
+    path: /{_locale}/user/{id}/likes/{page}
+    controller: App\Controller\UserController::showLikes
+    methods: GET|HEAD|POST
+    defaults:
+        page: 1
+    requirements:
+        id: '\d+'
+        page: '\d+'
+        _locale: '%app_locales%'
+
+user_likes_edit:
+    path: /{_locale}/user/{id}/likes/edit
+    controller: App\Controller\UserController::editLikes
+    methods: GET|HEAD|POST
+    format: 'json'
+    defaults:
+        page: 1
+    requirements:
+        id: '\d+'
+        page: '\d+'
+        _locale: '%app_locales%'
+
 post_index:
     path: /{_locale}/posts/{page}
     controller: App\Controller\PostController::index

@@ -88,6 +88,11 @@ class User implements UserInterface
      */
     private $favorites = [];
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $likes = [];
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -305,6 +310,18 @@ class User implements UserInterface
     public function setFavorites(?array $favorites): self
     {
         $this->favorites = $favorites;
+
+        return $this;
+    }
+
+    public function getLikes(): ?array
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?array $likes): self
+    {
+        $this->likes = $likes;
 
         return $this;
     }

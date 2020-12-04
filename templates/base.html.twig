@@ -46,7 +46,10 @@
                                         <i class="fas fa-comment-dots"></i> {% trans %}my.messages{% endtrans %}
                                     </a>
                                     <a class="dropdown-item" href="{{ path('user_favorites', {'id': app.user.id}) }}">
-                                        <i class="far fa-star"></i> {% trans %}my.favorites{% endtrans %}
+                                        <i class="fas fa-star"></i> {% trans %}my.favorites{% endtrans %}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ path('user_likes', {'id': app.user.id}) }}">
+                                        <i class="fas fa-heart"></i> {% trans %}my.likes{% endtrans %}
                                     </a>
                                     <a class="dropdown-item" href="{{ path('logout') }}">
                                         <i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}
