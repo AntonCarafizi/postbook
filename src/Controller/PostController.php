@@ -20,7 +20,7 @@ class PostController extends AbstractController
         $posts = $paginator->paginate(
             $allPosts,
             $request->query->getInt('page', $page),
-            5
+            $this->getParameter('posts_per_page')
         );
 
         return $this->render('post/index.html.twig', ['posts' => $posts]);
@@ -40,6 +40,7 @@ class PostController extends AbstractController
             $entityManager->flush();
 
             return $this->json($translator->trans('post.successfully.created'));
+            //return $this->redirectToRoute('post_index');
         }
 
         return $this->render('post/new.html.twig', [

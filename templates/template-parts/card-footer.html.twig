@@ -1,6 +1,6 @@
-<div class="card-footer">
+<div class="card-footer d-flex justify-content-start">
     {% if app.user.id == user.id %}
-        <a class="btn btn-link" role="button" href="{{ path('user_edit', {'id': user.id}) }}">
+        <a class="btn btn-link btn-sm" role="button" href="{{ path('user_edit', {'id': user.id, 'name': user.name|lower ~ '.' ~ user.surname|lower }) }}">
             <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
         </a>
         {{ include('user/_delete_form.html.twig') }}

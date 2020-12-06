@@ -46,7 +46,7 @@ user_index:
         page: '\d+'
 
 user_show:
-    path: /{_locale}/user/{id}
+    path: /{_locale}/user/{id}/{name}
     controller: App\Controller\UserController::show
     methods: GET|HEAD|POST
     requirements:
@@ -54,7 +54,7 @@ user_show:
         _locale: '%app_locales%'
 
 user_edit:
-    path: /{_locale}/user/{id}/edit
+    path: /{_locale}/user/{id}/{name}/edit
     controller: App\Controller\UserController::edit
     methods: GET|POST
     requirements:
@@ -70,7 +70,7 @@ user_delete:
         id: '\d+'
 
 user_posts:
-    path: /{_locale}/user/{id}/posts/{page}
+    path: /{_locale}/user/{id}/{name}/posts/{page}
     controller: App\Controller\UserController::showPosts
     methods: GET|HEAD
     defaults:
@@ -81,7 +81,7 @@ user_posts:
         _locale: '%app_locales%'
 
 user_favorites:
-    path: /{_locale}/user/{id}/favorites/{page}
+    path: /{_locale}/user/{id}/{name}/favorites/{page}
     controller: App\Controller\UserController::showFavorites
     methods: GET|HEAD|POST
     defaults:
@@ -92,7 +92,7 @@ user_favorites:
         _locale: '%app_locales%'
 
 user_favorites_edit:
-    path: /{_locale}/user/{id}/favorites/edit
+    path: /{_locale}/user/{id}/{name}/favorites/edit
     controller: App\Controller\UserController::editFavorites
     methods: GET|HEAD|POST
     format: 'json'
@@ -104,7 +104,7 @@ user_favorites_edit:
         _locale: '%app_locales%'
 
 user_likes:
-    path: /{_locale}/user/{id}/likes/{page}
+    path: /{_locale}/user/{id}/{name}/likes/{page}
     controller: App\Controller\UserController::showLikes
     methods: GET|HEAD|POST
     defaults:
@@ -115,7 +115,7 @@ user_likes:
         _locale: '%app_locales%'
 
 user_likes_edit:
-    path: /{_locale}/user/{id}/likes/edit
+    path: /{_locale}/user/{id}/{name}/likes/edit
     controller: App\Controller\UserController::editLikes
     methods: GET|HEAD|POST
     format: 'json'
@@ -137,7 +137,7 @@ post_index:
         page: '\d+'
 
 post_show:
-    path: /{_locale}/post/{id}
+    path: /{_locale}/post/{id}/{slug}
     controller: App\Controller\PostController::show
     methods: GET|HEAD
     requirements:

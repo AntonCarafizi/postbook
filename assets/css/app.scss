@@ -1,5 +1,5 @@
 // customize some Bootstrap variables
-$primary: darken(#428bca, 30%);
+$primary: darken(#428bca, 25%);
 
 footer {
   background-color: #eae9e9;
@@ -23,6 +23,10 @@ button {
 
 .dot.grey {
   background-color: #bbb;
+}
+
+#search-submit {
+  right: 0px;
 }
 
 // the ~ allows you to reference things in node_modules

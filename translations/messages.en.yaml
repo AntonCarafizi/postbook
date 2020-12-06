@@ -63,6 +63,7 @@ my.messages: My messages
 my.profile: My profile
 my.posts: My posts
 my.favorites: My favorites
+my.friends: My friends
 all: All
 new: New
 online: Online
@@ -75,3 +76,4 @@ no.records.found: No records found
 like: Like
 unlike: Unlike
 my.likes: My likes
+search: Search

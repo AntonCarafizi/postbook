@@ -19,8 +19,12 @@ class UserController extends AbstractController
 
     public function index(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
     {
-        $allUsers = $userRepository->findAll();
-        $users = $paginator->paginate($allUsers, $request->query->getInt('page', $page), 5);
+        $allUsers = $userRepository->findBy([], ['id' => 'DESC']);
+        $users = $paginator->paginate(
+            $allUsers,
+            $request->query->getInt('page', $page),
+            $this->getParameter('users_per_page')
+        );
 
         return $this->render('user/index.html.twig', ['users' => $users]);
     }
@@ -98,7 +102,7 @@ class UserController extends AbstractController
         $posts = $paginator->paginate(
             $user->getPosts(),
             $request->query->getInt('page', $page),
-            5
+            $this->getParameter('posts_per_page')
         );
         return $this->render('post/index.html.twig', ['posts' => $posts]);
     }
@@ -108,9 +112,9 @@ class UserController extends AbstractController
         $favorites = ($user->getFavorites()) ? $user->getFavorites() : [];
 
         $users = $paginator->paginate(
-            $favorites = $userRepository->findBy(['id' => $favorites]),
+            $favorites = $userRepository->findBy(['id' => $favorites], ['id' => 'DESC']),
             $request->query->getInt('page', $page),
-            5
+            $this->getParameter('users_per_page')
         );
         return $this->render('user/index.html.twig', ['users' => $users]);
     }
@@ -120,9 +124,9 @@ class UserController extends AbstractController
         $likes = ($user->getLikes()) ? $user->getLikes() : [];
 
         $posts = $paginator->paginate(
-            $likes = $postRepository->findBy(['id' => $likes]),
+            $likes = $postRepository->findBy(['id' => $likes], ['id' => 'DESC']),
             $request->query->getInt('page', $page),
-            5
+            $this->getParameter('posts_per_page')
         );
         return $this->render('post/index.html.twig', ['posts' => $posts]);
     }

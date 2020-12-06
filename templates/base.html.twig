@@ -36,19 +36,22 @@
                                     {% trans %}hello{% endtrans %}, {{ app.user.name }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="currentUserDropdown">
-                                    <a class="dropdown-item" href="{{ path('user_show', {'id': app.user.id}) }}">
+                                    <a class="dropdown-item" href="{{ path('user_show', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
                                         <i class="fas fa-user"></i> {% trans %}my.profile{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('user_posts', {'id': app.user.id}) }}">
+                                    <a class="dropdown-item" href="{{ path('user_posts', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
                                         <i class="fas fa-file-alt"></i> {% trans %}my.posts{% endtrans %}
                                     </a>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-comment-dots"></i> {% trans %}my.messages{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('user_favorites', {'id': app.user.id}) }}">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-users"></i> {% trans %}my.friends{% endtrans %}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ path('user_favorites', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
                                         <i class="fas fa-star"></i> {% trans %}my.favorites{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('user_likes', {'id': app.user.id}) }}">
+                                    <a class="dropdown-item" href="{{ path('user_likes', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
                                         <i class="fas fa-heart"></i> {% trans %}my.likes{% endtrans %}
                                     </a>
                                     <a class="dropdown-item" href="{{ path('logout') }}">

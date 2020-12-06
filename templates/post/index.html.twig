@@ -16,7 +16,10 @@
     {% else %}
         <p class="card-text">{% trans %}no.records.found{% endtrans %}</p>
     {% endif %}
+
+    {% if app.request.get('_route') != 'user_likes' %}
     <div class="card my-4">
         <a class="btn btn-link" href="{{ path('post_new') }}"><i class="fas fa-plus"></i> {% trans %}new.post{% endtrans %}</a>
     </div>
+    {% endif %}
 {% endblock %}
