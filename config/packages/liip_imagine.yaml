@@ -4,6 +4,14 @@ liip_imagine:
   # driver: "imagick"
   driver: "gd"
   filter_sets:
+    squared_thumbnail_mini:
+      filters:
+        thumbnail: {
+          size:          [64, 64],
+          mode:          outbound,
+          allow_upscale: true
+          }
+
     squared_thumbnail_small:
       filters:
         thumbnail: {

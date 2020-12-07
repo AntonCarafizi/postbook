@@ -14,8 +14,9 @@ import '../css/app.scss';
 const $ = require('jquery');
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
-require('bootstrap');
+require('bootstrap/dist/js/bootstrap.js');
 require('@fortawesome/fontawesome-free/js/all.min.js');
+require('lightbox2/dist/js/lightbox.js');
 
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
@@ -24,5 +25,3 @@ require('@fortawesome/fontawesome-free/js/all.min.js');
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
 });
-
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

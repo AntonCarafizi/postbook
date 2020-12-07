@@ -11,10 +11,10 @@ button {
 }
 
 .dot {
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
+  height: 15px;
+  width: 15px;
   display: inline-block;
+  z-index: 1;
 }
 
 .dot.green {
@@ -29,6 +29,12 @@ button {
   right: 0px;
 }
 
+.pagination .active > a {
+  color: #fff;
+  background-color: $primary;
+}
+
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "~lightbox2/dist/css/lightbox.min.css";

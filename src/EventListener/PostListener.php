@@ -1,21 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: anton
- * Date: 06.12.20
- * Time: 13:36
- */
 
 namespace App\EventListener;
 
-use App\Events\PostCreatedEvent;
+use App\Entity\Post;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 
 class PostListener
 {
-    public function onPostCreationAction(PostCreatedEvent $event) {
-        $post = $event->getPost();
-        echo $post->getTitle() . "\r\n";
-        echo $post->getContent() . "\r\n";
+    public function postPersist(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        // if this listener only applies to certain entity types,
+        // add some code to check the entity type as early as possible
+        if (!$entity instanceof Post) {
+            return;
+        }
+
+        $entityManager = $args->getObjectManager();
+        // ... do something with the Product entity
     }
 }

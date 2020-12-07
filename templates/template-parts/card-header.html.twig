@@ -3,10 +3,8 @@
     {% if user.lastLogin %}
         {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
         date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
-            <span class="dot green"></span>
             <span class="font-italic text-small">online</span>
         {% else %}
-            <span class="dot grey"></span>
             <span class="font-italic text-small">{% trans %}online.at{% endtrans %} {{ user.lastLogin|date("d M H:i") }}</span>
         {% endif %}
     {% endif %}

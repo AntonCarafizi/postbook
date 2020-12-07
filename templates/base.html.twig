@@ -36,25 +36,32 @@
                                     {% trans %}hello{% endtrans %}, {{ app.user.name }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="currentUserDropdown">
-                                    <a class="dropdown-item" href="{{ path('user_show', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
+                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_show' %}active{% endif %}"
+                                       href="{{ path('user_show', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
                                         <i class="fas fa-user"></i> {% trans %}my.profile{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('user_posts', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
+                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_posts' %}active{% endif %}"
+                                       href="{{ path('user_posts', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
                                         <i class="fas fa-file-alt"></i> {% trans %}my.posts{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_messages' %}active{% endif %}"
+                                       href="#">
                                         <i class="fas fa-comment-dots"></i> {% trans %}my.messages{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_friends' %}active{% endif %}"
+                                       href="#">
                                         <i class="fas fa-users"></i> {% trans %}my.friends{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('user_favorites', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
+                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_favorites' %}active{% endif %}"
+                                       href="{{ path('user_favorites', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
                                         <i class="fas fa-star"></i> {% trans %}my.favorites{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('user_likes', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
+                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_likes' %}active{% endif %}"
+                                       href="{{ path('user_likes', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
                                         <i class="fas fa-heart"></i> {% trans %}my.likes{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item" href="{{ path('logout') }}">
+                                    <a class="dropdown-item"
+                                       href="{{ path('logout') }}">
                                         <i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}
                                     </a>
                                 </div>
@@ -64,10 +71,10 @@
                 {% else %}
                     <div class="mb-3">
                         {% if app.request.attributes.get('_route') != 'app_login' %}
-                            <a class="btn btn-link" href="{{ path('login', {'_locale' : app.request.locale}) }}"><i class="fas fa-sign-in-alt"></i> {% trans %}login{% endtrans %}</a>
+                            <a class="btn btn-link btn-sm" href="{{ path('login', {'_locale' : app.request.locale}) }}"><i class="fas fa-sign-in-alt"></i> {% trans %}login{% endtrans %}</a>
                         {% endif %}
                         {% if app.request.attributes.get('_route') != 'app_register' %}
-                            <a class="btn btn-link" href="{{ path('register', {'_locale' : app.request.locale}) }}"><i class="fas fa-user-plus"></i> {% trans %}register{% endtrans %}</a>
+                            <a class="btn btn-link btn-sm" href="{{ path('register', {'_locale' : app.request.locale}) }}"><i class="fas fa-user-plus"></i> {% trans %}register{% endtrans %}</a>
                         {% endif %}
                     </div>
                 {% endif %}

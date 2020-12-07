@@ -28,9 +28,9 @@ class Post
     private $content;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $created;
+    private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
@@ -40,8 +40,8 @@ class Post
 
     public function __construct()
     {
-        $date = new \DateTime('NOW');
-        $this->created = $date;
+        $date = new \DateTime();
+        $this->createdAt = $date;
     }
 
     public function getId(): ?int
@@ -73,14 +73,14 @@ class Post
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created;
+        return $this->createdAt;
     }
 
-    public function setCreated(\DateTimeInterface $created): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->created = $created;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -96,4 +96,13 @@ class Post
 
         return $this;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTime();
+    }
+
 }

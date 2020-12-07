@@ -10,6 +10,7 @@
         {% for post in posts %}
             {{ include('template-parts/post-card.html.twig') }}
         {% endfor %}
+        <hr class="my-4">
         <div class="navigation">
             {{ knp_pagination_render(posts) }}
         </div>
