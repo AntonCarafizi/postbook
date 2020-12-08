@@ -1,4 +1,4 @@
-<form action="{{ path('user_favorites_edit', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}" method="post">
+<form action="{{ path('user_favorites_edit', {'id': app.user.id, 'name': app.user.firstname|lower ~ '.' ~ app.user.lastname|lower }) }}" method="post">
     {% if user.id in app.user.favorites %}
         <button class="btn btn-link btn-sm" id="fav-remove" name="fav-remove" value="{{ user.id }}">
             <i class="fas fa-star"></i> {% trans %}remove.from.favorites{% endtrans %}

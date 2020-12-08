@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Service\ImageService;
+use App\Service\ArrayService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -132,66 +133,56 @@ class UserController extends AbstractController
     }
 
 
-    public function editFavorites(Request $request, User $user, TranslatorInterface $translator): Response
+    public function editFavorites(Request $request, User $user, TranslatorInterface $translator, ArrayService $arrayService): Response
     {
-        $favorites = ($user->getFavorites()) ? $user->getFavorites() : [];
+        $getFavorites = ($user->getFavorites()) ? $user->getFavorites() : [];
+        $setFavorites = [];
         $message = '';
         if ($request->isMethod('post')) {
             if ($request->get('fav-add')) {
                 $id = $request->get('fav-add');
-                $message = 'you.successfully.added.favorite';
-                if (!in_array($id, $favorites)) {
-                    array_push($favorites, $id);
-                }
+                $setFavorites = $arrayService->addElement($getFavorites, $id);
+                $message = 'you.successfully.removed.favorite';
             }
 
             if ($request->get('fav-remove')) {
                 $id = $request->get('fav-remove');
+                $setFavorites = $arrayService->removeElement($getFavorites, $id);
                 $message = 'you.successfully.removed.favorite';
-                if (in_array($id, $favorites)) {
-                    foreach (array_keys($favorites, $id) as $key) {
-                        unset($favorites[$key]);
-                    }
-                }
             }
 
-            $user->setFavorites($favorites);
+            $user->setFavorites($setFavorites);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->json($translator->trans($message));
         }
-        return $this->redirectToRoute('user_favorites', ['id' => $user->getId()]);
+        return $this->redirectToRoute('user_favorites', ['id' => $user]);
     }
 
-    public function editLikes(Request $request, User $user, TranslatorInterface $translator): Response
+    public function editLikes(Request $request, User $user, TranslatorInterface $translator, ArrayService $arrayService): Response
     {
-        $likes = ($user->getLikes()) ? $user->getLikes() : [];
+        $getlikes = ($user->getLikes()) ? $user->getLikes() : [];
+        $setLikes = [];
         $message = '';
         if ($request->isMethod('post')) {
             if ($request->get('like')) {
                 $id = $request->get('like');
+                $setLikes = $arrayService->addElement($getlikes, $id);
                 $message = 'you.successfully.liked.post';
-                if (!in_array($id, $likes)) {
-                    array_push($likes, $id);
-                }
             }
 
             if ($request->get('unlike')) {
                 $id = $request->get('unlike');
+                $setLikes = $arrayService->removeElement($getlikes, $id);
                 $message = 'you.successfully.unliked.post';
-                if (in_array($id, $likes)) {
-                    foreach (array_keys($likes, $id) as $key) {
-                        unset($likes[$key]);
-                    }
-                }
             }
 
-            $user->setLikes($likes);
+            $user->setLikes($setLikes);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->json($translator->trans($message));
         }
-        return $this->redirectToRoute('user_likes', ['id' => $user->getId()]);
+        return $this->redirectToRoute('user_likes', ['id' => $user]);
     }
 
 }

@@ -15,10 +15,11 @@ class PostListener
         // if this listener only applies to certain entity types,
         // add some code to check the entity type as early as possible
         if (!$entity instanceof Post) {
-            return;
+            //return $entity;
         }
 
         $entityManager = $args->getObjectManager();
+        //var_dump($entity->getTitle()); die();
         // ... do something with the Product entity
     }
 }

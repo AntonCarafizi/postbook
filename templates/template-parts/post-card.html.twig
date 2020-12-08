@@ -5,11 +5,11 @@
         </a>
         <div class="d-flex align-content-between align-items-center">
             <div class="d-flex flex-column align-items-end">
-                <a class="card-subtitle" href="{{ path('user_show', {'id': post.user.id, 'name': post.user.name|lower ~ '.' ~ post.user.surname|lower }) }}">
+                <a class="card-subtitle" href="{{ path('user_show', {'id': post.user.id, 'name': post.user.firstname|lower ~ '.' ~ post.user.lastname|lower }) }}">
                     <img class="rounded-circle" src="{{ asset('media/image/' ~ post.user.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_mini') }}"
                          alt="Card image cap">
                 </a>
-                <span class="card-subtitle mt-auto">{{ post.user.name }} {{ post.user.surname }}</span>
+                <span class="card-subtitle mt-auto">{{ post.user.firstname }} {{ post.user.lastname }}</span>
             </div>
         </div>
     </div>

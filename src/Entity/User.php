@@ -46,12 +46,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $surname;
+    private $lastname;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -188,26 +188,26 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getName(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->name;
+        return $this->firstname;
     }
 
-    public function setName(string $name): self
+    public function setFirstname(string $firstname): self
     {
-        $this->name = $name;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getLastname(): ?string
     {
-        return $this->surname;
+        return $this->lastname;
     }
 
-    public function setSurname(string $surname): self
+    public function setLastname(string $lastname): self
     {
-        $this->surname = $surname;
+        $this->lastname = $lastname;
 
         return $this;
     }

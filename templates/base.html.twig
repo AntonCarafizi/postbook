@@ -33,31 +33,31 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="currentUserDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {% trans %}hello{% endtrans %}, {{ app.user.name }}
+                                    {% trans %}hello{% endtrans %}, {{ app.user.firstname }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="currentUserDropdown">
-                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_show' %}active{% endif %}"
-                                       href="{{ path('user_show', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_show' %} active{% endif %}"
+                                       href="{{ path('user_show', {'id': app.user.id, 'name': app.user.firstname|lower ~ '.' ~ app.user.lastname|lower }) }}">
                                         <i class="fas fa-user"></i> {% trans %}my.profile{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_posts' %}active{% endif %}"
-                                       href="{{ path('user_posts', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_posts' %} active{% endif %}"
+                                       href="{{ path('user_posts', {'id': app.user.id, 'name': app.user.firstname|lower ~ '.' ~ app.user.lastname|lower }) }}">
                                         <i class="fas fa-file-alt"></i> {% trans %}my.posts{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_messages' %}active{% endif %}"
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_messages' %} active{% endif %}"
                                        href="#">
                                         <i class="fas fa-comment-dots"></i> {% trans %}my.messages{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_friends' %}active{% endif %}"
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_friends' %} active{% endif %}"
                                        href="#">
                                         <i class="fas fa-users"></i> {% trans %}my.friends{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_favorites' %}active{% endif %}"
-                                       href="{{ path('user_favorites', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_favorites' %} active{% endif %}"
+                                       href="{{ path('user_favorites', {'id': app.user.id, 'name': app.user.firstname|lower ~ '.' ~ app.user.lastname|lower }) }}">
                                         <i class="fas fa-star"></i> {% trans %}my.favorites{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item {% if app.request.get('_route') == 'user_likes' %}active{% endif %}"
-                                       href="{{ path('user_likes', {'id': app.user.id, 'name': app.user.name|lower ~ '.' ~ app.user.surname|lower }) }}">
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_likes' %} active{% endif %}"
+                                       href="{{ path('user_likes', {'id': app.user.id, 'name': app.user.firstname|lower ~ '.' ~ app.user.lastname|lower }) }}">
                                         <i class="fas fa-heart"></i> {% trans %}my.likes{% endtrans %}
                                     </a>
                                     <a class="dropdown-item"

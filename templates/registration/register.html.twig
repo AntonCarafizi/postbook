@@ -23,10 +23,7 @@
 
     {{ form_start(registrationForm) }}
         <h1 class="h3 mb-3 font-weight-normal">{% trans %}register{% endtrans %}</h1>
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
+        {{ form_widget(registrationForm) }}
         <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-user-plus"></i> {% trans %}register{% endtrans %}</button>
     {{ form_end(registrationForm) }}
     </div>

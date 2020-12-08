@@ -1,51 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}edit.user{% endtrans %} {{ user.id }}{% endblock %}
+{% block title %}{% trans %}edit.user{% endtrans %} {{ user.firstname }} {{ user.lastname }}{% endblock %}
 
 {% block body %}
-    <h1>{{ user.name }} {{ user.surname }}</h1>
+    <h1>{{ user.firstname }} {{ user.lastname }}</h1>
     <hr class="my-4">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-white">
             <li class="breadcrumb-item"><a href="{{ path('user_index') }}"><i class="fas fa-caret-left mr-2"></i>  {% trans %}all.users{% endtrans %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ user.name }} {{ user.surname }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ user.firstname }} {{ user.lastname }}</li>
         </ol>
     </nav>
 
     <div class="row">
-        <div class="card p-3 mx-auto col-sm-12 col-md-6 col-lg-6">
+        <div class="card p-3 mx-auto col-sm-12 col-md-7 col-lg-7">
         {% if user.images %}
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            {% if user.images|length > 1 %}
-                <ol class="carousel-indicators">
-                {% for key in user.images|keys %}
-                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ key }}" {% if key == 0 %} class="active" {% endif %}></li>
-                {% endfor %}
-                </ol>
-            {% endif %}
-            <div class="carousel-inner">
+            <div class="d-flex align-content-start flex-wrap">
             {% for key, image in user.images %}
-                <div class="carousel-item {% if key == 0 %} active {% endif %}">
-                <img class="card-img-top" src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
+                <div class="d-inline-flex position-relative">
+                    <div id="image-control" class="position-absolute bg-dark">
+                        <button class="btn btn-link btn-sm text-light" id="image-main" name="image-main" value="{{ key }}">
+                            <i class="fas fa-angle-double-up"></i>
+                        </button>
+                        <button class="btn btn-link btn-sm text-light" id="image-move-up" name="image-move-up" value="{{ key }}">
+                            <i class="fas fa-angle-up"></i>
+                        </button>
+                        <button class="btn btn-link btn-sm text-light" id="image-move-down" name="image-move-down" value="{{ key }}">
+                            <i class="fas fa-angle-down"></i>
+                        </button>
+                        <button class="btn btn-link btn-sm text-light" id="image-remove" name="image-remove" value="{{ key }}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+                       data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
+                <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+                    </a>
                 </div>
             {% endfor %}
-            </div>
-            {% if user.images|length > 1 %}
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">{% trans %}previous{% endtrans %}</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">{% trans %}next{% endtrans %}</span>
-                </a>
-            {% endif %}
             </div>
         {% else %}
             <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
         {% endif %}
         </div>
-        <div class="card p-3 mx-auto col-sm-12 col-md-6 col-lg-6">
+        <div class="card p-3 mx-auto col-sm-12 col-md-5 col-lg-5">
             {{ include('user/_form.html.twig', {'button_label': 'update'|trans}) }}
             {{ include('user/_delete_form.html.twig') }}
         </div>

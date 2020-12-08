@@ -21,11 +21,11 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'email'
             ])
-            ->add('name', TextType::class, [
-                'label' => 'name'
+            ->add('firstname', TextType::class, [
+                'label' => 'firstname'
             ])
-            ->add('surname', TextType::class, [
-                'label' => 'surname'
+            ->add('lastname', TextType::class, [
+                'label' => 'lastname'
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'description'

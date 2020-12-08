@@ -1,5 +1,6 @@
 // customize some Bootstrap variables
 $primary: darken(#428bca, 30%);
+$green: #00ff00;
 
 footer {
   background-color: #eae9e9;
@@ -10,6 +11,11 @@ button {
   text-decoration: none!important;
 }
 
+@keyframes example {
+  from {background-color: $green;}
+  to {background-color: #00cc00;}
+}
+
 .dot {
   height: 15px;
   width: 15px;
@@ -18,14 +24,19 @@ button {
 }
 
 .dot.green {
-  background-color: green;
+  background-color: $green;
+  animation-name: example;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 .dot.grey {
   background-color: #bbb;
 }
 
-#search-submit {
+#search-submit,
+#image-control {
   right: 0px;
 }
 

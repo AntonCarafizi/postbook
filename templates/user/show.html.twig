@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ user.name }} {{ user.surname }}{% endblock %}
+{% block title %}{{ user.firstname }} {{ user.lastname }}{% endblock %}
 
 {% block body %}
-    <h1>{{ user.name }} {{ user.surname }}</h1>
+    <h1>{{ user.firstname }} {{ user.lastname }}</h1>
     <hr class="my-4">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-white">
             <li class="breadcrumb-item"><a href="{{ path('user_index') }}"><i class="fas fa-caret-left mr-2"></i>{% trans %}all.users{% endtrans %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ user.name }} {{ user.surname }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ user.firstname }} {{ user.lastname }}</li>
         </ol>
     </nav>
 
@@ -33,7 +33,7 @@
             {% endif %}
             <div class="carousel-inner">
             {% for key, image in user.images %}
-                <div class="carousel-item {% if key == 0 %}active{% endif %}">
+                <div class="carousel-item{% if key == 0 %} active{% endif %}">
                     <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
                        data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
                         <img class="card-img-top" src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">

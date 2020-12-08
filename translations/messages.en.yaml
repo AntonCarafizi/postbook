@@ -12,8 +12,8 @@ login: Login
 logout: Logout
 register: Register
 id: ID
-name: Name
-surname: Surname
+firstname: Firstname
+lastname: Lastname
 sex: Sex
 birthDate: Birth date
 email: Email
