@@ -1,5 +1,5 @@
 // customize some Bootstrap variables
-$primary: darken(#428bca, 25%);
+$primary: darken(#428bca, 30%);
 
 footer {
   background-color: #eae9e9;
@@ -37,4 +37,4 @@ button {
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
-@import "~lightbox2/dist/css/lightbox.min.css";
+@import "~@fancyapps/fancybox/dist/jquery.fancybox.css";

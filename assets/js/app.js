@@ -10,13 +10,16 @@ import '../css/app.scss';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
-
+const jquery = require("jquery");
 const $ = require('jquery');
+const jQuery = require("jquery");
+window.jQuery = $;
+
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
 require('bootstrap/dist/js/bootstrap.js');
 require('@fortawesome/fontawesome-free/js/all.min.js');
-require('lightbox2/dist/js/lightbox.js');
+require('@fancyapps/fancybox');
 
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
@@ -24,4 +27,6 @@ require('lightbox2/dist/js/lightbox.js');
 
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
+    $('.fancybox').fancybox();
 });
+

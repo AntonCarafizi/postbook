@@ -35,7 +35,7 @@
             {% for key, image in user.images %}
                 <div class="carousel-item {% if key == 0 %}active{% endif %}">
                     <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
-                       data-lightbox="roadtrip">
+                       data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
                         <img class="card-img-top" src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
                     </a>
                 </div>
