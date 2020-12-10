@@ -24,7 +24,7 @@ class ImageService
         return $file . '.jpg';
     }
 
-    public function uploadImages(&$imageFiles)
+    public function uploadFiles(&$imageFiles)
     {
         $images = array();
         foreach ($imageFiles as $imageFile) {
@@ -47,23 +47,16 @@ class ImageService
         return $images;
     }
 
-    function moveElement(&$array, $a, $b) {
-        $out = array_splice($array, $a, 1);
-        array_splice($array, $b, 0, $out);
-    }
-
-    function deleteElement(&$array, $a, $b) {
-        $file = $array[$a] . '.jpg';
-        array_splice($array, $a, $b);
-        $this->deleteFile($file);
-    }
-
     public function deleteFile($file)
     {
         $path = 'media/image/' . $file;
         if (file_exists($path)) {
-            unlink($path);
-            $this->cacheManager->remove($path);
+            try {
+                unlink($path);
+                $this->cacheManager->remove($path);
+            } catch (FileException $e) {
+                echo 'Error while deleting a file'; // ... handle exception if something happens during file upload
+            }
         } else {
             echo 'File not found.';
         }

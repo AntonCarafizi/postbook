@@ -1,0 +1,12 @@
+<form method="post">
+    <button class="btn btn-link btn-sm text-light" title="Main thumbnail" id="img-main-{{ key }}" name="image-main" value="{{ key }}">
+        <i class="fas fa-angle-double-up"></i>
+    </button>
+    <button class="btn btn-link btn-sm text-light" title="Move thumbnail up" id="img-up-{{ key }}" name="image-move-up" value="{{ key }}">
+        <i class="fas fa-angle-up"></i>
+    </button>
+    <button class="btn btn-link btn-sm text-light" title="Move thumbnail down" id="img-down-{{ key }}" name="image-move-down" value="{{ key }}">
+        <i class="fas fa-angle-down"></i>
+    </button>
+</form>
+{{ include('user/images/_delete_form.html.twig') }}

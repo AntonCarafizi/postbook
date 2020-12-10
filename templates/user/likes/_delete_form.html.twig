@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('user_like_delete', {'like': post.id}) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete_like' ~ post.id) }}">
+    <button class="btn btn-link btn-sm"><i class="fas fa-heart"></i> {% trans %}unlike{% endtrans %}</button>
+</form>

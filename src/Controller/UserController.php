@@ -58,7 +58,7 @@ class UserController extends AbstractController
     }
 
 
-    public function edit(Request $request, User $user, ImageService $imageService, TranslatorInterface $translator): Response
+    public function edit(Request $request, User $user, TranslatorInterface $translator): Response
     {
         $currentUser = $this->getUser();
         // check for "edit" access
@@ -68,14 +68,8 @@ class UserController extends AbstractController
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        $itemImages = $user->getImages();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // add images to User
-            $imageFiles = $form->get('images')->getData();
-            $formImages = $imageService->uploadImages($imageFiles);
-            $images = array_merge($itemImages, $formImages);
-            $user->setImages($images);
             $this->getDoctrine()->getManager()->flush();
             return $this->json($translator->trans('user.successfully.updated'));
         }
@@ -108,28 +102,14 @@ class UserController extends AbstractController
         return $this->render('post/index.html.twig', ['posts' => $posts]);
     }
 
-    public function showFavorites(Request $request, User $user, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function newPost()
     {
-        $favorites = ($user->getFavorites()) ? $user->getFavorites() : [];
 
-        $users = $paginator->paginate(
-            $favorites = $userRepository->findBy(['id' => $favorites], ['id' => 'DESC']),
-            $request->query->getInt('page', $page),
-            $this->getParameter('users_per_page')
-        );
-        return $this->render('user/index.html.twig', ['users' => $users]);
     }
 
-    public function showLikes(Request $request, User $user, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
+    public function deletePost()
     {
-        $likes = ($user->getLikes()) ? $user->getLikes() : [];
 
-        $posts = $paginator->paginate(
-            $likes = $postRepository->findBy(['id' => $likes], ['id' => 'DESC']),
-            $request->query->getInt('page', $page),
-            $this->getParameter('posts_per_page')
-        );
-        return $this->render('post/index.html.twig', ['posts' => $posts]);
     }
 
 

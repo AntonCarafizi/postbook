@@ -1,11 +1,5 @@
-<form action="{{ path('user_favorites_edit', {'id': app.user.id, 'name': app.user.firstname|lower ~ '.' ~ app.user.lastname|lower }) }}" method="post">
-    {% if user.id in app.user.favorites %}
-        <button class="btn btn-link btn-sm" id="fav-remove" name="fav-remove" value="{{ user.id }}">
-            <i class="fas fa-star"></i> {% trans %}remove.from.favorites{% endtrans %}
-        </button>
-    {% else %}
-        <button class="btn btn-link btn-sm" id="fav-add" name="fav-add" value="{{ user.id }}">
-            <i class="far fa-star"></i> {% trans %}add.to.favorites{% endtrans %}
-        </button>
-    {% endif %}
+<form method="post" action="{{ path('user_favorite_new', {'favorite': user.id}) }}">
+    <input type="hidden" name="_method" value="POST">
+    <input type="hidden" name="_token" value="{{ csrf_token('add_favorite' ~ user.id) }}">
+    <button class="btn btn-link btn-sm"><i class="far fa-star"></i> {% trans %}add.to.favorites{% endtrans %}</button>
 </form>

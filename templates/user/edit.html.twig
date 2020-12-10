@@ -1,3 +1,11 @@
+{% set route = app.request.get('_route') %}
+{% if route == 'user_edit' %}
+    {% set button_label = 'update' %}
+{% else %}
+    {% set button_label = 'save' %}
+{% endif %}
+
+
 {% extends 'base.html.twig' %}
 
 {% block title %}{% trans %}edit.user{% endtrans %} {{ user.firstname }} {{ user.lastname }}{% endblock %}
@@ -12,25 +20,25 @@
         </ol>
     </nav>
 
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link{% if route == 'user_edit' %} active{% endif %}"
+               href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}info{% endtrans %}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{% if route == 'image_new' %} active{% endif %}"
+               href="{{ path('image_new', {'id': user.id}) }}">{% trans %}image.upload{% endtrans %}</a>
+        </li>
+    </ul>
+
     <div class="row">
         <div class="card p-3 mx-auto col-sm-12 col-md-7 col-lg-7">
         {% if user.images %}
             <div class="d-flex align-content-start flex-wrap">
             {% for key, image in user.images %}
                 <div class="d-inline-flex position-relative">
-                    <div id="image-control" class="position-absolute bg-dark">
-                        <button class="btn btn-link btn-sm text-light" id="image-main" name="image-main" value="{{ key }}">
-                            <i class="fas fa-angle-double-up"></i>
-                        </button>
-                        <button class="btn btn-link btn-sm text-light" id="image-move-up" name="image-move-up" value="{{ key }}">
-                            <i class="fas fa-angle-up"></i>
-                        </button>
-                        <button class="btn btn-link btn-sm text-light" id="image-move-down" name="image-move-down" value="{{ key }}">
-                            <i class="fas fa-angle-down"></i>
-                        </button>
-                        <button class="btn btn-link btn-sm text-light" id="image-remove" name="image-remove" value="{{ key }}">
-                            <i class="fas fa-times"></i>
-                        </button>
+                    <div id="image-control" class="position-absolute bg-dark d-flex">
+                        {{ include('user/images/_form.html.twig') }}
                     </div>
                     <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
                        data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
@@ -44,8 +52,10 @@
         {% endif %}
         </div>
         <div class="card p-3 mx-auto col-sm-12 col-md-5 col-lg-5">
-            {{ include('user/_form.html.twig', {'button_label': 'update'|trans}) }}
-            {{ include('user/_delete_form.html.twig') }}
+            {{ include('user/_form.html.twig', {'button_label': button_label|trans}) }}
+            {% if route == 'user_edit' %}
+                {{ include('user/_delete_form.html.twig') }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

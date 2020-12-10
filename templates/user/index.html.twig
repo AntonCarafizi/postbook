@@ -21,14 +21,16 @@
                 {% endif %}
 
                 {% if user.images %}
-                <a href="{{ path('user_show', {'id': user.id, 'name': user.firstname|lower ~ '.' ~ user.lastname|lower }) }}">
+                <a href="{{ path('user_show', {'id': user.id}) }}">
                     <img class="card-img-top"
                          src="{{ asset('media/image/' ~ user.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
                          alt="Card image cap">
                 </a>
                 {% else %}
-                <a href="{{ path('user_show', {'id': user.id, 'name': user.firstname|lower ~ '.' ~ user.lastname|lower }) }}">
-                    <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+                <a href="{{ path('user_show', {'id': user.id}) }}">
+                    <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_small') }}"
+                         alt="Card image cap"
+                         title="{{ user.firstname }} {{ user.lastname }}">
                 </a>
                 {% endif %}
 
@@ -39,7 +41,7 @@
                     {% if user.description %}
                     <li class="list-group-item">
                         <p class="card-text">{{ user.description|striptags|slice(0, 50) }}
-                            <a class="-external-link" href="{{ path('user_show', {'id': user.id, 'name': user.firstname|lower ~ '.' ~ user.lastname|lower }) }}">[...]</a>
+                            <a class="-external-link" href="{{ path('user_show', {'id': user.id}) }}">[...]</a>
                         </p>
                     </li>
                     {% endif %}

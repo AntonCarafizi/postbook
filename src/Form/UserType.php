@@ -40,16 +40,6 @@ class UserType extends AbstractType
                 // this is actually the default format for single_text
                 'format' => 'yyyy-MM-dd',
             ])
-            ->add('images', FileType::class, [
-                'label' => 'images.jpg',
-                'mapped' => false,
-                'required' => false,
-                'multiple' => true,
-                'attr'     => [
-                    'accept' => 'image/jpeg',
-                    'multiple' => 'multiple'
-                ],
-            ])
             //->add('roles')
             //->add('password')
             //->add('isVerified')

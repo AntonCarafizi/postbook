@@ -3,11 +3,9 @@
 namespace App\Service;
 
 
-use Doctrine\DBAL\Driver\PDO\Exception;
-
 class ArrayService
 {
-    function addElement($array, $element) {
+    function addElement(&$array, $element) {
         try {
             if (!in_array($element, $array)) {
                 array_push($array, $element);
@@ -19,7 +17,16 @@ class ArrayService
         }
     }
 
-    function removeElement($array, $element)
+    function moveElement(&$array, $a, $b) {
+        $out = array_splice($array, $a, 1);
+        array_splice($array, $b, 0, $out);
+    }
+
+    function deleteElementByKey(&$array, $a, $b) {
+        array_splice($array, $a, $b);
+    }
+
+    function deleteElementByValue(&$array, $element)
     {
         try {
             if (in_array($element, $array)) {

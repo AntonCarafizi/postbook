@@ -46,7 +46,7 @@ user_index:
         page: '\d+'
 
 user_show:
-    path: /{_locale}/user/{id}/{name}
+    path: /{_locale}/user/{id}
     controller: App\Controller\UserController::show
     methods: GET|HEAD|POST
     requirements:
@@ -54,7 +54,7 @@ user_show:
         _locale: '%app_locales%'
 
 user_edit:
-    path: /{_locale}/user/{id}/{name}/edit
+    path: /{_locale}/user/{id}/edit
     controller: App\Controller\UserController::edit
     methods: GET|POST
     requirements:
@@ -70,7 +70,7 @@ user_delete:
         id: '\d+'
 
 user_posts:
-    path: /{_locale}/user/{id}/{name}/posts/{page}
+    path: /{_locale}/user/{id}/posts/{page}
     controller: App\Controller\UserController::showPosts
     methods: GET|HEAD
     defaults:
@@ -80,32 +80,56 @@ user_posts:
         page: '\d+'
         _locale: '%app_locales%'
 
-user_favorites:
-    path: /{_locale}/user/{id}/{name}/favorites/{page}
-    controller: App\Controller\UserController::showFavorites
-    methods: GET|HEAD|POST
-    defaults:
-        page: 1
+image_new:
+    path: /{_locale}/user/{id}/image/new
+    controller: App\Controller\ImageController::new
+    methods: GET|POST
     requirements:
-        id: '\d+'
-        page: '\d+'
         _locale: '%app_locales%'
+        id: '\d+'
 
-user_favorites_edit:
-    path: /{_locale}/user/{id}/{name}/favorites/edit
-    controller: App\Controller\UserController::editFavorites
+image_delete:
+    path: /{_locale}/user/{id}/image/{image}/delete
+    controller: App\Controller\ImageController::delete
+    methods: DELETE
+    requirements:
+        _locale: '%app_locales%'
+        id: '\d+'
+        image: '\d+'
+
+user_favorites:
+    path: /{_locale}/user/{id}/favorites/{page}
+    controller: App\Controller\FavoriteController::show
     methods: GET|HEAD|POST
-    format: 'json'
     defaults:
         page: 1
     requirements:
+        _locale: '%app_locales%'
         id: '\d+'
         page: '\d+'
+
+
+user_favorite_new:
+    path: /{_locale}/favorite/{favorite}/new
+    controller: App\Controller\FavoriteController::new
+    methods: GET|POST
+    format: 'json'
+    requirements:
         _locale: '%app_locales%'
+        favorite: '\d+'
+
+user_favorite_delete:
+    path: /{_locale}/favorite/{favorite}/delete
+    controller: App\Controller\FavoriteController::delete
+    methods: DELETE
+    format: 'json'
+    requirements:
+        _locale: '%app_locales%'
+        favorite: '\d+'
 
 user_likes:
-    path: /{_locale}/user/{id}/{name}/likes/{page}
-    controller: App\Controller\UserController::showLikes
+    path: /{_locale}/user/{id}/likes/{page}
+    controller: App\Controller\LikeController::show
     methods: GET|HEAD|POST
     defaults:
         page: 1
@@ -114,17 +138,24 @@ user_likes:
         page: '\d+'
         _locale: '%app_locales%'
 
-user_likes_edit:
-    path: /{_locale}/user/{id}/{name}/likes/edit
-    controller: App\Controller\UserController::editLikes
-    methods: GET|HEAD|POST
+user_like_new:
+    path: /{_locale}/like/{like}/new
+    controller: App\Controller\LikeController::new
+    methods: GET|POST
     format: 'json'
-    defaults:
-        page: 1
     requirements:
-        id: '\d+'
-        page: '\d+'
         _locale: '%app_locales%'
+        like: '\d+'
+
+user_like_delete:
+    path: /{_locale}/like/{like}/delete
+    controller: App\Controller\LikeController::delete
+    methods: DELETE
+    format: 'json'
+    requirements:
+        _locale: '%app_locales%'
+        like: '\d+'
+
 
 post_index:
     path: /{_locale}/posts/{page}
@@ -137,7 +168,7 @@ post_index:
         page: '\d+'
 
 post_show:
-    path: /{_locale}/post/{id}/{slug}
+    path: /{_locale}/post/{id}
     controller: App\Controller\PostController::show
     methods: GET|HEAD
     requirements:
