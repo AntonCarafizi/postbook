@@ -1,0 +1,29 @@
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    {% if user.images|length > 1 %}
+        <ol class="carousel-indicators">
+            {% for key in user.images|keys %}
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{ key }}" {% if key == 0 %} class="active" {% endif %}></li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+    <div class="carousel-inner">
+        {% for key, image in user.images %}
+            <div class="carousel-item{% if key == 0 %} active{% endif %}">
+                <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+                   data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
+                    <img class="card-img-top" src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {% if user.images|length > 1 %}
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    {% endif %}
+</div>

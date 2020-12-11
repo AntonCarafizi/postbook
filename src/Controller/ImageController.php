@@ -6,6 +6,7 @@ use App\Form\ImageType;
 use App\Service\ArrayService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\ImageService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,8 +14,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ImageController extends AbstractController
 {
-    public function new(Request $request, User $user, ImageService $imageService, TranslatorInterface $translator): Response
+    public function new(Request $request, $id, UserRepository $userRepository, ImageService $imageService, TranslatorInterface $translator): Response
     {
+        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
+
         $itemImages = $user->getImages();
         $form = $this->createForm(ImageType::class, $user);
         $form->handleRequest($request);
@@ -25,7 +28,7 @@ class ImageController extends AbstractController
             $images = array_merge($itemImages, $formImages);
             $user->setImages($images);
             $this->getDoctrine()->getManager()->flush();
-            return $this->json($translator->trans('image.successfully.uploaded'));
+            return $this->json($translator->trans('you.successfully.uploaded.image'));
         }
 
         return $this->render('user/images/new.html.twig', [

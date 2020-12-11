@@ -1,0 +1,12 @@
+<div class="card-body">
+    <ul class="list-group list-group-flush">
+        {% if user.description %}
+            <li class="list-group-item">
+                <p class="card-text">{{ user.description|striptags|slice(0, 50) }}
+                    <a class="-external-link" href="{{ path('user_show', {'id': user.id}) }}">[...]</a>
+                </p>
+            </li>
+        {% endif %}
+        <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }} {% trans %}years.old{% endtrans %}</li>
+    </ul>
+</div>

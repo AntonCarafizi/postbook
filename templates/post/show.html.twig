@@ -5,18 +5,23 @@
 {% block body %}
     <h1>{{ post.title }}</h1>
     <hr class="my-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item">
-                <a href="{{ path('post_index') }}"><i class="fas fa-caret-left mr-2"></i>{% trans %}all.posts{% endtrans %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
-        </ol>
-    </nav>
+
+    {{ include('template-parts/breadcrumb/post/show.html.twig') }}
 
     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">{{ message }}</div>
     {% endfor %}
 
-    {{ include('template-parts/post-card.html.twig') }}
+    <div class="card my-4">
+
+        {{ include('template-parts/card-header/post/show.html.twig') }}
+
+        {{ include('template-parts/card-body/post/show.html.twig') }}
+
+        {% if app.user %}
+            {{ include('template-parts/card-footer/post/show.html.twig') }}
+        {% endif %}
+
+    </div>
 
 {% endblock %}

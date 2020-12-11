@@ -1,13 +1,16 @@
-<a class="btn btn-link btn-sm text-light"
-   title="Move thumbnail up"
-   href="{{ path('image_up', {'id': user.id, 'image': key}) }}"><i class="fas fa-angle-up"></i></a>
+{% if key != 0 %}
+    <a class="btn btn-link btn-sm text-light"
+       title="Main thumbnail"
+       href="{{ path('image_main', {'id': user.id, 'image': key}) }}"><i class="fas fa-angle-double-up"></i></a>
+
+    <a class="btn btn-link btn-sm text-light"
+       title="Move thumbnail up"
+       href="{{ path('image_up', {'id': user.id, 'image': key}) }}"><i class="fas fa-angle-up"></i></a>
+{% endif %}
 
 <a class="btn btn-link btn-sm text-light"
    title="Move thumbnail down"
    href="{{ path('image_down', {'id': user.id, 'image': key}) }}"><i class="fas fa-angle-down"></i></a>
 
-<a class="btn btn-link btn-sm text-light"
-   title="Main thumbnail"
-   href="{{ path('image_main', {'id': user.id, 'image': key}) }}"><i class="fas fa-angle-double-up"></i></a>
 
 {{ include('user/images/_delete_form.html.twig') }}

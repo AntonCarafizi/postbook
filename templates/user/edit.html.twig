@@ -1,10 +1,8 @@
 {% set route = app.request.get('_route') %}
-{% if route == 'user_edit' %}
-    {% set button_label = 'update' %}
-{% else %}
-    {% set button_label = 'save' %}
-{% endif %}
 
+{% set button_label = (route == 'user_edit') ? 'update' : 'save' %}
+{% set user_edit = (app.user.id == user.id) ? path('my_profile_edit') : path('user_edit', {'id': user.id}) %}
+{% set image_new = (app.user.id == user.id) ? path('my_image_new') : path('user_image_new', {'id': user.id}) %}
 
 {% extends 'base.html.twig' %}
 
@@ -22,12 +20,12 @@
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link{% if route == 'user_edit' %} active{% endif %}"
-               href="{{ path('user_edit', {'id': user.id}) }}">{% trans %}info{% endtrans %}</a>
+            <a class="nav-link{% if route == user_edit %} active{% endif %}"
+               href="{{ user_edit }}">{% trans %}info{% endtrans %}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link{% if route == 'image_new' %} active{% endif %}"
-               href="{{ path('image_new', {'id': user.id}) }}">{% trans %}image.upload{% endtrans %}</a>
+            <a class="nav-link{% if route == image_new %} active{% endif %}"
+               href="{{ image_new }}">{% trans %}image.upload{% endtrans %}</a>
         </li>
     </ul>
 

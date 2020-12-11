@@ -8,12 +8,22 @@
     <hr class="my-4">
     {% if posts is not empty %}
         {% for post in posts %}
-            {{ include('template-parts/post-card.html.twig') }}
+
+            <div class="card my-4">
+
+                {{ include('template-parts/card-header/post/index.html.twig') }}
+
+                {{ include('template-parts/card-body/post/index.html.twig') }}
+
+                {% if app.user %}
+                    {{ include('template-parts/card-footer/post/index.html.twig') }}
+                {% endif %}
+
+            </div>
+
         {% endfor %}
         <hr class="my-4">
-        <div class="navigation">
-            {{ knp_pagination_render(posts) }}
-        </div>
+        {{ include('template-parts/pagination/post/index.html.twig') }}
     {% else %}
         <p class="card-text">{% trans %}no.records.found{% endtrans %}</p>
     {% endif %}

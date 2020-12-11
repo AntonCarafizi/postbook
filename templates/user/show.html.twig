@@ -5,12 +5,8 @@
 {% block body %}
     <h1>{{ user.firstname }} {{ user.lastname }}</h1>
     <hr class="my-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item"><a href="{{ path('user_index') }}"><i class="fas fa-caret-left mr-2"></i>{% trans %}all.users{% endtrans %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ user.firstname }} {{ user.lastname }}</li>
-        </ol>
-    </nav>
+
+    {{ include('template-parts/breadcrumb/user/show.html.twig') }}
 
     <div class="card my-3 p-0 mx-auto col-sm-12 col-md-6 col-lg-6">
         {% if user.lastLogin %}
@@ -23,51 +19,17 @@
         {% endif %}
 
         {% if user.images %}
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            {% if user.images|length > 1 %}
-                <ol class="carousel-indicators">
-                {% for key in user.images|keys %}
-                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ key }}" {% if key == 0 %} class="active" {% endif %}></li>
-                {% endfor %}
-                </ol>
-            {% endif %}
-            <div class="carousel-inner">
-            {% for key, image in user.images %}
-                <div class="carousel-item{% if key == 0 %} active{% endif %}">
-                    <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
-                       data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
-                        <img class="card-img-top" src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
-                    </a>
-                </div>
-            {% endfor %}
-            </div>
-            {% if user.images|length > 1 %}
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            {% endif %}
-            </div>
+            {{ include('template-parts/carousel/user/show.html.twig') }}
         {% else %}
             <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
         {% endif %}
 
-        {{ include('template-parts/card-header.html.twig') }}
+        {{ include('template-parts/card-header/user/show.html.twig') }}
 
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ user.isMale == 1 ? '<i class="fas fa-male"></i>' : '<i class="fas fa-female"></i>' }}</li>
-                <li class="list-group-item"><p class="card-text">{{ user.description }}</p></li>
-                <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }} {% trans %}years.old{% endtrans %}</li>
-            </ul>
-        </div>
+        {{ include('template-parts/card-body/user/show.html.twig') }}
 
         {% if app.user %}
-            {{ include('template-parts/card-footer.html.twig') }}
+            {{ include('template-parts/card-footer/user/show.html.twig') }}
         {% endif %}
     </div>
 {% endblock %}

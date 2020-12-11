@@ -60,13 +60,13 @@ class UserController extends AbstractController
     }
 
 
-    public function edit(Request $request, User $user, TranslatorInterface $translator): Response
+    public function edit(Request $request, $id, UserRepository $userRepository, TranslatorInterface $translator): Response
     {
-        $currentUser = $this->getUser();
+        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
         // check for "edit" access
-        if ($currentUser != $user) {
+        /*if ($currentUser != $user) {
             throw $this->createAccessDeniedException();
-        }
+        }*/
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

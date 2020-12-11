@@ -1,0 +1,8 @@
+{% set img_src = (user.images) ? 'media/image/' ~ user.images[0] ~ '.jpg' : 'media/image/no_image.jpg' %}
+{% set user_show = (app.user.id == user.id) ? path('my_profile') : path('user_show', {'id': user.id}) %}
+
+<a href="{{ user_show }}">
+    <img class="card-img-top" src="{{ asset(img_src)|imagine_filter('squared_thumbnail_small') }}"
+         alt="Card image cap"
+         title="{{ user.firstname }} {{ user.lastname }}">
+</a>

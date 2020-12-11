@@ -11,6 +11,7 @@
         {% for user in users %}
         <div class="col-sm-12 col-md-6 col-lg-3">
             <div class="card my-3 mx-auto">
+
                 {% if user.lastLogin %}
                     {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
                     date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
@@ -20,46 +21,21 @@
                     {% endif %}
                 {% endif %}
 
-                {% if user.images %}
-                <a href="{{ path('user_show', {'id': user.id}) }}">
-                    <img class="card-img-top"
-                         src="{{ asset('media/image/' ~ user.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
-                         alt="Card image cap">
-                </a>
-                {% else %}
-                <a href="{{ path('user_show', {'id': user.id}) }}">
-                    <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_small') }}"
-                         alt="Card image cap"
-                         title="{{ user.firstname }} {{ user.lastname }}">
-                </a>
-                {% endif %}
+                {{ include('template-parts/card-img-top/user/index.html.twig') }}
 
-                {{ include('template-parts/card-header.html.twig') }}
+                {{ include('template-parts/card-header/user/index.html.twig') }}
 
-                <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    {% if user.description %}
-                    <li class="list-group-item">
-                        <p class="card-text">{{ user.description|striptags|slice(0, 50) }}
-                            <a class="-external-link" href="{{ path('user_show', {'id': user.id}) }}">[...]</a>
-                        </p>
-                    </li>
-                    {% endif %}
-                    <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }} {% trans %}years.old{% endtrans %}</li>
-                </ul>
-                </div>
+                {{ include('template-parts/card-body/user/index.html.twig') }}
 
                 {% if app.user %}
-                    {{ include('template-parts/card-footer.html.twig') }}
+                    {{ include('template-parts/card-footer/user/index.html.twig') }}
                 {% endif %}
             </div>
         </div>
         {% endfor %}
     </div>
         <hr class="my-4">
-    <div class="navigation">
-        {{ knp_pagination_render(users) }}
-    </div>
+        {{ include('template-parts/pagination/user/index.html.twig') }}
     {% else %}
         <p class="card-text">{% trans %}no.records.found{% endtrans %}</p>
     {% endif %}

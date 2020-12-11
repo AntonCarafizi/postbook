@@ -1,0 +1,7 @@
+<div class="card-body">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{ user.isMale == 1 ? '<i class="fas fa-male"></i>' : '<i class="fas fa-female"></i>' }}</li>
+        <li class="list-group-item"><p class="card-text">{{ user.description }}</p></li>
+        <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }} {% trans %}years.old{% endtrans %}</li>
+    </ul>
+</div>
