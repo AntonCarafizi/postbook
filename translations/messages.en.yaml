@@ -49,6 +49,10 @@ you.successfully.added.favorite: You successfully added favorite
 you.successfully.removed.favorite: You successfully removed favorite
 you.successfully.liked.post: You successfully liked post
 you.successfully.unliked.post: You successfully unliked post
+you.successfully.moved.image.up: You successfully moved image up
+you.successfully.moved.image.down: You successfully moved image down
+you.successfully.made.image.main: You successfully made image main
+you.successfully.removed.image: You successfully removed image
 image: Image
 images.jpg: Images (.jpg)
 read.more: Read more

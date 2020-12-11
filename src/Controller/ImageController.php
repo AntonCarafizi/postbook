@@ -34,6 +34,34 @@ class ImageController extends AbstractController
         ]);
     }
 
+    public function up(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
+    {
+        $images = $user->getImages();
+        $arrayService->moveElement($images, $image, $image - 1);
+        $user->setImages($images);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->json($translator->trans('you.successfully.moved.image.up'));
+
+    }
+
+    public function down(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
+    {
+        $images = $user->getImages();
+        $arrayService->moveElement($images, $image, $image + 1);
+        $user->setImages($images);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->json($translator->trans('you.successfully.moved.image.down'));
+    }
+
+    public function main(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
+    {
+        $images = $user->getImages();
+        $arrayService->moveElement($images, $image, 0);
+        $user->setImages($images);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->json($translator->trans('you.successfully.made.image.main'));
+    }
+
     public function delete(Request $request, User $user, ArrayService $arrayService, ImageService $imageService, $image, TranslatorInterface $translator): Response
     {
         if ($this->isCsrfTokenValid('delete_image'.$image, $request->request->get('_token'))) {

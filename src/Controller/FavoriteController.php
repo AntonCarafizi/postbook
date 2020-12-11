@@ -13,9 +13,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FavoriteController extends AbstractController
 {
-    public function show(Request $request, User $user, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function show(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
     {
-        if (!$user) { $user = $this->getUser(); }
+        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
 
         $favorites = ($user->getFavorites()) ? $user->getFavorites() : [];
 

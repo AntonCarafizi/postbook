@@ -53,6 +53,15 @@ user_show:
         id: '\d+'
         _locale: '%app_locales%'
 
+my_profile:
+    path: /{_locale}/me/profile
+    controller: App\Controller\UserController::show
+    methods: GET|HEAD|POST
+    defaults:
+        id: null
+    requirements:
+        _locale: '%app_locales%'
+
 user_edit:
     path: /{_locale}/user/{id}/edit
     controller: App\Controller\UserController::edit
@@ -76,9 +85,20 @@ user_posts:
     defaults:
         page: 1
     requirements:
+        _locale: '%app_locales%'
         id: '\d+'
         page: '\d+'
+
+my_posts:
+    path: /{_locale}/me/posts/{page}
+    controller: App\Controller\UserController::showPosts
+    methods: GET|HEAD
+    defaults:
+        page: 1
+        id: null
+    requirements:
         _locale: '%app_locales%'
+        page: '\d+'
 
 image_new:
     path: /{_locale}/user/{id}/image/new
@@ -97,17 +117,55 @@ image_delete:
         id: '\d+'
         image: '\d+'
 
+image_up:
+    path: /{_locale}/user/{id}/image/{image}/up
+    controller: App\Controller\ImageController::up
+    methods: GET
+    requirements:
+        _locale: '%app_locales%'
+        id: '\d+'
+        image: '\d+'
+
+image_down:
+    path: /{_locale}/user/{id}/image/{image}/down
+    controller: App\Controller\ImageController::down
+    methods: GET
+    requirements:
+        _locale: '%app_locales%'
+        id: '\d+'
+        image: '\d+'
+
+image_main:
+    path: /{_locale}/user/{id}/image/{image}/main
+    controller: App\Controller\ImageController::main
+    methods: GET
+    requirements:
+        _locale: '%app_locales%'
+        id: '\d+'
+        image: '\d+'
+
 user_favorites:
     path: /{_locale}/user/{id}/favorites/{page}
     controller: App\Controller\FavoriteController::show
     methods: GET|HEAD|POST
     defaults:
         page: 1
+        id: 0
     requirements:
         _locale: '%app_locales%'
         id: '\d+'
         page: '\d+'
 
+my_favorites:
+    path: /{_locale}/me/favorites/{page}
+    controller: App\Controller\FavoriteController::show
+    methods: GET|HEAD|POST
+    defaults:
+        page: 1
+        id: null
+    requirements:
+        _locale: '%app_locales%'
+        page: '\d+'
 
 user_favorite_new:
     path: /{_locale}/favorite/{favorite}/new
@@ -137,6 +195,17 @@ user_likes:
         id: '\d+'
         page: '\d+'
         _locale: '%app_locales%'
+
+my_likes:
+    path: /{_locale}/me/likes/{page}
+    controller: App\Controller\LikeController::show
+    methods: GET|HEAD|POST
+    defaults:
+        page: 1
+        id: null
+    requirements:
+        _locale: '%app_locales%'
+        page: '\d+'
 
 user_like_new:
     path: /{_locale}/like/{like}/new

@@ -6,6 +6,7 @@ use App\Service\ArrayService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\User;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
@@ -13,8 +14,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LikeController extends AbstractController
 {
-    public function show(Request $request, User $user, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
+    public function show(Request $request, $id, UserRepository $userRepository, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
     {
+        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
+
         $likes = ($user->getLikes()) ? $user->getLikes() : [];
 
         $posts = $paginator->paginate(
@@ -34,7 +37,7 @@ class LikeController extends AbstractController
             $arrayService->addElement($likes, $like);
             $user->setLikes($likes);
             $this->getDoctrine()->getManager()->flush();
-            return $this->json($translator->trans('you.successfully.removed.favorite'));
+            return $this->json($translator->trans('you.successfully.liked.post'));
         }
         return $this->redirectToRoute('user_likes', ['id' => $user->getId()]);
     }
@@ -47,7 +50,7 @@ class LikeController extends AbstractController
             $arrayService->deleteElementByValue($likes, $like);
             $user->setLikes($likes);
             $this->getDoctrine()->getManager()->flush();
-            return $this->json($translator->trans('you.successfully.removed.favorite'));
+            return $this->json($translator->trans('you.successfully.unliked.post'));
         }
         return $this->redirectToRoute('user_likes', ['id' => $user->getId()]);
     }

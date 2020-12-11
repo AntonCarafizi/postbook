@@ -31,17 +31,26 @@
                     <div class="mb-3">
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="currentUserDropdown" role="button"
+                                <a class="dropdown-toggle" href="#" id="currentUserDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {% trans %}hello{% endtrans %}, {{ app.user.firstname }}
+                                    {% if app.user.images %}
+                                        <img class="rounded-circle"
+                                             src="{{ asset('media/image/' ~ app.user.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_mini') }}"
+                                             alt="Card image cap">
+                                    {% else %}
+                                        <img class="card-img-top"
+                                             src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_mini') }}"
+                                             alt="Card image cap">
+                                    {% endif %}
                                 </a>
+
                                 <div class="dropdown-menu" aria-labelledby="currentUserDropdown">
-                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_show' %} active{% endif %}"
-                                       href="{{ path('user_show', {'id': app.user.id}) }}">
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'my_profile' %} active{% endif %}"
+                                       href="{{ path('my_profile') }}">
                                         <i class="fas fa-user"></i> {% trans %}my.profile{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_posts' %} active{% endif %}"
-                                       href="{{ path('user_posts', {'id': app.user.id}) }}">
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'my_posts' %} active{% endif %}"
+                                       href="{{ path('my_posts') }}">
                                         <i class="fas fa-file-alt"></i> {% trans %}my.posts{% endtrans %}
                                     </a>
                                     <a class="dropdown-item{% if app.request.get('_route') == 'user_messages' %} active{% endif %}"
@@ -52,12 +61,12 @@
                                        href="#">
                                         <i class="fas fa-users"></i> {% trans %}my.friends{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_favorites' %} active{% endif %}"
-                                       href="{{ path('user_favorites', {'id': app.user.id}) }}">
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'my_favorites' %} active{% endif %}"
+                                       href="{{ path('my_favorites') }}">
                                         <i class="fas fa-star"></i> {% trans %}my.favorites{% endtrans %}
                                     </a>
-                                    <a class="dropdown-item{% if app.request.get('_route') == 'user_likes' %} active{% endif %}"
-                                       href="{{ path('user_likes', {'id': app.user.id}) }}">
+                                    <a class="dropdown-item{% if app.request.get('_route') == 'my_likes' %} active{% endif %}"
+                                       href="{{ path('my_likes') }}">
                                         <i class="fas fa-heart"></i> {% trans %}my.likes{% endtrans %}
                                     </a>
                                     <a class="dropdown-item"
