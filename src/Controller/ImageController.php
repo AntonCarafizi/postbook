@@ -62,7 +62,16 @@ class ImageController extends AbstractController
         $arrayService->moveElement($images, $image, 0);
         $user->setImages($images);
         $this->getDoctrine()->getManager()->flush();
-        return $this->json($translator->trans('you.successfully.made.image.main'));
+        return $this->json($translator->trans('you.successfully.selected.avatar'));
+    }
+
+    public function background(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
+    {
+        $images = $user->getImages();
+        $arrayService->moveElement($images, $image, 1);
+        $user->setImages($images);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->json($translator->trans('you.successfully.selected.background'));
     }
 
     public function delete(Request $request, User $user, ArrayService $arrayService, ImageService $imageService, $image, TranslatorInterface $translator): Response

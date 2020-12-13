@@ -12,15 +12,6 @@
         <div class="col-sm-12 col-md-6 col-lg-3">
             <div class="card my-3 mx-auto">
 
-                {% if user.lastLogin %}
-                    {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
-                    date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
-                        <span class="dot green position-absolute"></span>
-                    {% else %}
-                        <span class="dot grey position-absolute"></span>
-                    {% endif %}
-                {% endif %}
-
                 {{ include('template-parts/card-img-top/user/index.html.twig') }}
 
                 {{ include('template-parts/card-header/user/index.html.twig') }}

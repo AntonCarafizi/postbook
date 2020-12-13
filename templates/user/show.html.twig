@@ -8,21 +8,9 @@
 
     {{ include('template-parts/breadcrumb/user/show.html.twig') }}
 
-    <div class="card my-3 p-0 mx-auto col-sm-12 col-md-6 col-lg-6">
-        {% if user.lastLogin %}
-            {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
-            date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
-                <span class="dot green position-absolute"></span>
-            {% else %}
-                <span class="dot grey position-absolute"></span>
-            {% endif %}
-        {% endif %}
+    <div class="card my-3 p-0 mx-auto">
 
-        {% if user.images %}
-            {{ include('template-parts/carousel/user/show.html.twig') }}
-        {% else %}
-            <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
-        {% endif %}
+        {{ include('template-parts/card-img-top/user/show.html.twig') }}
 
         {{ include('template-parts/card-header/user/show.html.twig') }}
 

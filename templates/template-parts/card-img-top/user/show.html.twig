@@ -1,0 +1,22 @@
+{% set avatar_src = (user.images[0]) ? 'media/image/' ~ user.images[0] ~ '.jpg' : 'media/image/no_image.jpg' %}
+{% set background_src = (user.images[1]) ? 'media/image/' ~ user.images[1] ~ '.jpg' : 'media/image/no_image.jpg' %}
+
+<div class="position-relative">
+    <img class="card-img-top" src="{{ asset(background_src)|imagine_filter('squared_thumbnail_large') }}"
+         alt="Card image cap"
+         title="{{ user.firstname }} {{ user.lastname }}">
+
+    <div id="user-avatar" class="position-absolute border border-white">
+    {% if user.lastLogin %}
+        {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
+        date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
+            <span class="dot green position-absolute"></span>
+        {% else %}
+            <span class="dot grey position-absolute"></span>
+        {% endif %}
+    {% endif %}
+    <img src="{{ asset(avatar_src)|imagine_filter('squared_thumbnail_small') }}"
+         alt="Card image cap"
+         title="{{ user.firstname }} {{ user.lastname }}">
+    </div>
+</div>

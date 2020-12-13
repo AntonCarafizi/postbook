@@ -162,6 +162,15 @@ image_main:
         id: '\d+'
         image: '\d+'
 
+image_background:
+    path: /{_locale}/user/{id}/image/{image}/background
+    controller: App\Controller\ImageController::background
+    methods: GET
+    requirements:
+        _locale: '%app_locales%'
+        id: '\d+'
+        image: '\d+'
+
 user_favorites:
     path: /{_locale}/user/{id}/favorites/{page}
     controller: App\Controller\FavoriteController::show
