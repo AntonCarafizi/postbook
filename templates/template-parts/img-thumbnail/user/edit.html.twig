@@ -1,0 +1,45 @@
+{% if user.images %}
+    <div class="d-flex align-content-start flex-wrap mb-4">
+    {% if user.images['avatar'] %}
+        <div>
+            <h3 class="h3">{% trans %}avatar{% endtrans %}</h3>
+            <a href="{{ asset('media/image/' ~ user.images['avatar'] ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+               data-fancybox="gallery" data-caption="{% trans %}avatar{% endtrans %}">
+                <img class="img-thumbnail" src="{{ asset('media/image/' ~ user.images['avatar'] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+            </a>
+        </div>
+    {% endif %}
+
+    {% if user.images['background'] %}
+        <div>
+            <h3>{% trans %}background{% endtrans %}</h3>
+            <a href="{{ asset('media/image/' ~ user.images['background'] ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+               data-fancybox="gallery" data-caption="{% trans %}avatar{% endtrans %}">
+                <img class="img-thumbnail" src="{{ asset('media/image/' ~ user.images['background'] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+            </a>
+        </div>
+    {% endif %}
+    </div>
+
+    {% if user.images['all'] %}
+        <div>
+            <h3>{% trans %}all.images{% endtrans %}</h3>
+            <div class="d-flex align-content-start flex-wrap">
+                {% for key, image in user.images['all'] %}
+                    <div class="d-inline-flex position-relative">
+                        <div id="image-control" class="position-absolute bg-dark d-flex">
+                            {{ include('user/images/_form.html.twig') }}
+                        </div>
+                        <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+                           data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
+                            <img class="img-thumbnail" src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+{% else %}
+    <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
+{% endif %}

@@ -1,8 +1,8 @@
 {% set route = app.request.get('_route') %}
 
 {% set button_label = (route == 'user_edit') ? 'update' : 'save' %}
-{% set user_edit = (app.user.id == user.id) ? path('my_profile_edit') : path('user_edit', {'id': user.id}) %}
-{% set image_new = (app.user.id == user.id) ? path('my_image_new') : path('user_image_new', {'id': user.id}) %}
+{% set user_edit = (app.user and app.user.id == user.id) ? path('my_profile_edit') : path('user_edit', {'id': user.id}) %}
+{% set image_new = (app.user and app.user.id == user.id) ? path('my_image_new') : path('user_image_new', {'id': user.id}) %}
 
 {% extends 'base.html.twig' %}
 
@@ -20,34 +20,18 @@
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link{% if route == user_edit %} active{% endif %}"
+            <a class="nav-link{% if route in ['my_profile_edit', 'user_edit'] %} active{% endif %}"
                href="{{ user_edit }}">{% trans %}info{% endtrans %}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link{% if route == image_new %} active{% endif %}"
+            <a class="nav-link{% if route in ['my_image_new', 'user_image_new'] %} active{% endif %}"
                href="{{ image_new }}">{% trans %}image.upload{% endtrans %}</a>
         </li>
     </ul>
 
     <div class="row">
         <div class="card p-3 mx-auto col-sm-12 col-md-7 col-lg-7">
-        {% if user.images %}
-            <div class="d-flex align-content-start flex-wrap">
-            {% for key, image in user.images %}
-                <div class="d-inline-flex position-relative">
-                    <div id="image-control" class="position-absolute bg-dark d-flex">
-                        {{ include('user/images/_form.html.twig') }}
-                    </div>
-                    <a href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
-                       data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
-                <img src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
-                    </a>
-                </div>
-            {% endfor %}
-            </div>
-        {% else %}
-            <img class="card-img-top" src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_medium') }}" alt="Card image cap">
-        {% endif %}
+            {{ include('template-parts/img-thumbnail/user/edit.html.twig') }}
         </div>
         <div class="card p-3 mx-auto col-sm-12 col-md-5 col-lg-5">
             {{ include('user/_form.html.twig', {'button_label': button_label|trans}) }}

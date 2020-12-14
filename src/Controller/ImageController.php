@@ -25,8 +25,8 @@ class ImageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFiles = $form->get('images')->getData();
             $formImages = $imageService->uploadFiles($imageFiles);
-            $images = array_merge($itemImages, $formImages);
-            $user->setImages($images);
+            $itemImages['all'] = array_merge($itemImages['all'], $formImages);
+            $user->setImages($itemImages);
             $this->getDoctrine()->getManager()->flush();
             return $this->json($translator->trans('you.successfully.uploaded.image'));
         }
@@ -40,7 +40,7 @@ class ImageController extends AbstractController
     public function up(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
     {
         $images = $user->getImages();
-        $arrayService->moveElement($images, $image, $image - 1);
+        $arrayService->moveElement($images['all'], $image, $image - 1);
         $user->setImages($images);
         $this->getDoctrine()->getManager()->flush();
         return $this->json($translator->trans('you.successfully.moved.image.up'));
@@ -50,25 +50,25 @@ class ImageController extends AbstractController
     public function down(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
     {
         $images = $user->getImages();
-        $arrayService->moveElement($images, $image, $image + 1);
+        $arrayService->moveElement($images['all'], $image, $image + 1);
         $user->setImages($images);
         $this->getDoctrine()->getManager()->flush();
         return $this->json($translator->trans('you.successfully.moved.image.down'));
     }
 
-    public function main(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
+    public function main(User $user, $image, TranslatorInterface $translator): Response
     {
         $images = $user->getImages();
-        $arrayService->moveElement($images, $image, 0);
+        $images['avatar'] = $images['all'][$image];
         $user->setImages($images);
         $this->getDoctrine()->getManager()->flush();
         return $this->json($translator->trans('you.successfully.selected.avatar'));
     }
 
-    public function background(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
+    public function background(User $user, $image, TranslatorInterface $translator): Response
     {
         $images = $user->getImages();
-        $arrayService->moveElement($images, $image, 1);
+        $images['background'] = $images['all'][$image];
         $user->setImages($images);
         $this->getDoctrine()->getManager()->flush();
         return $this->json($translator->trans('you.successfully.selected.background'));

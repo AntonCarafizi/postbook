@@ -29,7 +29,7 @@ class ImageService
         $images = array();
         foreach ($imageFiles as $imageFile) {
             $newFilename = uniqid();
-            $images[] = $newFilename;
+            array_push($images, $newFilename);
             // Move the file to the directory where images are stored
             try {
                 $imageFile->move(

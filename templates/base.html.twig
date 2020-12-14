@@ -33,9 +33,9 @@
                             <li class="nav-item dropdown">
                                 <a class="dropdown-toggle" href="#" id="currentUserDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {% if app.user.images %}
+                                    {% if app.user.images is not empty and app.user.images['avatar'] %}
                                         <img class="rounded-circle"
-                                             src="{{ asset('media/image/' ~ app.user.images[0] ~ '.jpg')|imagine_filter('squared_thumbnail_mini') }}"
+                                             src="{{ asset('media/image/' ~ app.user.images['avatar'] ~ '.jpg')|imagine_filter('squared_thumbnail_mini') }}"
                                              alt="Card image cap">
                                     {% else %}
                                         <img class="card-img-top"

@@ -1,12 +1,12 @@
+<a class="btn btn-link btn-sm text-light"
+   title="Make avatar"
+   href="{{ path('image_main', {'id': user.id, 'image': key}) }}"><i class="fas fa-portrait"></i></a>
+
+<a class="btn btn-link btn-sm text-light"
+   title="Make background"
+   href="{{ path('image_background', {'id': user.id, 'image': key}) }}"><i class="fas fa-image"></i></a>
+
 {% if key != 0 %}
-    <a class="btn btn-link btn-sm text-light"
-       title="Make avatar"
-       href="{{ path('image_main', {'id': user.id, 'image': key}) }}"><i class="fas fa-portrait"></i></a>
-
-    <a class="btn btn-link btn-sm text-light"
-       title="Make background"
-       href="{{ path('image_background', {'id': user.id, 'image': key}) }}"><i class="fas fa-image"></i></a>
-
     <a class="btn btn-link btn-sm text-light"
        title="Move image up"
        href="{{ path('image_up', {'id': user.id, 'image': key}) }}"><i class="fas fa-angle-up"></i></a>

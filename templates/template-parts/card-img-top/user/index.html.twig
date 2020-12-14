@@ -1,5 +1,5 @@
-{% set img_src = (user.images) ? 'media/image/' ~ user.images[0] ~ '.jpg' : 'media/image/no_image.jpg' %}
-{% set user_show = (app.user.id == user.id) ? path('my_profile') : path('user_show', {'id': user.id}) %}
+{% set avatar = (user.images['avatar'] is not empty) ? user.images['avatar'] : 'no_image' %}
+{% set user_show = (app.user and app.user.id == user.id) ? path('my_profile') : path('user_show', {'id': user.id}) %}
 
 {% if user.lastLogin %}
     {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
@@ -11,7 +11,7 @@
 {% endif %}
 
 <a href="{{ user_show }}">
-    <img class="card-img-top" src="{{ asset(img_src)|imagine_filter('squared_thumbnail_small') }}"
+    <img class="card-img-top" src="{{ asset('media/image/' ~ avatar ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
          alt="Card image cap"
          title="{{ user.firstname }} {{ user.lastname }}">
 </a>

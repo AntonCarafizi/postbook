@@ -54,6 +54,9 @@ you.successfully.moved.image.down: You successfully moved image down
 you.successfully.selected.avatar: You successfully selected avatar
 you.successfully.uploaded.image: You successfully uploaded image
 you.successfully.removed.image: You successfully removed image
+avatar: Avatar
+background: Background
+all.images: All images
 image: Image
 images.jpg: Images (.jpg)
 read.more: Read more

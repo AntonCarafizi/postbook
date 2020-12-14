@@ -1,12 +1,11 @@
-{% set avatar_src = (user.images[0]) ? 'media/image/' ~ user.images[0] ~ '.jpg' : 'media/image/no_image.jpg' %}
-{% set background_src = (user.images[1]) ? 'media/image/' ~ user.images[1] ~ '.jpg' : 'media/image/no_image.jpg' %}
+{% set background = (user.images['background'] is not empty) ? user.images['background'] : 'no_image' %}
+{% set avatar = (user.images['avatar'] is not empty) ? user.images['avatar'] : 'no_image' %}
 
 <div class="position-relative">
-    <img class="card-img-top" src="{{ asset(background_src)|imagine_filter('squared_thumbnail_large') }}"
+    <img class="card-img-top" src="{{ asset('media/image/' ~ background ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
          alt="Card image cap"
          title="{{ user.firstname }} {{ user.lastname }}">
-
-    <div id="user-avatar" class="position-absolute border border-white">
+    <div id="user-avatar" class="position-absolute">
     {% if user.lastLogin %}
         {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
         date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
@@ -15,8 +14,13 @@
             <span class="dot grey position-absolute"></span>
         {% endif %}
     {% endif %}
-    <img src="{{ asset(avatar_src)|imagine_filter('squared_thumbnail_small') }}"
-         alt="Card image cap"
-         title="{{ user.firstname }} {{ user.lastname }}">
+
+        {% for key, image in user.images['all'] %}
+        <a {% if image != avatar %}class="d-none"{% endif %} href="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+           data-fancybox="gallery" data-caption="{% trans %}image{% endtrans %} {{ key+1 }}">
+            <img class="img-thumbnail" src="{{ asset('media/image/' ~ image ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
+                 alt="Card image cap"
+                 title="{{ user.firstname }} {{ user.lastname }}"></a>
+        {% endfor %}
     </div>
 </div>
