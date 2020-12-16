@@ -1,5 +1,6 @@
-{% set path = (app.user.id == user.id) ? path('my_profile_edit') : path('user_edit', {'id': user.id}) %}
-{% set favorite_form = (user.id in app.user.favorites) ? 'user/favorites/_delete_form.html.twig' : 'user/favorites/_form.html.twig' %}
+{% set path = (app.user is not null and app.user.id == user.id) ? path('my_profile_edit') : path('user_edit', {'id': user.id}) %}
+{% set favorite_form = (app.user is not null and user.id in app.user.favorites) ? 'user/favorites/_delete_form.html.twig' : 'user/favorites/_form.html.twig' %}
+
 
 <div class="card-footer d-flex justify-content-start">
     <a class="btn btn-link btn-sm" role="button" href="{{ path }}">
@@ -8,7 +9,9 @@
 
     {{ include('user/_delete_form.html.twig') }}
 
-    {% if app.user.id != user.id %}
-        {{ include(favorite_form) }}
+    {% if app.user is not null %}
+        {% if app.user.id != user.id %}
+            {{ include(favorite_form) }}
+        {% endif %}
     {% endif %}
 </div>

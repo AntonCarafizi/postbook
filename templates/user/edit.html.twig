@@ -1,8 +1,8 @@
 {% set route = app.request.get('_route') %}
 
 {% set button_label = (route == 'user_edit') ? 'update' : 'save' %}
-{% set user_edit = (app.user and app.user.id == user.id) ? path('my_profile_edit') : path('user_edit', {'id': user.id}) %}
-{% set image_new = (app.user and app.user.id == user.id) ? path('my_image_new') : path('user_image_new', {'id': user.id}) %}
+{% set user_edit = (app.user is not null and app.user.id == user.id) ? path('my_profile_edit') : path('user_edit', {'id': user.id}) %}
+{% set image_new = (app.user is not null and app.user.id == user.id) ? path('my_image_new') : path('user_image_new', {'id': user.id}) %}
 
 {% extends 'base.html.twig' %}
 
