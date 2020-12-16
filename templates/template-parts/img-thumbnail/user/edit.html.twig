@@ -1,24 +1,23 @@
+{% set avatar = (user.images['avatar'] is not null) ? user.images['avatar'] : 'no_image' %}
+{% set background = (user.images['background'] is not null) ? user.images['background'] : 'no_image' %}
+
 {% if user.images %}
     <div class="d-flex align-content-start flex-wrap mb-4">
-    {% if user.images['avatar'] %}
-        <div>
-            <h3 class="h3">{% trans %}avatar{% endtrans %}</h3>
-            <a href="{{ asset('media/image/' ~ user.images['avatar'] ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
-               data-fancybox="gallery" data-caption="{% trans %}avatar{% endtrans %}">
-                <img class="img-thumbnail" src="{{ asset('media/image/' ~ user.images['avatar'] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
-            </a>
-        </div>
-    {% endif %}
+    <div>
+        <h3 class="h3">{% trans %}avatar{% endtrans %}</h3>
+        <a href="{{ asset('media/image/' ~ avatar ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+           data-fancybox="gallery" data-caption="{% trans %}avatar{% endtrans %}">
+            <img class="img-thumbnail" src="{{ asset('media/image/' ~ avatar ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+        </a>
+    </div>
 
-    {% if user.images['background'] %}
-        <div>
-            <h3>{% trans %}background{% endtrans %}</h3>
-            <a href="{{ asset('media/image/' ~ user.images['background'] ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
-               data-fancybox="gallery" data-caption="{% trans %}avatar{% endtrans %}">
-                <img class="img-thumbnail" src="{{ asset('media/image/' ~ user.images['background'] ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
-            </a>
-        </div>
-    {% endif %}
+    <div>
+        <h3>{% trans %}background{% endtrans %}</h3>
+        <a href="{{ asset('media/image/' ~ background ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
+           data-fancybox="gallery" data-caption="{% trans %}background{% endtrans %}">
+            <img class="img-thumbnail" src="{{ asset('media/image/' ~ background ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}" alt="Card image cap">
+        </a>
+    </div>
     </div>
 
     {% if user.images['all'] %}

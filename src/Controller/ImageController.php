@@ -78,9 +78,16 @@ class ImageController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete_image'.$image, $request->request->get('_token'))) {
             $images = $user->getImages();
-            $file = $imageService->setImageExtension($images[$image]);
+            if ($images['all'][$image] == $images['background']) {
+                $images['background'] = null;
+            }
+
+            if ($images['all'][$image] == $images['avatar']) {
+                $images['avatar'] = null;
+            }
+            $file = $imageService->setImageExtension($images['all'][$image]);
             $imageService->deleteFile($file);
-            $arrayService->deleteElementByKey($images, $image, 1);
+            $arrayService->deleteElementByKey($images['all'], $image, 1);
             $user->setImages($images);
             $this->getDoctrine()->getManager()->flush();
             return $this->json($translator->trans('you.successfully.removed.image'));

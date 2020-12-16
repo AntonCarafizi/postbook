@@ -41,19 +41,20 @@ hello: Hallo
 filter: Filter
 user.successfully.created: Benutzer erfolgreich erstellt
 user.successfully.updated: Benutzer erfolgreich aktualisiert
-user.successfully.deleted: Benutzer erfolgreich gelöscht
+user.successfully.deleted: Benutzer erfolgreich entfernt
 post.successfully.created: Post erfolgreich erstellt
 post.successfully.updated: Post erfolgreich aktualisiert
-post.successfully.deleted: Post erfolgreich gelöscht
-you.successfully.added.favorite: You successfully added favorite
-you.successfully.removed.favorite: You successfully removed favorite
-you.successfully.liked.post: You successfully liked post
-you.successfully.unliked.post: You successfully unliked post
-you.successfully.moved.image.up: You successfully moved image up
-you.successfully.moved.image.down: You successfully moved image down
-you.successfully.selected.avatar: You successfully selected avatar
-you.successfully.uploaded.image: You successfully uploaded image
-you.successfully.removed.image: You successfully removed image
+post.successfully.deleted: Post erfolgreich entfernt
+you.successfully.added.favorite: Sie haben ein Favorit erfolgreich erstellt
+you.successfully.removed.favorite: Sie haben ein Favorit erfolgreich entfernt
+you.successfully.liked.post: Sie mögen dieses Post
+you.successfully.unliked.post: Sie mögen dieses Post nicht
+you.successfully.moved.image.up: Sie haben das Bild erfolgreich nach oben verschoben
+you.successfully.moved.image.down: Sie haben das Bild erfolgreich nach unten verschoben
+you.successfully.selected.avatar: Sie haben den Avatar erfolgreich ausgewählt
+you.successfully.selected.background: Sie haben den Hintergrund erfolgreich ausgewählt
+you.successfully.uploaded.image: Sie haben das Bild erfolgreich hochgeladen
+you.successfully.removed.image: Sie haben das Bild erfolgreich entfernt
 avatar: Avatar
 background: Background
 all.images: All images
@@ -82,10 +83,10 @@ posts: Posts
 add.to.favorites: Zu Favoriten hinzufügen
 remove.from.favorites: Aus Favoriten entfernen
 no.records.found: Keine data gefunden
-like: Like
-unlike: Unlike
+like: Ich mag
+unlike: Ich mag nicht
 my.likes: Meine likes
 search: Suchen
 created.at: Erstellt ab
 info: Info
-image.upload: Image upload
+image.upload: Bild hochladen
