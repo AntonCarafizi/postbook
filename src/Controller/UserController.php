@@ -18,9 +18,14 @@ use Knp\Component\Pager\PaginatorInterface;
 class UserController extends AbstractController
 {
 
-    public function index(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function index(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
     {
         $allUsers = $userRepository->findBy([], ['id' => 'DESC']);
+
+        if (!$allUsers) {
+            throw $this->createNotFoundException($translator->trans('users.not.found'));
+        }
+
         $users = $paginator->paginate(
             $allUsers,
             $request->query->getInt('page', $page),
@@ -52,9 +57,13 @@ class UserController extends AbstractController
     }
 
 
-    public function show($id, UserRepository $userRepository): Response
+    public function show($id, UserRepository $userRepository, TranslatorInterface $translator): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
+
+        if (!$user) {
+            throw $this->createNotFoundException($translator->trans('user.not.found'));
+        }
 
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
@@ -94,12 +103,22 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_index');
     }
 
-    public function showPosts(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function showPosts(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
 
+        if (!$user) {
+            throw $this->createNotFoundException($translator->trans('user.not.found'));
+        }
+
+        $userPosts = $user->getPosts();
+
+        if (!$userPosts) {
+            throw $this->createNotFoundException($translator->trans('posts.not.found'));
+        }
+
         $posts = $paginator->paginate(
-            $user->getPosts(),
+            $userPosts,
             $request->query->getInt('page', $page),
             $this->getParameter('posts_per_page')
         );

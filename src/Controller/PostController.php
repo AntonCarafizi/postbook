@@ -14,9 +14,14 @@ use Knp\Component\Pager\PaginatorInterface;
 class PostController extends AbstractController
 {
 
-    public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
+    public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
     {
         $allPosts = $postRepository->findby([], ['id' => 'DESC']);
+
+        if (!$allPosts) {
+            throw $this->createNotFoundException($translator->trans('posts.not.found'));
+        }
+
         $posts = $paginator->paginate(
             $allPosts,
             $request->query->getInt('page', $page),
@@ -49,8 +54,12 @@ class PostController extends AbstractController
         ]);
     }
 
-    public function show(Post $post): Response
+    public function show(Post $post, TranslatorInterface $translator): Response
     {
+        if (!$post) {
+            throw $this->createNotFoundException($translator->trans('post.not.found'));
+        }
+
         return $this->render('post/show.html.twig', ['post' => $post]);
     }
 

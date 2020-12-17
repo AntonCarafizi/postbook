@@ -12,12 +12,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FavoriteController extends AbstractController
 {
-    public function show(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function show(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
-
-        $favorites = ($user->getFavorites()) ? $user->getFavorites() : [];
-
+        if (!$user) {
+            throw $this->createNotFoundException($translator->trans('user.not.found'));
+        }
+        $favorites = $user->getFavorites();
+        if (!$favorites) {
+            throw $this->createNotFoundException($translator->trans('favorites.not.found'));
+        }
         $users = $paginator->paginate(
             $favorites = $userRepository->findBy(['id' => $favorites], ['id' => 'DESC']),
             $request->query->getInt('page', $page),
@@ -29,8 +33,16 @@ class FavoriteController extends AbstractController
     public function new(Request $request, $favorite, ArrayService $arrayService, TranslatorInterface $translator): Response
     {
         $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createNotFoundException($translator->trans('user.not.found'));
+        }
+
         if ($this->isCsrfTokenValid('add_favorite'.$favorite, $request->request->get('_token'))) {
             $favorites = $user->getFavorites();
+            if (!$favorites) {
+                throw $this->createNotFoundException($translator->trans('favorites.not.found'));
+            }
             $arrayService->addElement($favorites, $favorite);
             $user->setFavorites($favorites);
             $this->getDoctrine()->getManager()->flush();
@@ -42,8 +54,16 @@ class FavoriteController extends AbstractController
     public function delete(Request $request, $favorite, ArrayService $arrayService, TranslatorInterface $translator): Response
     {
         $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createNotFoundException($translator->trans('user.not.found'));
+        }
+
         if ($this->isCsrfTokenValid('delete_favorite'.$favorite, $request->request->get('_token'))) {
             $favorites = $user->getFavorites();
+            if (!$favorites) {
+                throw $this->createNotFoundException($translator->trans('favorites.not.found'));
+            }
             $arrayService->deleteElementByValue($favorites, $favorite);
             $user->setFavorites($favorites);
             $this->getDoctrine()->getManager()->flush();

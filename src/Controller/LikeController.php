@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Service\ArrayService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\User;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,12 +13,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LikeController extends AbstractController
 {
-    public function show(Request $request, $id, UserRepository $userRepository, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
+    public function show(Request $request, $id, UserRepository $userRepository, PostRepository $postRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
-
-        $likes = ($user->getLikes()) ? $user->getLikes() : [];
-
+        if (!$user) {
+            throw $this->createNotFoundException($translator->trans('user.not.found'));
+        }
+        $likes = $user->getLikes();
+        if (!$likes) {
+            throw $this->createNotFoundException($translator->trans('likes.not.found'));
+        }
         $posts = $paginator->paginate(
             $likes = $postRepository->findBy(['id' => $likes], ['id' => 'DESC']),
             $request->query->getInt('page', $page),
@@ -32,8 +35,14 @@ class LikeController extends AbstractController
     public function new($like, Request $request, ArrayService $arrayService, TranslatorInterface $translator): Response
     {
         $user = $this->getUser();
+        if (!$user) {
+            throw $this->createNotFoundException($translator->trans('user.not.found'));
+        }
         if ($this->isCsrfTokenValid('add_like'.$like, $request->request->get('_token'))) {
             $likes = $user->getLikes();
+            if (!$likes) {
+                throw $this->createNotFoundException($translator->trans('likes.not.found'));
+            }
             $arrayService->addElement($likes, $like);
             $user->setLikes($likes);
             $this->getDoctrine()->getManager()->flush();
@@ -45,8 +54,14 @@ class LikeController extends AbstractController
     public function delete($like, Request $request, ArrayService $arrayService, TranslatorInterface $translator): Response
     {
         $user = $this->getUser();
+        if (!$user) {
+            throw $this->createNotFoundException($translator->trans('user.not.found'));
+        }
         if ($this->isCsrfTokenValid('delete_like'.$like, $request->request->get('_token'))) {
             $likes = $user->getLikes();
+            if (!$likes) {
+                throw $this->createNotFoundException($translator->trans('likes.not.found'));
+            }
             $arrayService->deleteElementByValue($likes, $like);
             $user->setLikes($likes);
             $this->getDoctrine()->getManager()->flush();
