@@ -16,7 +16,9 @@ class PostController extends AbstractController
 
     public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
     {
-        $allPosts = $postRepository->findby([], ['id' => 'DESC']);
+        $search = $request->query->get('search');
+
+        $allPosts = ($search) ? $postRepository->findByTitle(['title' => $search]) : $postRepository->findby([], ['id' => 'DESC']);
 
         if (!$allPosts) {
             throw $this->createNotFoundException($translator->trans('posts.not.found'));
