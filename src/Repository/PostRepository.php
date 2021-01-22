@@ -23,11 +23,12 @@ class PostRepository extends ServiceEntityRepository
     //  * @return Post[] Returns an array of Post objects
     //  */
 
-    public function findByTitle($value)
+    public function findByTitleOrKeywords($value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.title LIKE :val')
-            ->setParameter('val', '%'.$value['title'].'%')
+            ->where('p.title LIKE :val')
+            ->orWhere('p.keywords LIKE :val')
+            ->setParameter('val', '%'.$value['search'].'%')
             ->orderBy('p.id', 'ASC')
             ->getQuery()
             ->getResult()

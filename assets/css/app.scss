@@ -11,7 +11,7 @@ button {
   text-decoration: none!important;
 }
 
-@keyframes example {
+@keyframes change_color {
   from {background-color: $green;}
   to {background-color: #00cc00;}
 }
@@ -25,11 +25,21 @@ button {
 
 .dot.green {
   background-color: $green;
-  animation-name: example;
+  animation-name: change_color;
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
+
+#search {
+  width: 300px;
+  transition: all .5s;
+}
+
+#search:focus {
+  width: 350px;
+}
+
 
 .dot.grey {
   background-color: #bbb;

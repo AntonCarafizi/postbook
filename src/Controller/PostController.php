@@ -18,7 +18,7 @@ class PostController extends AbstractController
     {
         $search = $request->query->get('search');
 
-        $allPosts = ($search) ? $postRepository->findByTitle(['title' => $search]) : $postRepository->findby([], ['id' => 'DESC']);
+        $allPosts = ($search) ? $postRepository->findByTitleOrKeywords(['search' => $search]) : $postRepository->findby([], ['id' => 'DESC']);
 
         if (!$allPosts) {
             throw $this->createNotFoundException($translator->trans('posts.not.found'));

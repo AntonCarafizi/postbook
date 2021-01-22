@@ -38,6 +38,11 @@ class Post
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $keywords;
+
     public function __construct()
     {
         $date = new \DateTime();
@@ -103,6 +108,18 @@ class Post
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTime();
+    }
+
+    public function getKeywords(): ?string
+    {
+        return $this->keywords;
+    }
+
+    public function setKeywords(?string $keywords): self
+    {
+        $this->keywords = $keywords;
+
+        return $this;
     }
 
 }
