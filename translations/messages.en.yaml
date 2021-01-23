@@ -86,7 +86,9 @@ no.records.found: No records found
 like: Like
 unlike: Unlike
 my.likes: My likes
-search: Search
+search.posts: Search posts
 created.at: Created at
 info: Info
 image.upload: Image upload
+from: From
+to: To

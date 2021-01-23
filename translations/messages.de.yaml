@@ -86,7 +86,9 @@ no.records.found: Keine data gefunden
 like: Ich mag
 unlike: Ich mag nicht
 my.likes: Meine likes
-search: Suchen
+search.posts: Posts suchen
 created.at: Erstellt ab
 info: Info
 image.upload: Bild hochladen
+from: From
+to: To

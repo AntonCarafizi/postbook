@@ -32,20 +32,31 @@ button {
 }
 
 #search {
-  width: 300px;
+  width: 200px;
   transition: all .5s;
 }
 
-#search:focus {
-  width: 350px;
+#date-from, #date-to {
+  width: 100px;
+  transition: all .5s;
 }
 
+#date-from:focus, #date-to:focus {
+  width: 150px;
+}
+
+#search:focus {
+  width: 250px;
+}
 
 .dot.grey {
   background-color: #bbb;
 }
 
-#search-submit,
+#search-submit {
+  color: #fff;
+}
+
 #image-control {
   right: 0px;
 }
