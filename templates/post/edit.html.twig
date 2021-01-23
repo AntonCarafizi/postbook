@@ -5,13 +5,8 @@
 {% block body %}
     <h1>{{ post.title }}</h1>
     <hr class="my-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item">
-                <a href="{{ path('post_index') }}"><i class="fas fa-caret-left mr-2"></i>{% trans %}all.posts{% endtrans %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
-        </ol>
-    </nav>
+    {{ include('template-parts/breadcrumb/post/show.html.twig') }}
+    {{ include('template-parts/alert/post/show.html.twig') }}
     {{ include('post/_form.html.twig', {'button_label': 'update'|trans}) }}
     {{ include('post/_delete_form.html.twig') }}
 {% endblock %}

@@ -8,9 +8,7 @@
 
     {{ include('template-parts/breadcrumb/post/show.html.twig') }}
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success" role="alert">{{ message }}</div>
-    {% endfor %}
+    {{ include('template-parts/alert/post/show.html.twig') }}
 
     <div class="card my-4">
 

@@ -44,6 +44,7 @@ class FavoriteController extends AbstractController
 
     public function new(Request $request, $favorite, ArrayService $arrayService): Response
     {
+        $referer = $request->headers->get('referer');
         $user = $this->getUser();
 
         if (!$user) {
@@ -62,11 +63,12 @@ class FavoriteController extends AbstractController
             $this->addFlash('success', $this->translator->trans('you.successfully.added.favorite'));
             //return $this->json($this->translator->trans('you.successfully.added.favorite'));
         }
-        return $this->redirectToRoute('user_favorites', ['id' => $user->getId()]);
+        return $this->redirect($referer);
     }
 
     public function delete(Request $request, $favorite, ArrayService $arrayService): Response
     {
+        $referer = $request->headers->get('referer');
         $user = $this->getUser();
 
         if (!$user) {
@@ -84,6 +86,6 @@ class FavoriteController extends AbstractController
             $this->addFlash('success', $this->translator->trans('you.successfully.removed.favorite'));
             //return $this->json($this->translator->trans('you.successfully.removed.favorite'));
         }
-        return $this->redirectToRoute('user_favorites', ['id' => $user->getId()]);
+        return $this->redirect($referer);
     }
 }

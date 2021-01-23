@@ -45,6 +45,7 @@ class LikeController extends AbstractController
 
     public function new($like, Request $request, ArrayService $arrayService): Response
     {
+        $referer = $request->headers->get('referer');
         $user = $this->getUser();
         if (!$user) {
             throw $this->createNotFoundException($this->translator->trans('user.not.found'));
@@ -61,11 +62,12 @@ class LikeController extends AbstractController
             $this->addFlash('success', $this->translator->trans('you.successfully.liked.post'));
             //return $this->json($this->translator->trans('you.successfully.liked.post'));
         }
-        return $this->redirectToRoute('user_likes', ['id' => $user->getId()]);
+        return $this->redirect($referer);
     }
 
     public function delete($like, Request $request, ArrayService $arrayService): Response
     {
+        $referer = $request->headers->get('referer');
         $user = $this->getUser();
         if (!$user) {
             throw $this->createNotFoundException($this->translator->trans('user.not.found'));
@@ -82,6 +84,6 @@ class LikeController extends AbstractController
             $this->addFlash('success', $this->translator->trans('you.successfully.unliked.post'));
             //return $this->json($this->translator->trans('you.successfully.unliked.post'));
         }
-        return $this->redirectToRoute('user_likes', ['id' => $user->getId()]);
+        return $this->redirect($referer);
     }
 }

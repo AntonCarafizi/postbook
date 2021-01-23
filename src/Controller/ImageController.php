@@ -43,9 +43,7 @@ class ImageController extends AbstractController
             $itemImages['all'] = array_merge($itemImages['all'], $formImages);
             $user->setImages($itemImages);
             $this->entityManager->flush();
-
-            $this->addFlash('success', $this->translator->trans('you.successfully.uploaded.image'));
-            //return $this->json($this->translator->trans('you.successfully.uploaded.image'));
+            return $this->json($this->translator->trans('you.successfully.uploaded.image'));
         }
 
         return $this->render('user/images/new.html.twig', [
@@ -66,10 +64,10 @@ class ImageController extends AbstractController
         $arrayService->moveElement($images['all'], $image, $image - 1);
         $user->setImages($images);
         $this->entityManager->flush();
-
         $this->addFlash('success', $this->translator->trans('you.successfully.moved.image.up'));
-        //return $this->json($this->translator->trans('you.successfully.moved.image.up'));
 
+        return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
+        //return $this->json($this->translator->trans('you.successfully.moved.image.up'));
     }
 
     public function down(User $user, ArrayService $arrayService, $image): Response
@@ -83,9 +81,10 @@ class ImageController extends AbstractController
         }
         $arrayService->moveElement($images['all'], $image, $image + 1);
         $user->setImages($images);
-        $this->entityManager->flush();
-
+        $this->getDoctrine()->getManager()->flush();
         $this->addFlash('success', $this->translator->trans('you.successfully.moved.image.down'));
+
+        return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
         //return $this->json($this->translator->trans('you.successfully.moved.image.down'));
     }
 
@@ -101,8 +100,9 @@ class ImageController extends AbstractController
         $images['avatar'] = $images['all'][$image];
         $user->setImages($images);
         $this->entityManager->flush();
-
         $this->addFlash('success', $this->translator->trans('you.successfully.selected.avatar'));
+
+        return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
         //return $this->json($this->translator->trans('you.successfully.selected.avatar'));
     }
 
@@ -118,8 +118,9 @@ class ImageController extends AbstractController
         $images['background'] = $images['all'][$image];
         $user->setImages($images);
         $this->entityManager->flush();
-
         $this->addFlash('success', $this->translator->trans('you.successfully.selected.background'));
+
+        return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
         //return $this->json($this->translator->trans('you.successfully.selected.background'));
     }
 
@@ -145,8 +146,8 @@ class ImageController extends AbstractController
             $arrayService->deleteElementByKey($images['all'], $image, 1);
             $user->setImages($images);
             $this->entityManager->flush();
-
             $this->addFlash('success', $this->translator->trans('you.successfully.removed.image'));
+
             //return $this->json($this->translator->trans('you.successfully.removed.image'));
         }
         return $this->redirectToRoute('user_show', ['id' => $user->getId()]);

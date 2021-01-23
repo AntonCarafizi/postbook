@@ -33,12 +33,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarLocaleDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-globe"></i>
-                        {% trans %}language{% endtrans %}
-                    </a>
+                        <i class="fas fa-globe"></i> {% trans %}language{% endtrans %}</a>
                     <div class="dropdown-menu" aria-labelledby="navbarLocaleDropdown">
-                        <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'de'}) }}"><i class="fas fa-language"></i> {% trans %}german{% endtrans %}</a>
-                        <a class="dropdown-item" href="{{ path('homepage', {'_locale' : 'en'}) }}"><i class="fas fa-language"></i> {% trans %}english{% endtrans %}</a>
+                        <a class="dropdown-item{% if app.request.locale == 'de' %} active{% endif %}" href="{{ path('homepage', {'_locale' : 'de'}) }}"><i class="fas fa-language"></i> {% trans %}german{% endtrans %}</a>
+                        <a class="dropdown-item{% if app.request.locale == 'en' %} active{% endif %}" href="{{ path('homepage', {'_locale' : 'en'}) }}"><i class="fas fa-language"></i> {% trans %}english{% endtrans %}</a>
                     </div>
                 </li>
             </ul>
