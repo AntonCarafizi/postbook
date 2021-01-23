@@ -6,6 +6,11 @@
 
     <h1>{% trans %}all.users{% endtrans %}</h1>
     <hr class="my-4">
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">{{ message }}</div>
+    {% endfor %}
+
     {% if users is not empty %}
     <div class="row">
         {% for user in users %}

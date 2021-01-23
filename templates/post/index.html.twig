@@ -6,6 +6,11 @@
 
     <h1>{% trans %}all.posts{% endtrans %}</h1>
     <hr class="my-4">
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">{{ message }}</div>
+    {% endfor %}
+
     {% if posts is not empty %}
         {% for post in posts %}
 

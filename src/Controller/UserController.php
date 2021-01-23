@@ -4,26 +4,34 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\PostRepository;
 use App\Repository\UserRepository;
-use App\Service\ImageService;
-use App\Service\ArrayService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 class UserController extends AbstractController
 {
 
-    public function index(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
+    private $entityManager;
+
+    private $translator;
+
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    {
+        $this->entityManager = $entityManager;
+        $this->translator = $translator;
+    }
+
+    public function index(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
     {
         $allUsers = $userRepository->findBy([], ['id' => 'DESC']);
 
         if (!$allUsers) {
-            throw $this->createNotFoundException($translator->trans('users.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('users.not.found'));
         }
 
         $users = $paginator->paginate(
@@ -36,18 +44,19 @@ class UserController extends AbstractController
     }
 
 
-    public function new(Request $request, TranslatorInterface $translator): Response
+    public function new(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
-            return $this->json($translator->trans('user.successfully.created'));
+            $this->addFlash('success', $this->translator->trans('user.successfully.created'));
+            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+            //return $this->json($this->translator->trans('user.successfully.created'));
         }
 
         return $this->render('user/new.html.twig', [
@@ -57,19 +66,19 @@ class UserController extends AbstractController
     }
 
 
-    public function show($id, UserRepository $userRepository, TranslatorInterface $translator): Response
+    public function show($id, UserRepository $userRepository): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
 
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
 
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
 
-    public function edit(Request $request, $id, UserRepository $userRepository, TranslatorInterface $translator): Response
+    public function edit(Request $request, $id, UserRepository $userRepository): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
         // check for "edit" access
@@ -81,8 +90,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-            return $this->json($translator->trans('user.successfully.updated'));
+            $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('user.successfully.updated'));
+            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+            //return $this->json($this->translator->trans('user.successfully.updated'));
         }
 
         return $this->render('user/edit.html.twig', [
@@ -92,29 +104,29 @@ class UserController extends AbstractController
     }
 
 
-    public function delete(Request $request, User $user, TranslatorInterface $translator): Response
+    public function delete(Request $request, User $user): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
-            $entityManager->flush();
-            return $this->json($translator->trans('user.successfully.deleted'));
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
+            $this->addFlash('success', $this->translator->trans('user.successfully.deleted'));
+            //return $this->json($this->translator->trans('user.successfully.deleted'));
         }
         return $this->redirectToRoute('user_index');
     }
 
-    public function showPosts(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
+    public function showPosts(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
 
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
 
         $userPosts = $user->getPosts();
 
         if (!$userPosts) {
-            throw $this->createNotFoundException($translator->trans('posts.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('posts.not.found'));
         }
 
         $posts = $paginator->paginate(

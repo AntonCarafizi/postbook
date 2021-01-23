@@ -10,18 +10,30 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 class PostController extends AbstractController
 {
 
-    public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
+    private $entityManager;
+
+    private $translator;
+
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    {
+        $this->entityManager = $entityManager;
+        $this->translator = $translator;
+    }
+
+    public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
     {
         $search = $request->query->get('search');
 
         $allPosts = ($search) ? $postRepository->findByTitleOrKeywords(['search' => $search]) : $postRepository->findby([], ['id' => 'DESC']);
 
         if (!$allPosts) {
-            throw $this->createNotFoundException($translator->trans('posts.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('posts.not.found'));
         }
 
         $posts = $paginator->paginate(
@@ -33,7 +45,7 @@ class PostController extends AbstractController
         return $this->render('post/index.html.twig', ['posts' => $posts]);
     }
 
-    public function new(Request $request, TranslatorInterface $translator): Response
+    public function new(Request $request): Response
     {
         $post = new Post();
         $user = $this->getUser();
@@ -42,12 +54,12 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->addPost($post);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($post);
-            $entityManager->flush();
+            $this->entityManager->persist($post);
+            $this->entityManager->flush();
 
-            return $this->json($translator->trans('post.successfully.created'));
-            //return $this->redirectToRoute('post_index');
+            //return $this->json($this->translator->trans('post.successfully.created'));
+            $this->addFlash('success', $this->translator->trans('post.successfully.created'));
+            return $this->redirectToRoute('post_show', ['id' => $post->getId()]);
         }
 
         return $this->render('post/new.html.twig', [
@@ -56,16 +68,16 @@ class PostController extends AbstractController
         ]);
     }
 
-    public function show(Post $post, TranslatorInterface $translator): Response
+    public function show(Post $post): Response
     {
         if (!$post) {
-            throw $this->createNotFoundException($translator->trans('post.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('post.not.found'));
         }
 
         return $this->render('post/show.html.twig', ['post' => $post]);
     }
 
-    public function edit(Request $request, TranslatorInterface $translator, Post $post): Response
+    public function edit(Request $request, Post $post): Response
     {
         $this->denyAccessUnlessGranted('edit', $post);
         $form = $this->createForm(PostType::class, $post);
@@ -74,7 +86,9 @@ class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->json($translator->trans('post.successfully.updated'));
+            $this->addFlash('success', $this->translator->trans('post.successfully.updated'));
+            return $this->redirectToRoute('post_show', ['id' => $post->getId()]);
+            //return $this->json($this->translator->trans('post.successfully.updated'));
         }
 
         return $this->render('post/edit.html.twig', [
@@ -83,14 +97,15 @@ class PostController extends AbstractController
         ]);
     }
 
-    public function delete(Request $request, Post $post, TranslatorInterface $translator): Response
+    public function delete(Request $request, Post $post): Response
     {
         $this->denyAccessUnlessGranted('edit', $post);
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($post);
-            $entityManager->flush();
-            return $this->json($translator->trans('post.successfully.deleted'));
+            $this->entityManager->remove($post);
+            $this->entityManager->flush();
+            $this->addFlash('success', $this->translator->trans('post.successfully.deleted'));
+
+            //return $this->json($this->translator->trans('post.successfully.deleted'));
         }
 
         return $this->redirectToRoute('post_index');

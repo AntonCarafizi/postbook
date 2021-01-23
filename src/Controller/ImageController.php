@@ -11,18 +11,29 @@ use App\Service\ImageService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ImageController extends AbstractController
 {
-    public function new(Request $request, $id, UserRepository $userRepository, ImageService $imageService, TranslatorInterface $translator): Response
+    private $entityManager;
+
+    private $translator;
+
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    {
+        $this->entityManager = $entityManager;
+        $this->translator = $translator;
+    }
+
+    public function new(Request $request, $id, UserRepository $userRepository, ImageService $imageService): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         $itemImages = $user->getImages();
         if (!$itemImages) {
-            throw $this->createNotFoundException($translator->trans('images.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('images.not.found'));
         }
         $form = $this->createForm(ImageType::class, $user);
         $form->handleRequest($request);
@@ -31,8 +42,10 @@ class ImageController extends AbstractController
             $formImages = $imageService->uploadFiles($imageFiles);
             $itemImages['all'] = array_merge($itemImages['all'], $formImages);
             $user->setImages($itemImages);
-            $this->getDoctrine()->getManager()->flush();
-            return $this->json($translator->trans('you.successfully.uploaded.image'));
+            $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('you.successfully.uploaded.image'));
+            //return $this->json($this->translator->trans('you.successfully.uploaded.image'));
         }
 
         return $this->render('user/images/new.html.twig', [
@@ -41,76 +54,84 @@ class ImageController extends AbstractController
         ]);
     }
 
-    public function up(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
+    public function up(User $user, ArrayService $arrayService, $image): Response
     {
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         $images = $user->getImages();
         if (!$images) {
-            throw $this->createNotFoundException($translator->trans('images.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('images.not.found'));
         }
         $arrayService->moveElement($images['all'], $image, $image - 1);
         $user->setImages($images);
-        $this->getDoctrine()->getManager()->flush();
-        return $this->json($translator->trans('you.successfully.moved.image.up'));
+        $this->entityManager->flush();
+
+        $this->addFlash('success', $this->translator->trans('you.successfully.moved.image.up'));
+        //return $this->json($this->translator->trans('you.successfully.moved.image.up'));
 
     }
 
-    public function down(User $user, ArrayService $arrayService, $image, TranslatorInterface $translator): Response
+    public function down(User $user, ArrayService $arrayService, $image): Response
     {
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         $images = $user->getImages();
         if (!$images) {
-            throw $this->createNotFoundException($translator->trans('images.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('images.not.found'));
         }
         $arrayService->moveElement($images['all'], $image, $image + 1);
         $user->setImages($images);
-        $this->getDoctrine()->getManager()->flush();
-        return $this->json($translator->trans('you.successfully.moved.image.down'));
+        $this->entityManager->flush();
+
+        $this->addFlash('success', $this->translator->trans('you.successfully.moved.image.down'));
+        //return $this->json($this->translator->trans('you.successfully.moved.image.down'));
     }
 
-    public function main(User $user, $image, TranslatorInterface $translator): Response
+    public function main(User $user, $image): Response
     {
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         $images = $user->getImages();
         if (!$images) {
-            throw $this->createNotFoundException($translator->trans('images.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('images.not.found'));
         }
         $images['avatar'] = $images['all'][$image];
         $user->setImages($images);
-        $this->getDoctrine()->getManager()->flush();
-        return $this->json($translator->trans('you.successfully.selected.avatar'));
+        $this->entityManager->flush();
+
+        $this->addFlash('success', $this->translator->trans('you.successfully.selected.avatar'));
+        //return $this->json($this->translator->trans('you.successfully.selected.avatar'));
     }
 
-    public function background(User $user, $image, TranslatorInterface $translator): Response
+    public function background(User $user, $image): Response
     {
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         $images = $user->getImages();
         if (!$images) {
-            throw $this->createNotFoundException($translator->trans('images.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('images.not.found'));
         }
         $images['background'] = $images['all'][$image];
         $user->setImages($images);
-        $this->getDoctrine()->getManager()->flush();
-        return $this->json($translator->trans('you.successfully.selected.background'));
+        $this->entityManager->flush();
+
+        $this->addFlash('success', $this->translator->trans('you.successfully.selected.background'));
+        //return $this->json($this->translator->trans('you.successfully.selected.background'));
     }
 
-    public function delete(Request $request, User $user, ArrayService $arrayService, ImageService $imageService, $image, TranslatorInterface $translator): Response
+    public function delete(Request $request, User $user, ArrayService $arrayService, ImageService $imageService, $image): Response
     {
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         if ($this->isCsrfTokenValid('delete_image'.$image, $request->request->get('_token'))) {
             $images = $user->getImages();
             if (!$images) {
-                throw $this->createNotFoundException($translator->trans('images.not.found'));
+                throw $this->createNotFoundException($this->translator->trans('images.not.found'));
             }
             if ($images['all'][$image] == $images['background']) {
                 $images['background'] = null;
@@ -123,8 +144,10 @@ class ImageController extends AbstractController
             $imageService->deleteFile($file);
             $arrayService->deleteElementByKey($images['all'], $image, 1);
             $user->setImages($images);
-            $this->getDoctrine()->getManager()->flush();
-            return $this->json($translator->trans('you.successfully.removed.image'));
+            $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('you.successfully.removed.image'));
+            //return $this->json($this->translator->trans('you.successfully.removed.image'));
         }
         return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
     }

@@ -9,6 +9,10 @@
 
     {{ include('template-parts/breadcrumb/user/show.html.twig') }}
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">{{ message }}</div>
+    {% endfor %}
+
     <div class="card my-3 p-0 mx-auto">
 
         {{ include('template-parts/card-img-top/user/show.html.twig') }}

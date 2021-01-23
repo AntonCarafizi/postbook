@@ -9,18 +9,30 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 class FavoriteController extends AbstractController
 {
-    public function show(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator, TranslatorInterface $translator): Response
+    private $entityManager;
+
+    private $translator;
+
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    {
+        $this->entityManager = $entityManager;
+        $this->translator = $translator;
+    }
+
+    public function show(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         $favorites = $user->getFavorites();
         if (!$favorites) {
-            throw $this->createNotFoundException($translator->trans('favorites.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('favorites.not.found'));
         }
         $users = $paginator->paginate(
             $favorites = $userRepository->findBy(['id' => $favorites], ['id' => 'DESC']),
@@ -30,44 +42,47 @@ class FavoriteController extends AbstractController
         return $this->render('user/index.html.twig', ['users' => $users]);
     }
 
-    public function new(Request $request, $favorite, ArrayService $arrayService, TranslatorInterface $translator): Response
+    public function new(Request $request, $favorite, ArrayService $arrayService): Response
     {
         $user = $this->getUser();
 
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
 
         if ($this->isCsrfTokenValid('add_favorite'.$favorite, $request->request->get('_token'))) {
             $favorites = $user->getFavorites();
             if (!$favorites) {
-                throw $this->createNotFoundException($translator->trans('favorites.not.found'));
+                throw $this->createNotFoundException($this->translator->trans('favorites.not.found'));
             }
             $arrayService->addElement($favorites, $favorite);
             $user->setFavorites($favorites);
-            $this->getDoctrine()->getManager()->flush();
-            return $this->json($translator->trans('you.successfully.added.favorite'));
+            $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('you.successfully.added.favorite'));
+            //return $this->json($this->translator->trans('you.successfully.added.favorite'));
         }
         return $this->redirectToRoute('user_favorites', ['id' => $user->getId()]);
     }
 
-    public function delete(Request $request, $favorite, ArrayService $arrayService, TranslatorInterface $translator): Response
+    public function delete(Request $request, $favorite, ArrayService $arrayService): Response
     {
         $user = $this->getUser();
 
         if (!$user) {
-            throw $this->createNotFoundException($translator->trans('user.not.found'));
+            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
 
         if ($this->isCsrfTokenValid('delete_favorite'.$favorite, $request->request->get('_token'))) {
             $favorites = $user->getFavorites();
             if (!$favorites) {
-                throw $this->createNotFoundException($translator->trans('favorites.not.found'));
+                throw $this->createNotFoundException($this->translator->trans('favorites.not.found'));
             }
             $arrayService->deleteElementByValue($favorites, $favorite);
             $user->setFavorites($favorites);
-            $this->getDoctrine()->getManager()->flush();
-            return $this->json($translator->trans('you.successfully.removed.favorite'));
+            $this->entityManager->flush();
+            $this->addFlash('success', $this->translator->trans('you.successfully.removed.favorite'));
+            //return $this->json($this->translator->trans('you.successfully.removed.favorite'));
         }
         return $this->redirectToRoute('user_favorites', ['id' => $user->getId()]);
     }
