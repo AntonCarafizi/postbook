@@ -32,21 +32,12 @@ button {
 }
 
 #search {
-  width: 200px;
-  transition: all .5s;
-}
-
-#date-from, #date-to {
-  width: 100px;
-  transition: all .5s;
-}
-
-#date-from:focus, #date-to:focus {
-  width: 150px;
-}
-
-#search:focus {
   width: 250px;
+}
+
+input[type="date"]:before{
+  content:attr(placeholder);
+  margin-right: 5px;
 }
 
 .dot.grey {

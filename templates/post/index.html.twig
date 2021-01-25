@@ -7,25 +7,15 @@
     <h1>{% trans %}all.posts{% endtrans %}</h1>
     <hr class="my-4">
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success" role="alert">{{ message }}</div>
-    {% endfor %}
+    {{ include('template-parts/alert/post/index.html.twig') }}
 
     {% if posts is not empty %}
         {% for post in posts %}
-
             <div class="card my-4">
-
                 {{ include('template-parts/card-header/post/index.html.twig') }}
-
                 {{ include('template-parts/card-body/post/index.html.twig') }}
-
-                {% if app.user %}
-                    {{ include('template-parts/card-footer/post/index.html.twig') }}
-                {% endif %}
-
+                {{ include('template-parts/card-footer/post/index.html.twig') }}
             </div>
-
         {% endfor %}
         <hr class="my-4">
         {{ include('template-parts/pagination/post/index.html.twig') }}

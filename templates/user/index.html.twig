@@ -7,25 +7,17 @@
     <h1>{% trans %}all.users{% endtrans %}</h1>
     <hr class="my-4">
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success" role="alert">{{ message }}</div>
-    {% endfor %}
+    {{ include('template-parts/alert/user/index.html.twig') }}
 
     {% if users is not empty %}
     <div class="row">
         {% for user in users %}
         <div class="col-sm-12 col-md-6 col-lg-3">
             <div class="card my-3 mx-auto">
-
                 {{ include('template-parts/card-img-top/user/index.html.twig') }}
-
                 {{ include('template-parts/card-header/user/index.html.twig') }}
-
                 {{ include('template-parts/card-body/user/index.html.twig') }}
-
-                {% if app.user %}
-                    {{ include('template-parts/card-footer/user/index.html.twig') }}
-                {% endif %}
+                {{ include('template-parts/card-footer/user/index.html.twig') }}
             </div>
         </div>
         {% endfor %}

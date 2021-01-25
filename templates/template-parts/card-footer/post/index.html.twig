@@ -1,18 +1,19 @@
 <div class="card-footer d-flex justify-content-between align-items-center">
     <div class="d-flex justify-content-between align-items-center">
-        {% if app.user.id == post.user.id %}
-            <a class="btn btn-link btn-sm" role="button" href="{{ path('post_edit', {'id': post.id}) }}">
-                <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
-            </a>
-            {{ include('post/_delete_form.html.twig') }}
-        {% endif %}
+        {% if app.user %}
+            {% if app.user.id == post.user.id %}
+                <a class="btn btn-link btn-sm" role="button" href="{{ path('post_edit', {'id': post.id}) }}">
+                    <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
+                </a>
+                {{ include('post/_delete_form.html.twig') }}
+            {% endif %}
 
-        {% if post.id in app.user.likes %}
-            {{ include('user/likes/_delete_form.html.twig') }}
-        {% else %}
-            {{ include('user/likes/_form.html.twig') }}
+            {% if post.id in app.user.likes %}
+                {{ include('user/likes/_delete_form.html.twig') }}
+            {% else %}
+                {{ include('user/likes/_form.html.twig') }}
+            {% endif %}
         {% endif %}
-
     </div>
     <span class="card-subtitle font-italic text-black-50 text-sm-right">{% trans %}created.at{% endtrans %} {{ post.createdAt ? post.createdAt|date() : '' }}</span>
 </div>
