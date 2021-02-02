@@ -28,12 +28,11 @@ class PostController extends AbstractController
 
     public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
     {
-        $search = ($request->query->get('search')) ? $request->query->get('search') : '';
-        $from = ($request->query->get('from')) ? $request->query->get('from') : '';
+        $search = $request->query->get('search');
+        $from = $request->query->get('from');
         $to = ($request->query->get('to')) ? $request->query->get('to') : new \DateTime();
 
-        $allPosts = ($search or $from or $to) ? $postRepository
-            ->findByFilter(['search' => $search, 'from' => $from, 'to' => $to]) : $postRepository->findby([], ['id' => 'DESC']);
+        $allPosts = $postRepository->findByFilter(['search' => $search, 'from' => $from, 'to' => $to]);
 
         $posts = $paginator->paginate(
             $allPosts,

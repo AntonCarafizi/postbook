@@ -25,17 +25,48 @@ class PostRepository extends ServiceEntityRepository
 
     public function findByFilter($value)
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.createdAt BETWEEN :from AND :to')
-            ->andWhere('p.title LIKE :search')
-            ->orWhere('p.keywords LIKE :search')
-            ->setParameter('search', '%'.$value['search'].'%')
-            ->setParameter('from', $value['from'])
-            ->setParameter('to', $value['to'])
-            ->orderBy('p.id', 'ASC')
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('1 = 1');
+        if (!empty($value['search'])) {
+            $queryBuilder
+                ->setParameter('search', '%'.$value['search'].'%')
+                ->andWhere('p.title LIKE :search')
+                ->orWhere('p.keywords LIKE :search');
+        }
+
+        if (!empty($value['from']) && empty($value['to'])) {
+            $queryBuilder
+                ->setParameter('from', $value['from'])
+                ->andWhere('p.createdAt >= :from');
+        }
+
+        if (!empty($value['to']) && empty($value['from'])) {
+            $queryBuilder
+                ->setParameter('to', $value['to'])
+                ->andWhere('p.createdAt <= :to');
+
+        }
+
+        if (!empty($value['from']) && !empty($value['to'])) {
+
+            $queryBuilder
+                ->setParameter('from', $value['from'])
+                ->setParameter('to', $value['to']);
+            if ($value['from'] == $value['to']) {
+                $queryBuilder->andWhere('p.createdAt = :from');
+            }
+
+            if ($value['from'] != $value['to']) {
+                $queryBuilder->andWhere('p.createdAt BETWEEN :from AND :to');
+            }
+        }
+
+        $queryBuilder->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
         ;
+
+        return $queryBuilder;
     }
 
 
