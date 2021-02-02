@@ -10,6 +10,8 @@ parameters:
     app_locales: en|de|fr
     posts_per_page: 5
     users_per_page: 5
+    date_format: 'Y-m-d'
+
 services:
     # default configuration for services in *this* file
     _defaults:

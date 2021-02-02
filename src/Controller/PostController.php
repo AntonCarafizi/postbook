@@ -30,9 +30,9 @@ class PostController extends AbstractController
     {
         $search = $request->query->get('search');
         $from = $request->query->get('from');
-        $to = ($request->query->get('to')) ? $request->query->get('to') : new \DateTime();
+        $to = $request->query->get('to');
 
-        $allPosts = $postRepository->findByFilter(['search' => $search, 'from' => $from, 'to' => $to]);
+        $allPosts = $postRepository->findByFilter(['search' => $search, 'from' => $from, 'to' => $to], 'DESC', $this->getParameter('date_format'));
 
         $posts = $paginator->paginate(
             $allPosts,

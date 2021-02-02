@@ -14,59 +14,71 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository
 {
+
+    private $queryBuilder;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);
+        $this->queryBuilder = $this->createQueryBuilder('p');
     }
 
     // /**
     //  * @return Post[] Returns an array of Post objects
     //  */
 
-    public function findByFilter($value)
+    /**
+     * @param $value
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findByFilter($value, $order = 'DESC', $dateFormat)
     {
-        $queryBuilder = $this->createQueryBuilder('p')
-            ->where('1 = 1');
+        $this->queryBuilder->where('1 = 1');
         if (!empty($value['search'])) {
-            $queryBuilder
+            $this->queryBuilder
                 ->setParameter('search', '%'.$value['search'].'%')
                 ->andWhere('p.title LIKE :search')
                 ->orWhere('p.keywords LIKE :search');
         }
 
         if (!empty($value['from']) && empty($value['to'])) {
-            $queryBuilder
+            $this->queryBuilder
                 ->setParameter('from', $value['from'])
                 ->andWhere('p.createdAt >= :from');
         }
 
         if (!empty($value['to']) && empty($value['from'])) {
-            $queryBuilder
+            $this->queryBuilder
                 ->setParameter('to', $value['to'])
                 ->andWhere('p.createdAt <= :to');
 
         }
 
         if (!empty($value['from']) && !empty($value['to'])) {
+            $date = \DateTime::createFromFormat($dateFormat, $value['to']);
+            $days = $date->diff(new \DateTime())->days;
 
-            $queryBuilder
-                ->setParameter('from', $value['from'])
-                ->setParameter('to', $value['to']);
+            if ($days == 0) {
+                $value['to'] = new \DateTime();
+            }
+
+            $this->queryBuilder
+                ->setParameter('from', $value['from']);
             if ($value['from'] == $value['to']) {
-                $queryBuilder->andWhere('p.createdAt = :from');
+                $this->queryBuilder->andWhere('p.createdAt = :from');
             }
 
             if ($value['from'] != $value['to']) {
-                $queryBuilder->andWhere('p.createdAt BETWEEN :from AND :to');
+                $this->queryBuilder->setParameter('to', $value['to']);
+                $this->queryBuilder->andWhere('p.createdAt BETWEEN :from AND :to');
             }
         }
 
-        $queryBuilder->orderBy('p.createdAt', 'DESC')
+        $this->queryBuilder->orderBy('p.createdAt', $order)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
 
-        return $queryBuilder;
+        return $this->queryBuilder;
     }
 
 
@@ -82,4 +94,5 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }
