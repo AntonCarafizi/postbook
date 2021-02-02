@@ -25,6 +25,10 @@ require('@fancyapps/fancybox');
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');
 
+$('#date-from').change(function(){
+   $('#date-to').attr('min', $(this).val());
+});
+
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
     $('.fancybox').fancybox();
