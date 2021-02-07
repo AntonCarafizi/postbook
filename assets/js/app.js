@@ -32,5 +32,6 @@ $('#date-from').change(function(){
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
     $('.fancybox').fancybox();
+    $('#date-to').attr('min', $('#date-from').val());
 });
 

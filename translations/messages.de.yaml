@@ -92,3 +92,6 @@ info: Info
 image.upload: Bild hochladen
 from: From
 to: To
+_homepage.title: Hallo Welt!
+_homepage.subtitle: Dies ist ein einfaches soziales Netzwerkprojekt.
+_homepage.description: Es ist mit dem Symfony 5 PHP-Framework codiert und verfügt über viele nützliche Funktionen. Schau dir das an!

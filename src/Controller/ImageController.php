@@ -43,7 +43,10 @@ class ImageController extends AbstractController
             $itemImages['all'] = array_merge($itemImages['all'], $formImages);
             $user->setImages($itemImages);
             $this->entityManager->flush();
-            return $this->json($this->translator->trans('you.successfully.uploaded.image'));
+            $this->addFlash('success', $this->translator->trans('user.successfully.updated'));
+
+            return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
+            //return $this->json($this->translator->trans('you.successfully.uploaded.image'));
         }
 
         return $this->render('user/images/new.html.twig', [
@@ -52,7 +55,7 @@ class ImageController extends AbstractController
         ]);
     }
 
-    public function up(User $user, ArrayService $arrayService, $image): Response
+    public function move(User $user, ArrayService $arrayService, $image, $dir): Response
     {
         if (!$user) {
             throw $this->createNotFoundException($this->translator->trans('user.not.found'));
@@ -61,31 +64,16 @@ class ImageController extends AbstractController
         if (!$images) {
             throw $this->createNotFoundException($this->translator->trans('images.not.found'));
         }
-        $arrayService->moveElement($images['all'], $image, $image - 1);
+
+        $newIndex = ($dir == 'up') ? $image - 1 : $image + 1;
+
+        $arrayService->moveElement($images['all'], $image, $newIndex);
         $user->setImages($images);
         $this->entityManager->flush();
-        $this->addFlash('success', $this->translator->trans('you.successfully.moved.image.up'));
+        $this->addFlash('success', $this->translator->trans('you.successfully.moved.image.' . $dir));
 
         return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
         //return $this->json($this->translator->trans('you.successfully.moved.image.up'));
-    }
-
-    public function down(User $user, ArrayService $arrayService, $image): Response
-    {
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
-        $images = $user->getImages();
-        if (!$images) {
-            throw $this->createNotFoundException($this->translator->trans('images.not.found'));
-        }
-        $arrayService->moveElement($images['all'], $image, $image + 1);
-        $user->setImages($images);
-        $this->getDoctrine()->getManager()->flush();
-        $this->addFlash('success', $this->translator->trans('you.successfully.moved.image.down'));
-
-        return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
-        //return $this->json($this->translator->trans('you.successfully.moved.image.down'));
     }
 
     public function main(User $user, $image): Response

@@ -135,23 +135,15 @@ image_delete:
         id: '\d+'
         image: '\d+'
 
-image_up:
-    path: /{_locale}/user/{id}/image/{image}/up
-    controller: App\Controller\ImageController::up
+image_move:
+    path: /{_locale}/user/{id}/image/{image}/move/{dir}
+    controller: App\Controller\ImageController::move
     methods: GET
     requirements:
         _locale: '%app_locales%'
         id: '\d+'
         image: '\d+'
-
-image_down:
-    path: /{_locale}/user/{id}/image/{image}/down
-    controller: App\Controller\ImageController::down
-    methods: GET
-    requirements:
-        _locale: '%app_locales%'
-        id: '\d+'
-        image: '\d+'
+        dir: up|down
 
 image_main:
     path: /{_locale}/user/{id}/image/{image}/main

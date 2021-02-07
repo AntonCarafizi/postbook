@@ -5,10 +5,10 @@
 {% block body %}
 
 <div class="jumbotron bg-white">
-    <h1 class="display-4">Hello, world!</h1>
-    <p class="lead">This is a simple social network project.</p>
+    <h1 class="display-4">{% trans %}_homepage.title{% endtrans %}</h1>
+    <p class="lead">{% trans %}_homepage.subtitle{% endtrans %}</p>
     <hr class="my-4">
-    <p>It is coded with Symfony 5 PHP framework and has many useful features. Check this out!</p>
+    <p>{% trans %}_homepage.description{% endtrans %}</p>
     <hr class="my-4">
     <a class="btn btn-primary btn-lg" href="{{ path('post_index') }}" role="button">{% trans %}check.posts{% endtrans %}</a>
     <a class="btn btn-primary btn-lg" href="{{ path('user_index') }}" role="button">{% trans %}check.users{% endtrans %}</a>

@@ -9,12 +9,13 @@
 {% if key != 0 %}
     <a class="btn btn-link btn-sm text-light"
        title="Move image up"
-       href="{{ path('image_up', {'id': user.id, 'image': key}) }}"><i class="fas fa-angle-up"></i></a>
+       href="{{ path('image_move', {'id': user.id, 'image': key, 'dir': 'up'}) }}"><i class="fas fa-angle-up"></i></a>
 {% endif %}
 
+{% if key < user.images['all']|length - 1 %}
 <a class="btn btn-link btn-sm text-light"
    title="Move image down"
-   href="{{ path('image_down', {'id': user.id, 'image': key}) }}"><i class="fas fa-angle-down"></i></a>
-
+   href="{{ path('image_move', {'id': user.id, 'image': key, 'dir': 'down'}) }}"><i class="fas fa-angle-down"></i></a>
+{% endif %}
 
 {{ include('user/images/_delete_form.html.twig') }}

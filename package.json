@@ -1,14 +1,7 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.30.0",
-        "bootstrap": "^4.5.2",
-        "core-js": "^3.0.0",
         "jquery": "^3.5.1",
-        "node-sass": "^4.14.1",
-        "popper.js": "^1.16.1",
-        "regenerator-runtime": "^0.13.2",
-        "sass-loader": "^8.0.0",
-        "webpack-notifier": "^1.6.0"
+        "regenerator-runtime": "^0.13.2"
     },
     "license": "UNLICENSED",
     "private": true,
@@ -19,9 +12,25 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@babel/core": "^7.12.13",
         "@fancyapps/fancybox": "^3.5.7",
         "@fortawesome/fontawesome-free": "^5.15.0",
+        "@symfony/webpack-encore": "^1.0.4",
+        "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
+        "@vue/babel-preset-jsx": "^1.2.4",
+        "babel-core": "^6.26.3",
+        "bootstrap": "^4.6.0",
+        "core-js": "^3",
+        "css-loader": "^5.0.1",
         "foundation": "^4.2.1-1",
-        "lightbox2": "^2.11.3"
+        "lightbox2": "^2.11.3",
+        "node-sass": "^5.0.0",
+        "popper.js": "^1.16.1",
+        "sass-loader": "^11.0.0",
+        "vue": "^2.6.12",
+        "vue-loader": "^15.9.6",
+        "vue-template-compiler": "^2.6.12",
+        "webpack": "^5.21.1",
+        "webpack-notifier": "^1.13.0"
     }
 }

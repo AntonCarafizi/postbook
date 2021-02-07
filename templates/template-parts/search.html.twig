@@ -1,9 +1,9 @@
 <form method="get" action="{{ path('post_index') }}" class="form-inline my-2 my-lg-0 position-relative">
     <input id="search" class="form-control mr-2" type="search" name="search" placeholder="{% trans %}search.posts{% endtrans %}" aria-label="search"
            value="{{ app.request.get('search') }}">
-    <input id="date-from" class="form-control mr-2" type="date" name="from" max="{{ "now"|date("Y-d-m") }}" placeholder="{% trans %}from{% endtrans %}" aria-label="from"
+    <input id="date-from" class="form-control mr-2" type="date" name="from" max="{{ "now"|date(date_format) }}" placeholder="{% trans %}from{% endtrans %}" aria-label="from"
            value="{{ app.request.get('from') }}">
-    <input id="date-to" class="form-control mr-2" type="date" name="to" max="{{ "now"|date("Y-d-m") }}" placeholder="{% trans %}to{% endtrans %}" aria-label="to"
+    <input id="date-to" class="form-control mr-2" type="date" name="to" max="{{ "now"|date(date_format) }}" placeholder="{% trans %}to{% endtrans %}" aria-label="to"
            value="{{ app.request.get('to') }}">
     <button id="search-submit" class="btn text-light" type="submit">
         <i class="fas fa-search"></i>
