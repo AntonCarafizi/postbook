@@ -4,6 +4,14 @@
     </a>
     <div class="d-flex align-content-between align-items-center">
         <div class="d-flex flex-column align-items-end">
+            {% if post.user.lastLogin %}
+                {% if date('now').diff((date(post.user.lastLogin))).format('%h') == 0 and
+                date('now').diff((date(post.user.lastLogin))).format('%i') <= app.session.metadataBag.getLifetime %}
+                    <span class="dot green position-absolute"></span>
+                {% else %}
+                    <span class="dot grey position-absolute"></span>
+                {% endif %}
+            {% endif %}
             <a class="card-subtitle" href="{{ path('user_show', {'id': post.user.id}) }}">
                 {% if post.user.images['avatar'] is not null %}
                     <img class="rounded-circle"

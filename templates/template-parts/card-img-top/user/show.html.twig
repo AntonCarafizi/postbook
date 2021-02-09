@@ -8,7 +8,7 @@
     <div id="user-avatar" class="position-absolute">
     {% if user.lastLogin %}
         {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
-        date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
+        date('now').diff((date(user.lastLogin))).format('%i') <= app.session.metadataBag.getLifetime %}
             <span class="dot green position-absolute"></span>
         {% else %}
             <span class="dot grey position-absolute"></span>
