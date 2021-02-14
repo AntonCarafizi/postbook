@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Service\JsonService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+
 
 
 class PostController extends AbstractController
@@ -26,7 +29,7 @@ class PostController extends AbstractController
         $this->translator = $translator;
     }
 
-    public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
+    public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator, JsonService $jsonService): Response
     {
         $search = $request->query->get('search');
         $from = $request->query->get('from');
@@ -35,12 +38,18 @@ class PostController extends AbstractController
         $allPosts = $postRepository->findByFilter(['search' => $search, 'from' => $from, 'to' => $to], 'DESC', $this->getParameter('date_format'));
 
         $posts = $paginator->paginate(
-            $allPosts,
-            $request->query->getInt('page', $page),
-            $this->getParameter('posts_per_page')
+        $allPosts,
+        $request->query->getInt('page', $page),
+        $this->getParameter('posts_per_page')
         );
 
-        return $this->render('post/index.html.twig', ['posts' => $posts]);
+
+        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
+            $response = $jsonService->convert($posts);
+            return new JsonResponse($response, Response::HTTP_OK, [], true);
+        } else {
+            return $this->render('post/index.html.twig', ['posts' => $posts]);
+        }
     }
 
     public function new(Request $request): Response
