@@ -1,5 +1,7 @@
 {% set avatar = (user.images['avatar'] is not null) ? user.images['avatar'] : 'no_image' %}
 {% set background = (user.images['background'] is not null) ? user.images['background'] : 'no_image' %}
+{% set current_timestamp = date().timestamp %}
+{% set time_logged = current_timestamp - user.lastLogin %}
 
 <div class="position-relative">
     <img class="card-img-top" src="{{ asset('media/image/' ~ background ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
@@ -7,8 +9,7 @@
          title="{{ user.firstname }} {{ user.lastname }}">
     <div id="user-avatar" class="position-absolute">
     {% if user.lastLogin %}
-        {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
-        date('now').diff((date(user.lastLogin))).format('%i') <= app.session.metadataBag.getLifetime %}
+        {% if time_logged <= app.session.metadataBag.getLifetime %}
             <span class="dot green position-absolute"></span>
         {% else %}
             <span class="dot grey position-absolute"></span>

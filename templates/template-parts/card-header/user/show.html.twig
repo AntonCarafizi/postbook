@@ -1,8 +1,10 @@
+{% set current_timestamp = date().timestamp %}
+{% set time_logged = current_timestamp - user.lastLogin %}
+
 <div class="card-header" href="{{ path('user_show', {'id': user.id}) }}">
     <h5 class="card-link">{{ user.firstname }} {{ user.lastname }}</h5>
     {% if user.lastLogin %}
-        {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
-        date('now').diff((date(user.lastLogin))).format('%i') < 10 %}
+        {% if time_logged <= app.session.metadataBag.getLifetime %}
             <span class="font-italic text-small">online</span>
         {% else %}
             <span class="font-italic text-small">{% trans %}online.at{% endtrans %} {{ user.lastLogin|date("d M H:i") }}</span>

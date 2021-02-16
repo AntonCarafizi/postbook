@@ -20,7 +20,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarUsersDropdown">
                             <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}all{% endtrans %}</a>
-                            <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}online{% endtrans %}</a>
+                            <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale, 'status' : 'online'}) }}">{% trans %}online{% endtrans %}</a>
                             <a class="dropdown-item" href="{{ path('user_index', {'_locale' : app.request.locale}) }}">{% trans %}new{% endtrans %}</a>
                         </div>
                     </li>

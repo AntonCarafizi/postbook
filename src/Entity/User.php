@@ -79,7 +79,7 @@ class User implements UserInterface
     private $posts;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $lastLogin;
 
@@ -290,12 +290,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getLastLogin(): ?\DateTimeInterface
+    public function getLastLogin(): ?int
     {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?\DateTimeInterface $lastLogin): self
+    public function setLastLogin(int $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
 

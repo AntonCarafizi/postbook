@@ -31,9 +31,7 @@ class LikeController extends AbstractController
             throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         $likes = $user->getLikes();
-        if (!$likes) {
-            throw $this->createNotFoundException($this->translator->trans('likes.not.found'));
-        }
+
         $posts = $paginator->paginate(
             $likes = $postRepository->findBy(['id' => $likes], ['id' => 'DESC']),
             $request->query->getInt('page', $page),

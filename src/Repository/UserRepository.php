@@ -20,6 +20,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+
     }
 
     /**
@@ -39,19 +40,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findOnline($cookieLifetime, $currentTimestamp)
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
+            ->where(':current_timestamp - u.lastLogin <= :cookie_lifetime ')
+            ->setParameter('cookie_lifetime', $cookieLifetime)
+            ->setParameter('current_timestamp', $currentTimestamp)
             ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?User

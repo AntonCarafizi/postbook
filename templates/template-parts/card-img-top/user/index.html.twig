@@ -1,9 +1,10 @@
 {% set avatar = (user.images['avatar'] is not null) ? user.images['avatar'] : 'no_image' %}
 {% set user_show = (app.user is not null and app.user.id == user.id) ? path('my_profile') : path('user_show', {'id': user.id}) %}
+{% set current_timestamp = date().timestamp %}
+{% set time_logged = current_timestamp - user.lastLogin %}
 
 {% if user.lastLogin %}
-    {% if date('now').diff((date(user.lastLogin))).format('%h') == 0 and
-    date('now').diff((date(user.lastLogin))).format('%i') <= app.session.metadataBag.getLifetime %}
+    {% if time_logged <= app.session.metadataBag.getLifetime %}
         <span class="dot green position-absolute"></span>
     {% else %}
         <span class="dot grey position-absolute"></span>

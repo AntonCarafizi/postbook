@@ -7,6 +7,8 @@
                 </p>
             </li>
         {% endif %}
-        <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }} {% trans %}years.old{% endtrans %}</li>
+        {% if user.birthDate %}
+            <li class="list-group-item">{{ date('now').diff((date(user.birthDate))).format('%y') }} {% trans %}years.old{% endtrans %}</li>
+        {% endif %}
     </ul>
 </div>

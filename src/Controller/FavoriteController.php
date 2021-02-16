@@ -31,9 +31,7 @@ class FavoriteController extends AbstractController
             throw $this->createNotFoundException($this->translator->trans('user.not.found'));
         }
         $favorites = $user->getFavorites();
-        if (!$favorites) {
-            throw $this->createNotFoundException($this->translator->trans('favorites.not.found'));
-        }
+
         $users = $paginator->paginate(
             $favorites = $userRepository->findBy(['id' => $favorites], ['id' => 'DESC']),
             $request->query->getInt('page', $page),

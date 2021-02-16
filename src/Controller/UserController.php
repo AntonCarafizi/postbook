@@ -28,11 +28,11 @@ class UserController extends AbstractController
 
     public function index(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
     {
-        $allUsers = $userRepository->findBy([], ['id' => 'DESC']);
+        $date = new \DateTime();
 
-        if (!$allUsers) {
-            throw $this->createNotFoundException($this->translator->trans('users.not.found'));
-        }
+        $sessionParams = session_get_cookie_params();
+
+        $allUsers = ($request->query->get('status') == 'online') ? $userRepository->findOnline($sessionParams['lifetime'], $date->getTimestamp()) : $userRepository->findBy([], ['id' => 'DESC']);
 
         $users = $paginator->paginate(
             $allUsers,
