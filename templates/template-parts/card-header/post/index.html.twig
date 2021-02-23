@@ -7,22 +7,13 @@
             {% if post.user.lastLogin %}
                 {% if date('now').diff((date(post.user.lastLogin))).format('%h') == 0 and
                 date('now').diff((date(post.user.lastLogin))).format('%i') <= app.session.metadataBag.getLifetime %}
-                    <span class="dot green position-absolute"></span>
+                    <span class="dot green rounded-circle position-absolute"></span>
                 {% else %}
-                    <span class="dot grey position-absolute"></span>
+                    <span class="dot grey rounded-circle position-absolute"></span>
                 {% endif %}
             {% endif %}
-            <a class="card-subtitle" href="{{ path('user_show', {'id': post.user.id}) }}">
-                {% if post.user.images['avatar'] is not null %}
-                    <img class="rounded-circle"
-                         src="{{ asset('media/image/' ~ post.user.images['avatar'] ~ '.jpg')|imagine_filter('squared_thumbnail_mini') }}"
-                         alt="Card image cap">
-                {% else %}
-                    <img class="card-img-top"
-                         src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_mini') }}"
-                         alt="Card image cap">
-                {% endif %}
-            </a>
+            {% include 'template-parts/card-subtitle/user/index.html.twig' with {'images': post.user.images, 'id': post.user.id} %}
+
             <span class="card-subtitle mt-auto">{{ post.user.firstname }} {{ post.user.lastname }}</span>
         </div>
     </div>

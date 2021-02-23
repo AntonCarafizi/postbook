@@ -165,7 +165,7 @@ image_background:
 
 user_favorites:
     path: /{_locale}/user/{id}/favorites/{page}
-    controller: App\Controller\FavoriteController::show
+    controller: App\Controller\FavoriteController::index
     methods: GET|HEAD|POST
     requirements:
         _locale: '%app_locales%'
@@ -177,7 +177,7 @@ user_favorites:
 
 my_favorites:
     path: /{_locale}/me/favorites/{page}
-    controller: App\Controller\FavoriteController::show
+    controller: App\Controller\FavoriteController::index
     methods: GET|HEAD|POST
     requirements:
         _locale: '%app_locales%'
@@ -206,7 +206,7 @@ user_favorite_delete:
 
 user_likes:
     path: /{_locale}/user/{id}/likes/{page}
-    controller: App\Controller\LikeController::show
+    controller: App\Controller\LikeController::index
     methods: GET|HEAD|POST
     requirements:
         id: '\d+'
@@ -217,7 +217,7 @@ user_likes:
 
 my_likes:
     path: /{_locale}/me/likes/{page}
-    controller: App\Controller\LikeController::show
+    controller: App\Controller\LikeController::index
     methods: GET|HEAD|POST
     requirements:
         _locale: '%app_locales%'
@@ -244,6 +244,25 @@ user_like_delete:
         _locale: '%app_locales%'
         like: '\d+'
 
+my_friends:
+    path: /{_locale}/me/friends/{page}
+    controller: App\Controller\FriendController::index
+    methods: GET|HEAD|POST
+    requirements:
+        _locale: '%app_locales%'
+        page: '\d+'
+    defaults:
+        page: 1
+        id: null
+
+user_friend_new:
+    path: /{_locale}/friend/{friend}/new
+    controller: App\Controller\FriendController::new
+    methods: GET|POST
+    format: 'json'
+    requirements:
+        _locale: '%app_locales%'
+        friend: '\d+'
 
 post_index:
     path: /{_locale}/posts/{page}

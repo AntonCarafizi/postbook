@@ -10,8 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
+/**
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
+ */
 class FavoriteController extends AbstractController
 {
     private $entityManager;
@@ -24,12 +27,9 @@ class FavoriteController extends AbstractController
         $this->translator = $translator;
     }
 
-    public function show(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function index(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
         $favorites = $user->getFavorites();
 
         $users = $paginator->paginate(
@@ -37,7 +37,7 @@ class FavoriteController extends AbstractController
             $request->query->getInt('page', $page),
             $this->getParameter('users_per_page')
         );
-        return $this->render('user/index.html.twig', ['users' => $users]);
+        return $this->render('user/index.html.twig', ['users' => $users, 'title' => 'my.favorites']);
     }
 
     public function new(Request $request, $favorite, ArrayService $arrayService): Response
@@ -45,15 +45,8 @@ class FavoriteController extends AbstractController
         $referer = $request->headers->get('referer');
         $user = $this->getUser();
 
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
-
         if ($this->isCsrfTokenValid('add_favorite'.$favorite, $request->request->get('_token'))) {
             $favorites = $user->getFavorites();
-            if (!$favorites) {
-                throw $this->createNotFoundException($this->translator->trans('favorites.not.found'));
-            }
             $arrayService->addElement($favorites, $favorite);
             $user->setFavorites($favorites);
             $this->entityManager->flush();
@@ -68,11 +61,6 @@ class FavoriteController extends AbstractController
     {
         $referer = $request->headers->get('referer');
         $user = $this->getUser();
-
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
-
         if ($this->isCsrfTokenValid('delete_favorite'.$favorite, $request->request->get('_token'))) {
             $favorites = $user->getFavorites();
             if (!$favorites) {

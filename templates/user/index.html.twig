@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}all.users{% endtrans %}{% endblock %}
+{% block title %}{{ title|trans }}{% endblock %}
 
 {% block body %}
 
-    <h1>{% trans %}all.users{% endtrans %}</h1>
+    <h1>{{ title|trans }}</h1>
     <hr class="my-4">
 
     {{ include('template-parts/alert/user/index.html.twig') }}

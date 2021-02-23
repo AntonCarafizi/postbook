@@ -93,6 +93,16 @@ class User implements UserInterface
      */
     private $likes = [];
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $friends = [];
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $friendRequests = [];
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -322,6 +332,30 @@ class User implements UserInterface
     public function setLikes(?array $likes): self
     {
         $this->likes = $likes;
+
+        return $this;
+    }
+
+    public function getFriends(): ?array
+    {
+        return $this->friends;
+    }
+
+    public function setFriends(?array $friends): self
+    {
+        $this->friends = $friends;
+
+        return $this;
+    }
+
+    public function getFriendRequests(): ?array
+    {
+        return $this->friendRequests;
+    }
+
+    public function setFriendRequests(?array $friendRequests): self
+    {
+        $this->friendRequests = $friendRequests;
 
         return $this;
     }

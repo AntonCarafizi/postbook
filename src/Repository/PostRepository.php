@@ -47,30 +47,31 @@ class PostRepository extends ServiceEntityRepository
                 ->andWhere('p.createdAt >= :from');
         }
 
-        if (!empty($value['to']) && empty($value['from'])) {
-            $this->queryBuilder
-                ->setParameter('to', $value['to'])
-                ->andWhere('p.createdAt <= :to');
-
-        }
-
-        if (!empty($value['from']) && !empty($value['to'])) {
-            $date = \DateTime::createFromFormat($dateFormat, $value['to']);
-            $days = $date->diff(new \DateTime())->days;
-
+        if (!empty($value['to'])) {
+            $dateTo = \DateTime::createFromFormat($dateFormat, $value['to']);
+            $date = new \DateTime();
+            $days = $dateTo->diff(new \DateTime())->days;
             if ($days == 0) {
-                $value['to'] = new \DateTime();
+                $value['to'] = $date;
             }
-
             $this->queryBuilder
-                ->setParameter('from', $value['from']);
-            if ($value['from'] == $value['to']) {
-                $this->queryBuilder->andWhere('p.createdAt = :from');
+                ->setParameter('to', $value['to']);
+
+
+            if (empty($value['from'])) {
+                $this->queryBuilder->andWhere('p.createdAt <= :to');
             }
 
-            if ($value['from'] != $value['to']) {
-                $this->queryBuilder->setParameter('to', $value['to']);
-                $this->queryBuilder->andWhere('p.createdAt BETWEEN :from AND :to');
+            if (!empty($value['from'])) {
+                $this->queryBuilder
+                    ->setParameter('from', $value['from']);
+                if ($value['from'] == $value['to']) {
+                    $this->queryBuilder->andWhere('p.createdAt = :from');
+                }
+
+                if ($value['from'] != $value['to']) {
+                    $this->queryBuilder->andWhere('p.createdAt BETWEEN :from AND :to');
+                }
             }
         }
 

@@ -11,7 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+/**
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
+ */
 class LikeController extends AbstractController
 {
     private $entityManager;
@@ -24,12 +28,9 @@ class LikeController extends AbstractController
         $this->translator = $translator;
     }
 
-    public function show(Request $request, $id, UserRepository $userRepository, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
+    public function index(Request $request, $id, UserRepository $userRepository, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
         $likes = $user->getLikes();
 
         $posts = $paginator->paginate(
@@ -37,7 +38,7 @@ class LikeController extends AbstractController
             $request->query->getInt('page', $page),
             $this->getParameter('posts_per_page')
         );
-        return $this->render('post/index.html.twig', ['posts' => $posts]);
+        return $this->render('post/index.html.twig', ['posts' => $posts, 'title' => 'my.likes']);
     }
 
 
@@ -45,14 +46,8 @@ class LikeController extends AbstractController
     {
         $referer = $request->headers->get('referer');
         $user = $this->getUser();
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
         if ($this->isCsrfTokenValid('add_like'.$like, $request->request->get('_token'))) {
             $likes = $user->getLikes();
-            if (!$likes) {
-                throw $this->createNotFoundException($this->translator->trans('likes.not.found'));
-            }
             $arrayService->addElement($likes, $like);
             $user->setLikes($likes);
             $this->entityManager->flush();
@@ -67,14 +62,8 @@ class LikeController extends AbstractController
     {
         $referer = $request->headers->get('referer');
         $user = $this->getUser();
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
         if ($this->isCsrfTokenValid('delete_like'.$like, $request->request->get('_token'))) {
             $likes = $user->getLikes();
-            if (!$likes) {
-                throw $this->createNotFoundException($this->translator->trans('likes.not.found'));
-            }
             $arrayService->deleteElementByValue($likes, $like);
             $user->setLikes($likes);
             $this->entityManager->flush();

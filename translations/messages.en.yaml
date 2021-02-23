@@ -77,6 +77,7 @@ my.friends: My friends
 all: All
 new: New
 online: Online
+users.online: Users online
 homepage: Home
 online.at: online at
 posts: Posts
@@ -92,6 +93,8 @@ info: Info
 image.upload: Image upload
 from: From
 to: To
+accept: Accept
+decline: Decline
 _homepage.title: Hello, world!
 _homepage.subtitle: This is a simple social network project.
 _homepage.description: It is coded with Symfony 5 PHP framework and has many useful features. Check this out!

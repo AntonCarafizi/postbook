@@ -6,3 +6,21 @@
         </button>
     </div>
 {% endfor %}
+
+{% if friendRequests is defined and friendRequests is not null %}
+    <h4>The following persons want to be your friend!</h4>
+    {% for user in friendRequests %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {% include 'template-parts/card-subtitle/user/index.html.twig' with {'images': user.images, 'id': user.id} %}
+            <span class="m-1"><strong>{{ user.firstName~' '~user.lastName }}</strong></span>
+            {% if app.user is not null %}
+                {% if app.user.id != user.id %}
+                    {{ include('user/friends/_form.html.twig') }}
+                {% endif %}
+            {% endif %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}

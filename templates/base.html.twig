@@ -31,18 +31,10 @@
                     <div class="mb-3">
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
-                                <a class="dropdown-toggle" href="#" id="currentUserDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {% if app.user.images is not empty and app.user.images['avatar'] %}
-                                        <img class="rounded-circle"
-                                             src="{{ asset('media/image/' ~ app.user.images['avatar'] ~ '.jpg')|imagine_filter('squared_thumbnail_mini') }}"
-                                             alt="Card image cap">
-                                    {% else %}
-                                        <img class="card-img-top"
-                                             src="{{ asset('media/image/no_image.jpg')|imagine_filter('squared_thumbnail_mini') }}"
-                                             alt="Card image cap">
-                                    {% endif %}
-                                </a>
+                                {% include 'template-parts/card-subtitle/user/index.html.twig' with {'images': app.user.images, 'id': app.user.id} %}
+                                <button type="button" class="btn btn-link btn-sm dropdown-toggle" id="currentUserDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
                                 {{ include('template-parts/dropdown-menu.html.twig') }}
                             </li>
                         </ul>

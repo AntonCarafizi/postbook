@@ -11,8 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
+/**
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
+ */
 class UserController extends AbstractController
 {
 
@@ -34,13 +37,15 @@ class UserController extends AbstractController
 
         $allUsers = ($request->query->get('status') == 'online') ? $userRepository->findOnline($sessionParams['lifetime'], $date->getTimestamp()) : $userRepository->findBy([], ['id' => 'DESC']);
 
+        $title = ($request->query->get('status') == 'online') ? 'users.online' : 'all.users';
+
         $users = $paginator->paginate(
             $allUsers,
             $request->query->getInt('page', $page),
             $this->getParameter('users_per_page')
         );
 
-        return $this->render('user/index.html.twig', ['users' => $users]);
+        return $this->render('user/index.html.twig', ['users' => $users, 'title' => $title]);
     }
 
 
@@ -70,21 +75,12 @@ class UserController extends AbstractController
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
 
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
-
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
-
 
     public function edit(Request $request, $id, UserRepository $userRepository): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
-        // check for "edit" access
-        /*if ($currentUser != $user) {
-            throw $this->createAccessDeniedException();
-        }*/
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -119,32 +115,13 @@ class UserController extends AbstractController
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
 
-        if (!$user) {
-            throw $this->createNotFoundException($this->translator->trans('user.not.found'));
-        }
-
         $userPosts = $user->getPosts();
-
-        if (!$userPosts) {
-            throw $this->createNotFoundException($this->translator->trans('posts.not.found'));
-        }
 
         $posts = $paginator->paginate(
             $userPosts,
             $request->query->getInt('page', $page),
             $this->getParameter('posts_per_page')
         );
-        return $this->render('post/index.html.twig', ['posts' => $posts]);
+        return $this->render('post/index.html.twig', ['posts' => $posts, 'title' => 'my.posts']);
     }
-
-    public function newPost()
-    {
-
-    }
-
-    public function deletePost()
-    {
-
-    }
-
 }

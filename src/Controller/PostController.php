@@ -13,9 +13,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
-
+/**
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
+ */
 class PostController extends AbstractController
 {
 
@@ -48,7 +50,7 @@ class PostController extends AbstractController
             $response = $jsonService->convert($posts);
             return new JsonResponse($response, Response::HTTP_OK, [], true);
         } else {
-            return $this->render('post/index.html.twig', ['posts' => $posts]);
+            return $this->render('post/index.html.twig', ['posts' => $posts, 'title' => 'all.posts']);
         }
     }
 
@@ -77,10 +79,6 @@ class PostController extends AbstractController
 
     public function show(Post $post): Response
     {
-        if (!$post) {
-            throw $this->createNotFoundException($this->translator->trans('post.not.found'));
-        }
-
         return $this->render('post/show.html.twig', ['post' => $post]);
     }
 
