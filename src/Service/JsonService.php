@@ -28,6 +28,7 @@ class JsonService
             if ($attributeName == 'createdAt') {
                 $dateFormat = $this->dateFormat . " H:i";
             }
+
             return $innerObject->format($dateFormat);
         };
 
@@ -37,8 +38,7 @@ class JsonService
             },
             AbstractNormalizer::IGNORED_ATTRIBUTES => ['roles', 'password', 'posts', 'likes', 'favorites', 'lastLogin', 'salt'],
             AbstractNormalizer::CALLBACKS => [
-                'createdAt' => $dateCallback,
-                'birthDate' => $dateCallback
+                'createdAt' => $dateCallback
             ],
         ];
         $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);

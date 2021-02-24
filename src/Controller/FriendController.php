@@ -52,6 +52,24 @@ class FriendController extends AbstractController
         return $this->render('user/index.html.twig', ['users' => $users, 'friendRequests' => $userFriendRequests, 'title' => 'my.friends']);
     }
 
+    public function request(Request $request, $friend, UserRepository $userRepository, ArrayService $arrayService): Response
+    {
+        $referer = $request->headers->get('referer');
+        $me = $this->getUser();
+        $user = $userRepository->findOneBy(['id' => $friend]);
+        if ($this->isCsrfTokenValid('add_friend_request'.$friend, $request->request->get('_token'))) {
+
+            // Add my ID to user friendRequests
+            $userFriendRequests = $user->getFriendRequests();
+            $arrayService->addElement($userFriendRequests, $me->getID());
+            $user->setFriendRequests($userFriendRequests);
+            $this->entityManager->flush();
+            $this->addFlash('success', $this->translator->trans('you.successfully.sent.friend.request'));
+        }
+
+        return $this->redirect($referer);
+    }
+
     public function new(Request $request, $friend, UserRepository $userRepository, ArrayService $arrayService): Response
     {
         $referer = $request->headers->get('referer');
@@ -77,6 +95,36 @@ class FriendController extends AbstractController
 
             $this->addFlash('success', $this->translator->trans('you.successfully.added.friend'));
             //return $this->json($this->translator->trans('you.successfully.added.favorite'));
+        }
+        return $this->redirect($referer);
+    }
+
+    public function delete(Request $request, $friend, ArrayService $arrayService): Response
+    {
+        $referer = $request->headers->get('referer');
+        $user = $this->getUser();
+        if ($this->isCsrfTokenValid('delete_friend'.$friend, $request->request->get('_token'))) {
+            $friends = $user->getFriends();
+            $arrayService->deleteElementByValue($friends, $friend);
+            $user->setFriends($friends);
+            $this->entityManager->flush();
+            $this->addFlash('success', $this->translator->trans('you.successfully.removed.friend'));
+            //return $this->json($this->translator->trans('you.successfully.removed.favorite'));
+        }
+        return $this->redirect($referer);
+    }
+
+    public function deleteRequest(Request $request, $friend, ArrayService $arrayService): Response
+    {
+        $referer = $request->headers->get('referer');
+        $me = $this->getUser();
+        if ($this->isCsrfTokenValid('delete_friend_request'.$friend, $request->request->get('_token'))) {
+            $friendRequests = $me->getFriendRequests();
+            $arrayService->deleteElementByValue($friendRequests, $friend);
+            $me->setFriendRequests($friendRequests);
+            $this->entityManager->flush();
+            $this->addFlash('success', $this->translator->trans('you.successfully.removed.friend.request'));
+            //return $this->json($this->translator->trans('you.successfully.removed.favorite'));
         }
         return $this->redirect($referer);
     }

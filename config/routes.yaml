@@ -264,6 +264,33 @@ user_friend_new:
         _locale: '%app_locales%'
         friend: '\d+'
 
+user_friend_request:
+    path: /{_locale}/friend/{friend}/request
+    controller: App\Controller\FriendController::request
+    methods: GET|POST
+    format: 'json'
+    requirements:
+        _locale: '%app_locales%'
+        friend: '\d+'
+
+user_friend_delete:
+    path: /{_locale}/friend/{friend}/delete
+    controller: App\Controller\FriendController::delete
+    methods: DELETE
+    format: 'json'
+    requirements:
+        _locale: '%app_locales%'
+        friend: '\d+'
+
+user_friend_delete_request:
+    path: /{_locale}/friend/{friend}/delete-request
+    controller: App\Controller\FriendController::deleteRequest
+    methods: DELETE
+    format: 'json'
+    requirements:
+        _locale: '%app_locales%'
+        friend: '\d+'
+
 post_index:
     path: /{_locale}/posts/{page}
     controller: App\Controller\PostController::index

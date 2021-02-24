@@ -3,23 +3,35 @@
         <a class="list-group-item dropdown-item{% if app.request.get('_route') == 'my_profile' %} active{% endif %}" href="{{ path('my_profile') }}">
             <i class="fas fa-user"></i> {% trans %}my.profile{% endtrans %}
         </a>
-        <a class="list-group-item dropdown-item{% if app.request.get('_route') == 'my_posts' %} active{% endif %}" href="{{ path('my_posts') }}">
-            <i class="fas fa-file-alt"></i> {% trans %}my.posts{% endtrans %}
+        <a class="list-group-item dropdown-item d-flex justify-content-between align-items-center{% if app.request.get('_route') == 'my_posts' %} active{% endif %}" href="{{ path('my_posts') }}">
+            <div><i class="fas fa-file-alt"></i> {% trans %}my.posts{% endtrans %}</div>
+            {% if app.user.posts %}
+                <span class="badge badge-primary badge-pill ml-2">{{ app.user.posts|length }}</span>
+            {% endif %}
         </a>
-        <a class="list-group-item dropdown-item{% if app.request.get('_route') == 'user_messages' %} active{% endif %}" href="#">
-            <i class="fas fa-comment-dots"></i> {% trans %}my.messages{% endtrans %}
+        <a class="list-group-item dropdown-item d-flex justify-content-between align-items-center{% if app.request.get('_route') == 'user_messages' %} active{% endif %}" href="#">
+            <div><i class="fas fa-comment-dots"></i> {% trans %}my.messages{% endtrans %}</div>
         </a>
-        <a class="list-group-item dropdown-item{% if app.request.get('_route') == 'my_friends' %} active{% endif %}" href="{{ path('my_friends') }}">
-            <i class="fas fa-users"></i> {% trans %}my.friends{% endtrans %}
+        <a class="list-group-item dropdown-item d-flex justify-content-between align-items-center{% if app.request.get('_route') == 'my_friends' %} active{% endif %}" href="{{ path('my_friends') }}">
+            <div><i class="fas fa-users"></i> {% trans %}my.friends{% endtrans %}</div>
+            {% if app.user.friends %}
+                <span class="badge badge-primary badge-pill ml-2">{{ app.user.friends|length }}</span>
+            {% endif %}
             {% if app.user.friendRequests %}
                 <span class="badge badge-primary badge-pill ml-2">+{{ app.user.friendRequests|length }}</span>
             {% endif %}
         </a>
-        <a class="list-group-item dropdown-item{% if app.request.get('_route') == 'my_favorites' %} active{% endif %}" href="{{ path('my_favorites') }}">
-            <i class="fas fa-star"></i> {% trans %}my.favorites{% endtrans %}
+        <a class="list-group-item dropdown-item d-flex justify-content-between align-items-center{% if app.request.get('_route') == 'my_favorites' %} active{% endif %}" href="{{ path('my_favorites') }}">
+            <div><i class="fas fa-star"></i> {% trans %}my.favorites{% endtrans %}</div>
+            {% if app.user.favorites %}
+                <span class="badge badge-primary badge-pill ml-2">{{ app.user.favorites|length }}</span>
+            {% endif %}
         </a>
-        <a class="list-group-item dropdown-item{% if app.request.get('_route') == 'my_likes' %} active{% endif %}" href="{{ path('my_likes') }}">
-            <i class="fas fa-heart"></i> {% trans %}my.likes{% endtrans %}
+        <a class="list-group-item dropdown-item d-flex justify-content-between align-items-center{% if app.request.get('_route') == 'my_likes' %} active{% endif %}" href="{{ path('my_likes') }}">
+            <div><i class="fas fa-heart"></i> {% trans %}my.likes{% endtrans %}</div>
+            {% if app.user.likes %}
+                <span class="badge badge-primary badge-pill ml-2">{{ app.user.likes|length }}</span>
+            {% endif %}
         </a>
         <a class="list-group-item dropdown-item" href="{{ path('logout') }}">
             <i class="fas fa-sign-out-alt"></i> {% trans %}logout{% endtrans %}

@@ -55,6 +55,8 @@ you.successfully.selected.avatar: Sie haben den Avatar erfolgreich ausgewählt
 you.successfully.selected.background: Sie haben den Hintergrund erfolgreich ausgewählt
 you.successfully.uploaded.image: Sie haben das Bild erfolgreich hochgeladen
 you.successfully.removed.image: Sie haben das Bild erfolgreich entfernt
+you.successfully.removed.friend: Sie haben Freund erfolgreich entfernt
+you.successfully.sent.friend.request: Sie haben erfolgreich eine Freundschaftsanfrage gesendet
 avatar: Avatar
 background: Background
 all.images: All images
@@ -83,6 +85,8 @@ online.at: online am
 posts: Posts
 add.to.favorites: Zu Favoriten hinzufügen
 remove.from.favorites: Aus Favoriten entfernen
+add.to.friends: Freund hinzufügen
+remove.from.friends: Freund entfernen
 no.records.found: Keine data gefunden
 like: Ich mag
 unlike: Ich mag nicht
@@ -95,6 +99,7 @@ from: From
 to: To
 accept: Akzeptieren
 decline: Ablehnen
+request.sent: Anfrage gesendet
 _homepage.title: Hallo Welt!
 _homepage.subtitle: Dies ist ein einfaches soziales Netzwerkprojekt.
 _homepage.description: Es ist mit dem Symfony 5 PHP-Framework codiert und verfügt über viele nützliche Funktionen. Schau dir das an!

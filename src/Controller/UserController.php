@@ -81,7 +81,7 @@ class UserController extends AbstractController
     public function edit(Request $request, $id, UserRepository $userRepository): Response
     {
         $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
-
+        //$this->denyAccessUnlessGranted('edit', $user);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 

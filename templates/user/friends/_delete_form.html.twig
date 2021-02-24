@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('user_friend_delete', {'friend': user.id}) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete_friend' ~ user.id) }}">
+    <button class="btn btn-link btn-sm"><i class="fas fa-user-minus"></i> {% trans %}remove.from.friends{% endtrans %}</button>
+</form>

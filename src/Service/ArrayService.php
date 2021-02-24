@@ -8,6 +8,9 @@ class ArrayService
     function addElement(&$array, $element) {
         try {
             if (!in_array($element, $array)) {
+                if (is_numeric($element)) {
+                    $element = (int)$element;
+                }
                 array_push($array, $element);
             }
             return $array;
