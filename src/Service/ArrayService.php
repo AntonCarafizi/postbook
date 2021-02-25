@@ -11,7 +11,15 @@ class ArrayService
                 if (is_numeric($element)) {
                     $element = (int)$element;
                 }
-                array_push($array, $element);
+                if (is_array($element)) {
+                    $keys = array_keys($array);
+                    array_push($keys, key($element));
+                    $values = array_values($array);
+                    array_push($values, $element[key($element)]);
+                    $array = array_combine($keys, $values);
+                } else {
+                    array_push($array, $element);
+                }
             }
             return $array;
         } catch (\Exception $e) {

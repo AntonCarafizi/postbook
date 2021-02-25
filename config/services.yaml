@@ -47,17 +47,8 @@ services:
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }
 
-    App\EventListener\PostListener:
+    App\EventListener\VisitorListener:
         tags:
-            -
-                name: 'doctrine.event_listener'
-                # this is the only required option for the lifecycle listener tag
-                event: 'postPersist'
+            - { name: 'kernel.event_listener', event: 'kernel.request' }
 
-                # listeners can define their priority in case multiple listeners are associated
-                # to the same event (default priority = 0; higher numbers = listener is run earlier)
-                priority: 500
-
-                # you can also restrict listeners to a specific Doctrine connection
-                connection: 'default'
     Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'

@@ -4,11 +4,17 @@
 <a class="card-header" href="{{ path('user_show', {'id': user.id}) }}">
     <h5 class="card-link">{{ user.firstname }} {{ user.lastname }}</h5>
 
-    {% if user.lastLogin %}
-        {% if time_logged <= app.session.metadataBag.getLifetime %}
-            <span class="font-italic text-small">online</span>
-        {% else %}
-            <span class="font-italic text-small">{% trans %}online.at{% endtrans %} {{ user.lastLogin|date("d M H:i") }}</span>
+    {% if app.request.get('_route') == 'my_visitors' %}
+        {% if (app.user.visitors) %}
+            <span class="font-italic text-small">{% trans %}visited.you.at{% endtrans %} {{ app.user.visitors[user.id]|date("d M H:i") }}</span>
+        {% endif %}
+    {% else %}
+        {% if user.lastLogin %}
+            {% if time_logged <= app.session.metadataBag.getLifetime %}
+                <span class="font-italic text-small">online</span>
+            {% else %}
+                <span class="font-italic text-small">{% trans %}online.at{% endtrans %} {{ user.lastLogin|date("d M H:i") }}</span>
+            {% endif %}
         {% endif %}
     {% endif %}
 </a>

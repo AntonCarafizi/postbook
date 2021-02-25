@@ -33,7 +33,7 @@ $(document).ready(function() {
             console.log(data);
         },
         error : function ( xhr , textStatus , errorThrown ) {
-            alert ( 'Ajax request failed.' );
+            console.log( 'Ajax request failed.' );
         }
     });
 });

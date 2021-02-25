@@ -291,6 +291,17 @@ user_friend_delete_request:
         _locale: '%app_locales%'
         friend: '\d+'
 
+my_visitors:
+    path: /{_locale}/me/visitors/{page}
+    controller: App\Controller\VisitorController::index
+    methods: GET|HEAD|POST
+    requirements:
+        _locale: '%app_locales%'
+        page: '\d+'
+    defaults:
+        page: 1
+        id: null
+
 post_index:
     path: /{_locale}/posts/{page}
     controller: App\Controller\PostController::index

@@ -16,6 +16,11 @@ button {
   to {background-color: #00cc00;}
 }
 
+@keyframes toggle {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
 .dot {
   height: 15px;
   width: 15px;
@@ -26,6 +31,13 @@ button {
 .dot.green {
   background-color: $green;
   animation-name: change_color;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.badge-danger {
+  animation-name: toggle;
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-direction: alternate;

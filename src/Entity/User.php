@@ -103,6 +103,16 @@ class User implements UserInterface
      */
     private $friendRequests = [];
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $visitors = [];
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $visitorsLastChecked;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -356,6 +366,30 @@ class User implements UserInterface
     public function setFriendRequests(?array $friendRequests): self
     {
         $this->friendRequests = $friendRequests;
+
+        return $this;
+    }
+
+    public function getVisitors(): ?array
+    {
+        return $this->visitors;
+    }
+
+    public function setVisitors(?array $visitors): self
+    {
+        $this->visitors = $visitors;
+
+        return $this;
+    }
+
+    public function getVisitorsLastChecked(): ?int
+    {
+        return $this->visitorsLastChecked;
+    }
+
+    public function setVisitorsLastChecked(?int $visitorsLastChecked): self
+    {
+        $this->visitorsLastChecked = $visitorsLastChecked;
 
         return $this;
     }
