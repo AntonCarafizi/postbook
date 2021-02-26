@@ -101,6 +101,7 @@ to: To
 accept: Accept
 decline: Decline
 request.sent: Request sent
+visited.you.at: visited you at
 _homepage.title: Hello, world!
 _homepage.subtitle: This is a simple social network project.
 _homepage.description: It is coded with Symfony 5 PHP framework and has many useful features. Check this out!

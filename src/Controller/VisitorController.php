@@ -32,7 +32,7 @@ class VisitorController extends AbstractController
     {
         $getUser = $userRepository->findOneby(['id' => $this->getUser()->getId()]);
 
-        $userVisitors = $userRepository->findby(['id' => array_keys($getUser->getVisitors())], ['id' => 'DESC']);
+        $userVisitors = $userRepository->findByIdList(array_keys($getUser->getVisitors()));
 
         $users = $paginator->paginate(
             $userVisitors,

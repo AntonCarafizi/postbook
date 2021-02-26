@@ -6,29 +6,27 @@ use App\Repository\UserRepository;
 use App\Service\ArrayService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * @IsGranted("IS_AUTHENTICATED_FULLY")
- */
+
 class VisitorListener
 {
     private $em;
-
     private $userRepository;
-
     private $security;
-
     private $arrayService;
+    private $urlGenerator;
 
-    public function __construct(EntityManagerInterface $em, UserRepository $userRepository, Security $security, ArrayService $arrayService)
+    public function __construct(EntityManagerInterface $em, UserRepository $userRepository, UrlGeneratorInterface $urlGenerator, Security $security, ArrayService $arrayService)
     {
         $this->em = $em;
         $this->userRepository = $userRepository;
         $this->security = $security;
         $this->arrayService = $arrayService;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function onKernelRequest(RequestEvent $event)
@@ -36,6 +34,10 @@ class VisitorListener
         $request = $event->getRequest();
         $me = $this->security->getUser();
         $date = new \DateTime();
+
+        if (!$me) {
+            return new RedirectResponse($this->urlGenerator->generate('login'));
+        }
 
         if ($request->get('_route') == 'my_visitors') {
             // Get the User entity.

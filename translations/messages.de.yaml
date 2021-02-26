@@ -101,6 +101,7 @@ to: To
 accept: Akzeptieren
 decline: Ablehnen
 request.sent: Anfrage gesendet
+visited.you.at: besuchte dich bei
 _homepage.title: Hallo Welt!
 _homepage.subtitle: Dies ist ein einfaches soziales Netzwerkprojekt.
 _homepage.description: Es ist mit dem Symfony 5 PHP-Framework codiert und verfügt über viele nützliche Funktionen. Schau dir das an!
