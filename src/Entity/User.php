@@ -30,7 +30,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles;
 
     /**
      * @var string The hashed password
@@ -69,9 +69,20 @@ class User implements UserInterface
     private $description;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array", nullable=false)
      */
     private $images = [];
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $background;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
@@ -116,6 +127,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->roles = array('ROLE_USER');
     }
 
     public function getId(): ?int
@@ -152,17 +164,10 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
 
     /**
      * @see UserInterface
@@ -273,12 +278,76 @@ class User implements UserInterface
         return $this->images;
     }
 
-    public function setImages(?array $images): self
+    public function addImages(array $images): self
     {
-        $this->images = $images;
+        if (!in_array($images, $this->images)) {
+            $this->images = array_merge($this->images, $images);
+        }
 
         return $this;
     }
+
+    public function removeImage(int $id): self
+    {
+        array_splice($this->images, $id, 1);
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(int $id): self
+    {
+        $this->avatar = $this->images[$id];
+
+        return $this;
+    }
+
+    public function removeAvatar(): self
+    {
+        $this->avatar = null;
+
+        return $this;
+    }
+
+    public function getBackground(): ?string
+    {
+        return $this->background;
+    }
+
+    public function setBackground(int $id): self
+    {
+        $this->background = $this->images[$id];
+
+        return $this;
+    }
+
+    public function removeBackground(): self
+    {
+        $this->background = null;
+
+        return $this;
+    }
+
+    public function moveImageUp($id): self
+    {
+        $out = array_splice($this->images, $id, 1);
+        array_splice($this->images, $id - 1, 0, $out);
+
+        return $this;
+    }
+
+    public function moveImageDown($id): self
+    {
+        $out = array_splice($this->images, $id, 1);
+        array_splice($this->images, $id + 1, 0, $out);
+
+        return $this;
+    }
+
 
     /**
      * @return Collection|Post[]
@@ -310,6 +379,30 @@ class User implements UserInterface
         return $this;
     }
 
+    // LIKES
+    public function getLikes(): ?array
+    {
+        return $this->likes;
+    }
+
+    public function addLike(int $id): self
+    {
+        if (!in_array($id, $this->likes)) {
+            $this->likes[] = $id;
+        }
+
+        return $this;
+    }
+
+    public function removeLike(int $id): self
+    {
+        if (in_array($id, $this->likes)) {
+            unset($this->likes[array_search($id, $this->likes)]);
+        }
+
+        return $this;
+    }
+
     public function getLastLogin(): ?int
     {
         return $this->lastLogin;
@@ -322,62 +415,102 @@ class User implements UserInterface
         return $this;
     }
 
+    // FAVORITES
     public function getFavorites(): ?array
     {
         return $this->favorites;
     }
 
-    public function setFavorites(?array $favorites): self
+    public function addFavorite(int $id): self
     {
-        $this->favorites = $favorites;
+        if (!in_array($id, $this->favorites)) {
+            $this->favorites[] = $id;
+        }
 
         return $this;
     }
 
-    public function getLikes(): ?array
+    public function removeFavorite(int $id): self
     {
-        return $this->likes;
-    }
-
-    public function setLikes(?array $likes): self
-    {
-        $this->likes = $likes;
+        if (in_array($id, $this->favorites)) {
+            unset($this->favorites[array_search($id, $this->favorites)]);
+        }
 
         return $this;
     }
 
+    // FRIENDS
     public function getFriends(): ?array
     {
         return $this->friends;
     }
 
-    public function setFriends(?array $friends): self
+    public function addFriend(int $id): self
     {
-        $this->friends = $friends;
+        if (!in_array($id, $this->friends)) {
+            $this->friends[] = $id;
+        }
 
         return $this;
     }
 
+    public function removeFriend(int $id): self
+    {
+        if (in_array($id, $this->friends)) {
+            unset($this->friends[array_search($id, $this->friends)]);
+        }
+
+        return $this;
+    }
+
+    // FRIEND REQUESTS
     public function getFriendRequests(): ?array
     {
         return $this->friendRequests;
     }
 
-    public function setFriendRequests(?array $friendRequests): self
+    public function addFriendRequest(int $id): self
     {
-        $this->friendRequests = $friendRequests;
+        if (!in_array($id, $this->friendRequests)) {
+            $this->friendRequests[] = $id;
+        }
 
         return $this;
     }
 
+    public function removeFriendRequest(int $id): self
+    {
+        if (in_array($id, $this->friendRequests)) {
+            unset($this->friendRequests[array_search($id, $this->friendRequests)]);
+        }
+
+        return $this;
+    }
+
+    // VISITORS
     public function getVisitors(): ?array
     {
         return $this->visitors;
     }
 
-    public function setVisitors(?array $visitors): self
+    public function addVisitor(?array $visitor): self
     {
-        $this->visitors = $visitors;
+        if ($this->id != key($visitor)) {
+            if (!in_array($visitor, $this->visitors)) {
+                if (is_numeric($visitor)) {
+                    $visitor = (int)$visitor;
+                }
+                if (is_array($visitor)) {
+                    $keys = array_keys($this->visitors);
+                    array_push($keys, key($visitor));
+                    $values = array_values($this->visitors);
+                    array_push($values, $visitor[key($visitor)]);
+                    $this->visitors = array_combine($keys, $values);
+                } else {
+                    array_push($this->visitors, $visitor);
+                }
+            }
+        }
 
         return $this;
     }

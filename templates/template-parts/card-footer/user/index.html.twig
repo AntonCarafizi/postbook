@@ -5,7 +5,7 @@
 {% if app.user %}
 <div class="card-footer d-flex justify-content-start">
     <a class="btn btn-link btn-sm" role="button" href="{{ path }}">
-        <i class="far fa-edit"></i> {% trans %}edit{% endtrans %}
+        <i class="far fa-edit"></i> {% trans %}user.edit{% endtrans %}
     </a>
 
     {% if app.user is not null %}

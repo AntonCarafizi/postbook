@@ -1,38 +1,41 @@
 security:
-    encoders:
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
+    enable_authenticator_manager: true
+    password_hashers:
         App\Entity\User:
             algorithm: auto
-
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
+        users:
             entity:
-                class: App\Entity\User
-                property: email
+                # the class of the entity that represents users
+                class: 'App\Entity\User'
+                # the property to query by - e.g. username, email, etc
+                property: 'email'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         main:
-            anonymous: false
             lazy: true
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
-            #entry_point: App\Security\AuthenticationEntryPoint
-
+            provider: users
             form_login:
                 login_path: login
                 check_path: login
                 use_forward: true
                 use_referer: true
-                csrf_token_generator: security.csrf.token_manager
+                enable_csrf: true
+                default_target_path: homepage
             logout:
                 path: logout
                 # where to redirect after logout
                 target: login
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            entry_point: App\Security\AuthenticationEntryPoint
+            #provider: users_in_memory
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -42,5 +45,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

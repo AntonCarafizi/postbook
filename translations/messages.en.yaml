@@ -1,11 +1,7 @@
 welcome.to: Welcome To
-user: User
-users: Users
+_users: Users
 user.index: User index
 show: Show
-show.user: Show User
-edit: Edit
-edit.user: Edit User
 delete: Delete
 delete.user: Delete User
 login: Login
@@ -20,8 +16,9 @@ email: Email
 password: Password
 actions: Actions
 back.to.list: Back to list
-all.users: All Users
-all.posts: All Posts
+all:
+  users: All Users
+  posts: All Posts
 is.male: Is male
 please.sign.in: Please Sign in
 sign.in: Sign in
@@ -39,24 +36,39 @@ you.are.logged.in.as: You are logged in as
 description: Description
 hello: Hello
 filter: Filter
-user.successfully.created: User successfully created
-user.successfully.updated: User successfully updated
-user.successfully.deleted: User successfully deleted
-post.successfully.created: Post successfully created
-post.successfully.updated: Post successfully updated
-post.successfully.deleted: Post successfully deleted
-you.successfully.added.favorite: You successfully added favorite
-you.successfully.removed.favorite: You successfully removed favorite
-you.successfully.liked.post: You successfully liked post
-you.successfully.unliked.post: You successfully unliked post
-you.successfully.moved.image.up: You successfully moved image up
-you.successfully.moved.image.down: You successfully moved image down
-you.successfully.selected.avatar: You successfully selected avatar
-you.successfully.selected.background: You successfully selected background
-you.successfully.uploaded.image: You successfully uploaded image
-you.successfully.removed.image: You successfully removed image
-you.successfully.removed.friend: You successfully removed friend
-you.successfully.sent.friend.request: You successfully sent friend request
+user:
+  show: Show User
+  edit: Edit User
+  successfully:
+    created: User successfully created
+    updated: User successfully updated
+    deleted: User successfully deleted
+post:
+  edit: Edit post
+  successfully:
+    created: Post successfully created
+    updated: Post successfully updated
+    deleted: Post successfully deleted
+you:
+  successfully:
+    added.favorite: You successfully added favorite
+    removed:
+      friend: You successfully removed friend
+      image: You successfully removed image
+      favorite: You successfully removed favorite
+    liked:
+      post: You successfully liked post
+    unliked:
+      post: You successfully unliked post
+    moved:
+      image:
+        up: You successfully moved image up
+        down: You successfully moved image down
+    selected:
+      avatar: You successfully selected avatar
+      background: You successfully selected background
+    uploaded.image: You successfully uploaded image
+    sent.friend.request: You successfully sent friend request
 avatar: Avatar
 background: Background
 all.images: All images
@@ -69,29 +81,37 @@ next: Next
 years.old: years old
 page.not.found: Page not found
 access.denied: Access denied
-check.posts: Check posts
-check.users: Check users
-my.messages: My messages
-my.profile: My profile
-my.posts: My posts
-my.favorites: My favorites
-my.friends: My friends
-my.visitors: My visitors
-all: All
-new: New
+check:
+  posts: Check posts
+  users: Check users
+my:
+  messages: My messages
+  profile: My profile
+  posts: My posts
+  favorites: My favorites
+  friends: My friends
+  visitors: My visitors
+  likes: My likes
+
 online: Online
-users.online: Users online
+users:
+  all: All users
+  online: Users online
+  new: New users
 homepage: Home
 online.at: online at
 posts: Posts
-add.to.favorites: Add to favorites
-remove.from.favorites: Remove from favorites
-add.to.friends: Add friend
-remove.from.friends: Remove friend
+add:
+  to:
+    favorites: Add to favorites
+    friends: Add friend
+remove:
+  from:
+    favorites: Remove from favorites
+    friends: Remove friend
 no.records.found: No records found
 like: Like
 unlike: Unlike
-my.likes: My likes
 search.posts: Search posts
 created.at: Created at
 info: Info
@@ -102,6 +122,11 @@ accept: Accept
 decline: Decline
 request.sent: Request sent
 visited.you.at: visited you at
-_homepage.title: Hello, world!
-_homepage.subtitle: This is a simple social network project.
-_homepage.description: It is coded with Symfony 5 PHP framework and has many useful features. Check this out!
+_homepage:
+  title: Hello, world!
+  subtitle: This is a simple social network project.
+  description: It is coded with Symfony 5 PHP framework and has many useful features. Check this out!
+title: Title
+create.new.post: Create new post
+content: Content
+keywords: Keywords

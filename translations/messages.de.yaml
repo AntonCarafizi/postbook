@@ -1,11 +1,6 @@
 welcome.to: Wilkommen zu
-user: Benutzer
-users: Benutzern
-user.index: Benutzer index
+_users: Benutzern
 show: Anzeigen
-show.user: Benutzer anzeigen
-edit: Bearbeiten
-edit.user: Benutzer bearbeiten
 delete: Löschen
 delete.user: Benutzer löschen
 login: Anmelden
@@ -20,8 +15,9 @@ email: Email
 password: Password
 actions: Aktionen
 back.to.list: Zurück zur Liste
-all.users: Alle Benutzern
-all.posts: Alle Posts
+all:
+  users: Alle Benutzern
+  posts: Alle Posts
 is.male: Männlich
 please.sign.in: Bitte anmelden Sie sich
 sign.in: Anmelden
@@ -34,29 +30,53 @@ age: Alter
 language: Sprache
 german: Deutsch
 english: Englisch
-french: Französisch
 you.are.logged.in.as: Sie sind algemldet wie
 description: Beschreibung
 hello: Hallo
 filter: Filter
-user.successfully.created: Benutzer erfolgreich erstellt
-user.successfully.updated: Benutzer erfolgreich aktualisiert
-user.successfully.deleted: Benutzer erfolgreich entfernt
-post.successfully.created: Post erfolgreich erstellt
-post.successfully.updated: Post erfolgreich aktualisiert
-post.successfully.deleted: Post erfolgreich entfernt
-you.successfully.added.favorite: Sie haben ein Favorit erfolgreich erstellt
-you.successfully.removed.favorite: Sie haben ein Favorit erfolgreich entfernt
-you.successfully.liked.post: Sie mögen dieses Post
-you.successfully.unliked.post: Sie mögen dieses Post nicht
-you.successfully.moved.image.up: Sie haben das Bild erfolgreich nach oben verschoben
-you.successfully.moved.image.down: Sie haben das Bild erfolgreich nach unten verschoben
-you.successfully.selected.avatar: Sie haben den Avatar erfolgreich ausgewählt
-you.successfully.selected.background: Sie haben den Hintergrund erfolgreich ausgewählt
-you.successfully.uploaded.image: Sie haben das Bild erfolgreich hochgeladen
-you.successfully.removed.image: Sie haben das Bild erfolgreich entfernt
-you.successfully.removed.friend: Sie haben Freund erfolgreich entfernt
-you.successfully.sent.friend.request: Sie haben erfolgreich eine Freundschaftsanfrage gesendet
+user:
+  index: Benutzer index
+  show: Benutzer anzeigen
+  edit: Benutzer bearbeiten
+  successfully:
+    created: Benutzer erfolgreich erstellt
+    updated: Benutzer erfolgreich aktualisiert
+    deleted: Benutzer erfolgreich entfernt
+post:
+  edit: Post bearbeiten
+  successfully:
+    created: Post erfolgreich erstellt
+    updated: Post erfolgreich aktualisiert
+    deleted: Post erfolgreich entfernt
+
+you:
+  successfully:
+    added:
+      favorite: Sie haben ein Favorit erfolgreich erstellt
+      friend: Sie haben Freund erfolgreich erstellt
+    uploaded:
+      images: Sie haben das Bild erfolgreich hochgeladen
+    removed:
+      favorite: Sie haben ein Favorit erfolgreich entfernt
+      image: Sie haben das Bild erfolgreich entfernt
+      friend: Sie haben Freund erfolgreich entfernt
+      friend_request: Sie haben erfolgreich eine Freundschaftsanfrage entfernt
+      background: Sie haben den Hintergrund erfolgreich entfernt
+      avatar: Sie haben den Avatar erfolgreich entfernt
+    liked:
+      post: Sie mögen dieses Post
+    unliked:
+      post: Sie mögen dieses Post nicht
+    moved:
+      image:
+        up: Sie haben das Bild erfolgreich nach oben verschoben
+        down: Sie haben das Bild erfolgreich nach unten verschoben
+    selected:
+      avatar: Sie haben den Avatar erfolgreich ausgewählt
+      background: Sie haben den Hintergrund erfolgreich ausgewählt
+    sent:
+      friend_request: Sie haben erfolgreich eine Freundschaftsanfrage gesendet
+
 avatar: Avatar
 background: Background
 all.images: All images
@@ -69,29 +89,37 @@ next: Nächste
 years.old: Jahre alt
 page.not.found: Seite nicht gefunden
 access.denied: Zugang verboten
-check.posts: Posts anzeigen
-check.users: Benutzern anzeigen
-my.messages: Meine Nachrichten
-my.profile: Mein Profil
-my.posts: Meine Posts
-my.favorites: Meine Favoriten
-my.friends: Meine Freunde
-my.visitors: Meine Besucher
-all: Alle
-new: Neue
+check:
+  posts: Posts anzeigen
+  users: Benutzern anzeigen
+my:
+  messages: Meine Nachrichten
+  profile: Mein Profil
+  posts: Meine Posts
+  favorites: Meine Favoriten
+  friends: Meine Freunde
+  visitors: Meine Besucher
+  likes: Meine likes
 online: Online
-users.online: Users online
+users:
+  all: Alle Benutzern
+  online: Benutzern online
+  new: Neue Benutzern
 homepage: Home
 online.at: online am
 posts: Posts
 add.to.favorites: Zu Favoriten hinzufügen
-remove.from.favorites: Aus Favoriten entfernen
-add.to.friends: Freund hinzufügen
-remove.from.friends: Freund entfernen
+remove:
+  from:
+    favorites: Aus Favoriten entfernen
+    friends: Freund entfernen
+add:
+  to:
+    friends: Freund hinzufügen
+    favorites: Zu Favoriten hinzufügen
 no.records.found: Keine data gefunden
 like: Ich mag
 unlike: Ich mag nicht
-my.likes: Meine likes
 search.posts: Posts suchen
 created.at: Erstellt ab
 info: Info
@@ -102,6 +130,11 @@ accept: Akzeptieren
 decline: Ablehnen
 request.sent: Anfrage gesendet
 visited.you.at: besuchte dich bei
-_homepage.title: Hallo Welt!
-_homepage.subtitle: Dies ist ein einfaches soziales Netzwerkprojekt.
-_homepage.description: Es ist mit dem Symfony 5 PHP-Framework codiert und verfügt über viele nützliche Funktionen. Schau dir das an!
+_homepage:
+  title: Hallo Welt!
+  subtitle: Dies ist ein einfaches soziales Netzwerkprojekt.
+  description: Es ist mit dem Symfony 5 PHP-Framework codiert und verfügt über viele nützliche Funktionen. Schau dir das an!
+title: Titel
+create.new.post: Neue Post anlegen
+content: Kontent
+keywords: Keywords

@@ -1,6 +1,6 @@
-<form method="post" action="{{ path('user_friend_new', {'friend': user.id}) }}">
+<form method="post" action="{{ path('user_friend_new', {'friend': user.id}) }}" class="mx-2">
     <input type="hidden" name="_method" value="POST">
     <input type="hidden" name="_token" value="{{ csrf_token('add_friend' ~ user.id) }}">
-    <button class="btn btn-primary btn-sm">{% trans %}accept{% endtrans %}</button>
+    <button class="btn btn-primary">{% trans %}accept{% endtrans %}</button>
 </form>
 {% include 'user/friends/_delete_form_request.html.twig' %}

@@ -7,18 +7,18 @@
     <h1>{{ title|trans }}</h1>
     <hr class="my-4">
 
-    {{ include('template-parts/alert/post/index.html.twig') }}
+    {% include 'template-parts/alert/post/index.html.twig' %}
 
     {% if posts is not empty %}
         {% for post in posts %}
             <div class="card my-4">
-                {{ include('template-parts/card-header/post/index.html.twig') }}
-                {{ include('template-parts/card-body/post/index.html.twig') }}
-                {{ include('template-parts/card-footer/post/index.html.twig') }}
+                {% include 'template-parts/card-header/post/index.html.twig' %}
+                {% include 'template-parts/card-body/post/index.html.twig' %}
+                {% include 'template-parts/card-footer/post/index.html.twig' %}
             </div>
         {% endfor %}
         <hr class="my-4">
-        {{ include('template-parts/pagination/post/index.html.twig') }}
+        {% include 'template-parts/pagination/post/index.html.twig' %}
     {% else %}
         <p class="card-text">{% trans %}no.records.found{% endtrans %}</p>
     {% endif %}
@@ -28,7 +28,4 @@
         <a class="btn btn-link" href="{{ path('post_new') }}"><i class="fas fa-plus"></i> {% trans %}new.post{% endtrans %}</a>
     </div>
     {% endif %}
-{% endblock %}
-{% block javascripts %}
-    {{ encore_entry_script_tags('ajax') }}
 {% endblock %}

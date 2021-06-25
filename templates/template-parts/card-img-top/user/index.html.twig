@@ -1,4 +1,4 @@
-{% set avatar = (user.images['avatar'] is not null) ? user.images['avatar'] : 'no_image' %}
+{% set avatar = (user.avatar is not null) ? user.avatar : 'no_image' %}
 {% set user_show = (app.user is not null and app.user.id == user.id) ? path('my_profile') : path('user_show', {'id': user.id}) %}
 {% set current_timestamp = date().timestamp %}
 {% set time_logged = current_timestamp - user.lastLogin %}
@@ -11,8 +11,10 @@
     {% endif %}
 {% endif %}
 
+{% if avatar %}
 <a href="{{ user_show }}">
     <img class="card-img-top" src="{{ asset('media/image/' ~ avatar ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
          alt="Card image cap"
          title="{{ user.firstname }} {{ user.lastname }}">
 </a>
+{% endif %}

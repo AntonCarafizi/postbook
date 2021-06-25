@@ -1,5 +1,5 @@
-{% set avatar = (user.images['avatar'] is not null) ? user.images['avatar'] : 'no_image' %}
-{% set background = (user.images['background'] is not null) ? user.images['background'] : 'no_image' %}
+{% set avatar = (user.avatar is not null) ? user.avatar : 'no_image' %}
+{% set background = (user.background is not null) ? user.background : 'no_image' %}
 {% set current_timestamp = date().timestamp %}
 {% set time_logged = current_timestamp - user.lastLogin %}
 
@@ -16,11 +16,13 @@
         {% endif %}
     {% endif %}
 
+        {% if avatar %}
     <a href="{{ asset('media/image/' ~ avatar ~ '.jpg')|imagine_filter('squared_thumbnail_large') }}"
        data-fancybox="gallery" data-caption="{{ user.firstname }} {{ user.lastname }}">
         <img class="img-thumbnail" src="{{ asset('media/image/' ~ avatar ~ '.jpg')|imagine_filter('squared_thumbnail_small') }}"
              alt="Card image cap"
              title="{{ user.firstname }} {{ user.lastname }}"></a>
+        {% endif %}
 
     {% if user.images['all'] is defined %}
         {% for key, image in user.images['all'] %}

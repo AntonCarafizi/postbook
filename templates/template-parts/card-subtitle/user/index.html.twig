@@ -1,8 +1,4 @@
+{% set avatar = (avatar is not null) ? avatar : 'no_image' %}
 <a class="card-subtitle" href="{{ path('user_show', {'id': id}) }}">
-    {% if images is not empty and images['avatar'] %}
-        {% set avatar = images['avatar'] %}
-    {% else %}
-        {% set avatar = 'no_image' %}
-    {% endif %}
     <img class="rounded-circle" src="{{ asset('media/image/' ~ avatar ~ '.jpg')|imagine_filter('squared_thumbnail_mini') }}" alt="Card image cap">
 </a>

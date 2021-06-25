@@ -1,17 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Post{% endblock %}
+{% block title %}{% trans %}new.post{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>Create new Post</h1>
+    <h1>{% trans %}create.new.post{% endtrans %}</h1>
     <hr class="my-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-white">
-            <li class="breadcrumb-item">
-                <a href="{{ path('post_index') }}"><i class="fas fa-caret-left mr-2"></i>{% trans %}all.posts{% endtrans %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{% trans %}new.post{% endtrans %}</li>
-        </ol>
-    </nav>
-
-    {{ include('post/_form.html.twig') }}
+    {% include 'template-parts/breadcrumb/post/new.html.twig' %}
+    {% include 'template-parts/alert/post/show.html.twig' %}
+    {% include 'post/_form.html.twig' %}
 {% endblock %}

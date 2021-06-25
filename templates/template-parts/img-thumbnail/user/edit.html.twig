@@ -1,5 +1,5 @@
-{% set avatar = (user.images['avatar'] is not null) ? user.images['avatar'] : 'no_image' %}
-{% set background = (user.images['background'] is not null) ? user.images['background'] : 'no_image' %}
+{% set avatar = (user.avatar is not null) ? user.avatar : 'no_image' %}
+{% set background = (user.background is not null) ? user.background : 'no_image' %}
 
 {% if user.images %}
     <div class="d-flex align-content-start flex-wrap mb-4">
@@ -20,11 +20,11 @@
     </div>
     </div>
 
-    {% if user.images['all'] %}
+    {% if user.images %}
         <div>
             <h3>{% trans %}all.images{% endtrans %}</h3>
             <div class="d-flex align-content-start flex-wrap">
-                {% for key, image in user.images['all'] %}
+                {% for key, image in user.images %}
                     <div class="d-inline-flex position-relative">
                         <div id="image-control" class="position-absolute bg-dark d-flex">
                             {{ include('user/images/_form.html.twig') }}

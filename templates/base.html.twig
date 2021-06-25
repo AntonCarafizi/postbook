@@ -31,9 +31,9 @@
                     <div class="mb-3">
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
-                                {% include 'template-parts/card-subtitle/user/index.html.twig' with {'images': app.user.images, 'id': app.user.id} %}
-                                <button type="button" class="btn btn-link btn-sm dropdown-toggle" id="currentUserDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="sr-only">Toggle Dropdown</span>
+                                {% include 'template-parts/card-subtitle/user/index.html.twig' with {'avatar': app.user.avatar,'images': app.user.images, 'id': app.user.id} %}
+                                <button type="button" class="btn btn-link btn-sm dropdown-toggle" id="currentUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="sr-only"></span>
                                 </button>
                                 {{ include('template-parts/dropdown-menu.html.twig') }}
                             </li>

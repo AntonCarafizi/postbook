@@ -15,9 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-/**
- * @IsGranted("IS_AUTHENTICATED_FULLY")
- */
+
 class PostController extends AbstractController
 {
 
@@ -37,7 +35,7 @@ class PostController extends AbstractController
         $from = $request->query->get('from');
         $to = $request->query->get('to');
 
-        $allPosts = $postRepository->findByFilter(['search' => $search, 'from' => $from, 'to' => $to], 'DESC', $this->getParameter('date_format'));
+        $allPosts = $postRepository->findByFilter(['search' => $search, 'from' => $from, 'to' => $to], $this->getParameter('date_format'));
 
         $posts = $paginator->paginate(
         $allPosts,

@@ -31,7 +31,7 @@ class PostRepository extends ServiceEntityRepository
      * @param $value
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function findByFilter($value, $order = 'DESC', $dateFormat)
+    public function findByFilter($value, $dateFormat, $order = 'DESC')
     {
         $this->queryBuilder->where('1 = 1');
         if (!empty($value['search'])) {

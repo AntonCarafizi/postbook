@@ -1,5 +1,7 @@
+// assets/styles/app.scss
+
 // customize some Bootstrap variables
-$primary: darken(#428bca, 30%);
+$primary: darken(#428bca, 20%);
 $green: #00ff00;
 
 footer {
@@ -36,15 +38,12 @@ button {
   animation-direction: alternate;
 }
 
-.badge-danger {
+#new-visitor,
+#new-friend {
   animation-name: toggle;
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
-}
-
-#search {
-  width: 250px;
 }
 
 input[type="date"]:before{

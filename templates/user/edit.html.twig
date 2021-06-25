@@ -6,14 +6,14 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}edit.user{% endtrans %} {{ user.firstname }} {{ user.lastname }}{% endblock %}
+{% block title %}{% trans %}user.edit{% endtrans %} {{ user.firstname }} {{ user.lastname }}{% endblock %}
 
 {% block body %}
     <h1>{{ user.firstname }} {{ user.lastname }}</h1>
     <hr class="my-4">
-    {{ include('template-parts/breadcrumb/user/show.html.twig') }}
+    {% include 'template-parts/breadcrumb/user/show.html.twig' %}
 
-    {{ include('template-parts/alert/user/show.html.twig') }}
+    {% include 'template-parts/alert/user/show.html.twig' %}
 
     <ul class="nav nav-tabs">
         <li class="nav-item">

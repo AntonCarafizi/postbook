@@ -12,7 +12,7 @@
                     <span class="dot grey rounded-circle position-absolute"></span>
                 {% endif %}
             {% endif %}
-            {% include 'template-parts/card-subtitle/user/index.html.twig' with {'images': post.user.images, 'id': post.user.id} %}
+            {% include 'template-parts/card-subtitle/user/index.html.twig' with {'avatar': post.user.avatar, 'images': post.user.images, 'id': post.user.id} %}
 
             <span class="card-subtitle mt-auto">{{ post.user.firstname }} {{ post.user.lastname }}</span>
         </div>

@@ -1,5 +1,5 @@
 <form method="post" action="{{ path('user_friend_delete_request', {'friend': user.id}) }}">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete_friend_request' ~ user.id) }}">
-    <button class="btn btn-dark btn-sm">{% trans %}decline{% endtrans %}</button>
+    <button class="btn btn-danger">{% trans %}decline{% endtrans %}</button>
 </form>
