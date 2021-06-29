@@ -59,11 +59,9 @@ class Post
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     public function getContent(): ?string
@@ -71,11 +69,9 @@ class Post
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -83,11 +79,9 @@ class Post
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): void
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     public function getUser(): ?User
@@ -95,11 +89,9 @@ class Post
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?User $user): void
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**
@@ -115,11 +107,9 @@ class Post
         return $this->keywords;
     }
 
-    public function setKeywords(?string $keywords): self
+    public function setKeywords(?string $keywords): void
     {
         $this->keywords = $keywords;
-
-        return $this;
     }
 
 }
