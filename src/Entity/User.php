@@ -7,15 +7,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
+     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -140,11 +142,9 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     /**
@@ -177,11 +177,9 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
     /**
@@ -206,11 +204,9 @@ class User implements UserInterface
         return $this->isVerified;
     }
 
-    public function setIsVerified(bool $isVerified): self
+    public function setIsVerified(bool $isVerified): void
     {
         $this->isVerified = $isVerified;
-
-        return $this;
     }
 
     public function getFirstname(): ?string
@@ -218,11 +214,9 @@ class User implements UserInterface
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstname(string $firstname): void
     {
         $this->firstname = $firstname;
-
-        return $this;
     }
 
     public function getLastname(): ?string
@@ -230,11 +224,9 @@ class User implements UserInterface
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastname(string $lastname): void
     {
         $this->lastname = $lastname;
-
-        return $this;
     }
 
     public function getIsMale(): ?bool
@@ -242,11 +234,9 @@ class User implements UserInterface
         return $this->isMale;
     }
 
-    public function setIsMale(bool $isMale): self
+    public function setIsMale(bool $isMale): void
     {
         $this->isMale = $isMale;
-
-        return $this;
     }
 
     public function getBirthDate(): ?\DateTimeInterface
@@ -254,11 +244,9 @@ class User implements UserInterface
         return $this->birthDate;
     }
 
-    public function setBirthDate(\DateTimeInterface $birthDate): self
+    public function setBirthDate(\DateTimeInterface $birthDate): void
     {
         $this->birthDate = $birthDate;
-
-        return $this;
     }
 
     public function getDescription(): ?string
@@ -266,11 +254,9 @@ class User implements UserInterface
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
     public function getImages(): ?array
@@ -278,20 +264,16 @@ class User implements UserInterface
         return $this->images;
     }
 
-    public function addImages(array $images): self
+    public function addImages(array $images): void
     {
         if (!in_array($images, $this->images)) {
             $this->images = array_merge($this->images, $images);
         }
-
-        return $this;
     }
 
-    public function removeImage(int $id): self
+    public function removeImage(int $id): void
     {
         array_splice($this->images, $id, 1);
-
-        return $this;
     }
 
     public function getAvatar(): ?string
@@ -299,18 +281,14 @@ class User implements UserInterface
         return $this->avatar;
     }
 
-    public function setAvatar(int $id): self
+    public function setAvatar(int $id): void
     {
         $this->avatar = $this->images[$id];
-
-        return $this;
     }
 
-    public function removeAvatar(): self
+    public function removeAvatar(): void
     {
         $this->avatar = null;
-
-        return $this;
     }
 
     public function getBackground(): ?string
@@ -318,34 +296,26 @@ class User implements UserInterface
         return $this->background;
     }
 
-    public function setBackground(int $id): self
+    public function setBackground(int $id): void
     {
         $this->background = $this->images[$id];
-
-        return $this;
     }
 
-    public function removeBackground(): self
+    public function removeBackground(): void
     {
         $this->background = null;
-
-        return $this;
     }
 
-    public function moveImageUp($id): self
+    public function moveImageUp($id): void
     {
         $out = array_splice($this->images, $id, 1);
         array_splice($this->images, $id - 1, 0, $out);
-
-        return $this;
     }
 
-    public function moveImageDown($id): self
+    public function moveImageDown($id): void
     {
         $out = array_splice($this->images, $id, 1);
         array_splice($this->images, $id + 1, 0, $out);
-
-        return $this;
     }
 
 
@@ -357,17 +327,15 @@ class User implements UserInterface
         return $this->posts;
     }
 
-    public function addPost(Post $post): self
+    public function addPost(Post $post): void
     {
         if (!$this->posts->contains($post)) {
             $this->posts[] = $post;
             $post->setUser($this);
         }
-
-        return $this;
     }
 
-    public function removePost(Post $post): self
+    public function removePost(Post $post): void
     {
         if ($this->posts->removeElement($post)) {
             // set the owning side to null (unless already changed)
@@ -375,8 +343,6 @@ class User implements UserInterface
                 $post->setUser(null);
             }
         }
-
-        return $this;
     }
 
     // LIKES
@@ -385,22 +351,18 @@ class User implements UserInterface
         return $this->likes;
     }
 
-    public function addLike(int $id): self
+    public function addLike(int $id): void
     {
         if (!in_array($id, $this->likes)) {
             $this->likes[] = $id;
         }
-
-        return $this;
     }
 
-    public function removeLike(int $id): self
+    public function removeLike(int $id): void
     {
         if (in_array($id, $this->likes)) {
             unset($this->likes[array_search($id, $this->likes)]);
         }
-
-        return $this;
     }
 
     public function getLastLogin(): ?int
@@ -408,11 +370,9 @@ class User implements UserInterface
         return $this->lastLogin;
     }
 
-    public function setLastLogin(int $lastLogin): self
+    public function setLastLogin(int $lastLogin): void
     {
         $this->lastLogin = $lastLogin;
-
-        return $this;
     }
 
     // FAVORITES
@@ -421,22 +381,18 @@ class User implements UserInterface
         return $this->favorites;
     }
 
-    public function addFavorite(int $id): self
+    public function addFavorite(int $id): void
     {
         if (!in_array($id, $this->favorites)) {
             $this->favorites[] = $id;
         }
-
-        return $this;
     }
 
-    public function removeFavorite(int $id): self
+    public function removeFavorite(int $id): void
     {
         if (in_array($id, $this->favorites)) {
             unset($this->favorites[array_search($id, $this->favorites)]);
         }
-
-        return $this;
     }
 
     // FRIENDS
@@ -445,22 +401,18 @@ class User implements UserInterface
         return $this->friends;
     }
 
-    public function addFriend(int $id): self
+    public function addFriend(int $id): void
     {
         if (!in_array($id, $this->friends)) {
             $this->friends[] = $id;
         }
-
-        return $this;
     }
 
-    public function removeFriend(int $id): self
+    public function removeFriend(int $id): void
     {
         if (in_array($id, $this->friends)) {
             unset($this->friends[array_search($id, $this->friends)]);
         }
-
-        return $this;
     }
 
     // FRIEND REQUESTS
@@ -469,22 +421,18 @@ class User implements UserInterface
         return $this->friendRequests;
     }
 
-    public function addFriendRequest(int $id): self
+    public function addFriendRequest(int $id): void
     {
         if (!in_array($id, $this->friendRequests)) {
             $this->friendRequests[] = $id;
         }
-
-        return $this;
     }
 
-    public function removeFriendRequest(int $id): self
+    public function removeFriendRequest(int $id): void
     {
         if (in_array($id, $this->friendRequests)) {
             unset($this->friendRequests[array_search($id, $this->friendRequests)]);
         }
-
-        return $this;
     }
 
     // VISITORS
@@ -493,7 +441,7 @@ class User implements UserInterface
         return $this->visitors;
     }
 
-    public function addVisitor(?array $visitor): self
+    public function addVisitor(?array $visitor): void
     {
         if ($this->id != key($visitor)) {
             if (!in_array($visitor, $this->visitors)) {
@@ -511,8 +459,6 @@ class User implements UserInterface
                 }
             }
         }
-
-        return $this;
     }
 
     public function getVisitorsLastChecked(): ?int
@@ -520,10 +466,8 @@ class User implements UserInterface
         return $this->visitorsLastChecked;
     }
 
-    public function setVisitorsLastChecked(?int $visitorsLastChecked): self
+    public function setVisitorsLastChecked(?int $visitorsLastChecked): void
     {
         $this->visitorsLastChecked = $visitorsLastChecked;
-
-        return $this;
     }
 }
