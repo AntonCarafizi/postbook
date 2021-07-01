@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 class PostController extends AbstractController
@@ -82,7 +81,7 @@ class PostController extends AbstractController
 
     public function edit(Request $request, Post $post): Response
     {
-        $this->denyAccessUnlessGranted('edit', $post);
+        $this->denyAccessUnlessGranted('edit', $post, $this->translator->trans('you.cant.edit.this.post'));
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 

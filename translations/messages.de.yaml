@@ -50,6 +50,11 @@ post:
     deleted: Post erfolgreich entfernt
 
 you:
+  cant:
+    edit:
+      this:
+        post: Sie können nicht dieses Post bearbeiten
+        user: Sie können nicht dieses Benutzer bearbeiten
   successfully:
     added:
       favorite: Sie haben ein Favorit erfolgreich erstellt

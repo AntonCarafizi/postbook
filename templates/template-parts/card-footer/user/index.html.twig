@@ -1,10 +1,9 @@
-{% set path = (app.user is not null and app.user.id == user.id) ? path('my_profile_edit') : path('user_edit', {'id': user.id}) %}
 {% set favorite_form = (app.user is not null and user.id in app.user.favorites) ? 'user/favorites/_delete_form.html.twig' : 'user/favorites/_form.html.twig' %}
 {% set friend_form = (app.user is not null and user.id in app.user.friends) ? 'user/friends/_delete_form.html.twig' : 'user/friends/_form.html.twig' %}
 
 {% if app.user %}
 <div class="card-footer d-flex justify-content-start">
-    <a class="btn btn-link btn-sm" role="button" href="{{ path }}">
+    <a class="btn btn-link btn-sm" role="button" href="{{ path('user_edit', {'id': user.id}) }}">
         <i class="far fa-edit"></i> {% trans %}user.edit{% endtrans %}
     </a>
 

@@ -50,6 +50,11 @@ post:
     updated: Post successfully updated
     deleted: Post successfully deleted
 you:
+  cant:
+    edit:
+      this:
+        post: You can't this post edit
+        user: You can't this user edit
   successfully:
     added.favorite: You successfully added favorite
     removed:

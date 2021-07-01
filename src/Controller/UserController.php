@@ -81,12 +81,10 @@ class UserController extends AbstractController
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
 
-    /**
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
-     */
-    public function edit(Request $request, $id, UserRepository $userRepository): Response
+
+    public function edit(Request $request, User $user): Response
     {
-        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
+        $this->denyAccessUnlessGranted('edit', $user, $this->translator->trans('you.cant.edit.this.user'));
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -94,7 +92,7 @@ class UserController extends AbstractController
             $this->entityManager->flush();
 
             $this->addFlash('success', $this->translator->trans('user.successfully.updated'));
-            return $this->redirectToRoute('user_show', ['id' => $user->getUuid()]);
+            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
             //return $this->json($this->translator->trans('user.successfully.updated'));
         }
 
