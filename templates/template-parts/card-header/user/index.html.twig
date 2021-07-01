@@ -6,14 +6,14 @@
 
     {% if app.request.get('_route') == 'my_visitors' %}
         {% if (app.user.visitors) %}
-            <span class="font-italic text-small">{% trans %}visited.you.at{% endtrans %} {{ app.user.visitors[user.id]|date("d M H:i") }}</span>
+            <span class="fst-italic text-small">{% trans %}visited.you.at{% endtrans %} {{ app.user.visitors[user.id]|date("d M H:i") }}</span>
         {% endif %}
     {% else %}
         {% if user.lastLogin %}
             {% if time_logged <= app.session.metadataBag.getLifetime %}
-                <span class="font-italic text-small">online</span>
+                <span class="fst-italic text-small">online</span>
             {% else %}
-                <span class="font-italic text-small">{% trans %}online.at{% endtrans %} {{ user.lastLogin|date("d M H:i") }}</span>
+                <span class="fst-italic text-small">{% trans %}online.at{% endtrans %} {{ user.lastLogin|date("d M H:i") }}</span>
             {% endif %}
         {% endif %}
     {% endif %}

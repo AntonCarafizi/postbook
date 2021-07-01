@@ -3,18 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @method string getUserIdentifier()
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface
 {
     /**
      * @var int
@@ -27,108 +26,107 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles;
+    private array $roles;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $firstname;
+    private ?string $firstname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $lastname;
+    private ?string $lastname;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $isMale;
+    private ?bool $isMale;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $birthDate;
+    private ?\DateTimeInterface $birthDate;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="array", nullable=false)
      */
-    private $images = [];
+    private array $images = [];
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $avatar;
+    private ?string $avatar;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $background;
+    private ?string $background;
 
 
     /**
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user")
      */
-    private $posts;
+    private Collection $posts;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $lastLogin;
+    private ?int $lastLogin;
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $favorites = [];
+    private array $favorites;
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $likes = [];
+    private array $likes;
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $friends = [];
+    private array $friends;
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $friendRequests = [];
+    private array $friendRequests;
 
     /**
      * @ORM\Column(type="array", nullable=true)
      */
-    private $visitors = [];
+    private array $visitors;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $visitorsLastChecked;
+    private ?int $visitorsLastChecked;
 
     public function __construct()
     {
-        $this->posts = new ArrayCollection();
         $this->roles = array('ROLE_USER');
     }
 
@@ -320,7 +318,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     /**
-     * @return Collection|Post[]
+     * @return Collection
      */
     public function getPosts(): Collection
     {
@@ -469,5 +467,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVisitorsLastChecked(?int $visitorsLastChecked): void
     {
         $this->visitorsLastChecked = $visitorsLastChecked;
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
     }
 }
