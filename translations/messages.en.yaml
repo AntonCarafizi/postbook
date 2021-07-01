@@ -53,10 +53,11 @@ you:
   cant:
     edit:
       this:
-        post: You can't this post edit
-        user: You can't this user edit
+        post: You can't edit this post
+        user: You can't edit this user
   successfully:
     added.favorite: You successfully added favorite
+    added.friend: You successfully added friend
     removed:
       friend: You successfully removed friend
       image: You successfully removed image
@@ -96,7 +97,7 @@ my:
   favorites: My favorites
   friends: My friends
   visitors: My visitors
-  likes: My likes
+  likes: My liked posts
 
 online: Online
 users:

@@ -288,11 +288,18 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function deleteFriend(Request $request, $friend): Response
+    public function deleteFriend(Request $request, $friend, UserRepository $userRepository): Response
     {
-        $user = $this->getUser();
+        $me = $this->getUser();
+        $user = $userRepository->findOneBy(['id' => $friend]);
+
         if ($this->isCsrfTokenValid('delete_friend'.$friend, $request->request->get('_token'))) {
-            $user->removeFriend($friend);
+
+            // Remove friend from me
+            $me->removeFriend($friend);
+
+            // Remove me from friend
+            $user->removeFriend($me->getId());
             $this->entityManager->flush();
             $this->addFlash('success', $this->translator->trans('you.successfully.removed.friend'));
             //return $this->json($this->translator->trans('you.successfully.removed.favorite'));
