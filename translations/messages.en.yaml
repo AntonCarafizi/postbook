@@ -62,6 +62,9 @@ you:
       friend: You successfully removed friend
       image: You successfully removed image
       favorite: You successfully removed favorite
+      friend_request: You successfully removed friend request
+      background: You successfully removed background
+      avatar: You successfully removed avatar
     liked:
       post: You successfully liked post
     unliked:
@@ -136,3 +139,5 @@ title: Title
 create.new.post: Create new post
 content: Content
 keywords: Keywords
+write.message: Write message
+write.message.to: Write message to

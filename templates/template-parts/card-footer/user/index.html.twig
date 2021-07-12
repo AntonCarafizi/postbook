@@ -11,6 +11,9 @@
         {% if app.user.id != user.id %}
             {{ include(favorite_form) }}
             {{ include(friend_form) }}
+            <a class="btn btn-link btn-sm" role="button" href="{{ path('message_new', {userFrom: app.user.id, userTo: user.id}) }}">
+                <i class="fas fa-comment-dots"></i> {% trans %}write.message{% endtrans %}
+            </a>
         {% endif %}
     {% endif %}
 </div>

@@ -21,27 +21,31 @@ class UserController extends AbstractController
 {
 
     private $entityManager;
-
     private $translator;
+    private $paginator;
+    private $userRepository;
+    private $postRepository;
 
-
-    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator, PaginatorInterface $paginator, UserRepository $userRepository, PostRepository $postRepository)
     {
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->paginator = $paginator;
+        $this->userRepository = $userRepository;
+        $this->postRepository = $postRepository;
     }
 
-    public function index(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function index(Request $request, $page): Response
     {
         $date = new \DateTime();
 
         $sessionParams = session_get_cookie_params();
 
-        $allUsers = ($request->query->get('status') == 'online') ? $userRepository->findOnline($sessionParams['lifetime'], $date->getTimestamp()) : $userRepository->findBy([], ['id' => 'DESC']);
+        $allUsers = ($request->query->get('status') == 'online') ? $this->userRepository->findOnline($sessionParams['lifetime'], $date->getTimestamp()) : $this->userRepository->findBy([], ['id' => 'DESC']);
 
         $title = ($request->query->get('status') == 'online') ? 'users.online' : 'users.all';
 
-        $users = $paginator->paginate(
+        $users = $this->paginator->paginate(
             $allUsers,
             $request->query->getInt('page', $page),
             $this->getParameter('users_per_page')
@@ -74,9 +78,9 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function show($id, UserRepository $userRepository): Response
+    public function show($id): Response
     {
-        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
+        $user = (is_null($id)) ? $this->getUser() : $this->userRepository->findOneBy(['id' => $id]);
 
         return $this->render('user/show.html.twig', ['user' => $user]);
     }
@@ -119,12 +123,12 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function showPosts(Request $request, $id, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function showPosts(Request $request, $id, $page): Response
     {
-        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
+        $user = (is_null($id)) ? $this->getUser() : $this->userRepository->findOneBy(['id' => $id]);
         $userPosts = $user->getPosts();
 
-        $posts = $paginator->paginate(
+        $posts = $this->paginator->paginate(
             $userPosts,
             $request->query->getInt('page', $page),
             $this->getParameter('posts_per_page')
@@ -135,12 +139,12 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function showLikes(Request $request, $id, UserRepository $userRepository, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
+    public function showLikes(Request $request, $id, $page): Response
     {
-        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
-        $likes = $postRepository->findBy(['id' => $user->getLikes()], ['id' => 'DESC']);
+        $user = (is_null($id)) ? $this->getUser() : $this->userRepository->findOneBy(['id' => $id]);
+        $likes = $this->postRepository->findBy(['id' => $user->getLikes()], ['id' => 'DESC']);
 
-        $posts = $paginator->paginate(
+        $posts = $this->paginator->paginate(
             $likes,
             $request->query->getInt('page', $page),
             $this->getParameter('posts_per_page')
@@ -181,12 +185,12 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function showFavorites(Request $request, $id, UserRepository $userRepository, PostRepository $postRepository, $page, PaginatorInterface $paginator): Response
+    public function showFavorites(Request $request, $id, $page): Response
     {
-        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
-        $favorites = $userRepository->findBy(['id' => $user->getFavorites()], ['id' => 'DESC']);
+        $user = (is_null($id)) ? $this->getUser() : $this->userRepository->findOneBy(['id' => $id]);
+        $favorites = $this->userRepository->findBy(['id' => $user->getFavorites()], ['id' => 'DESC']);
 
-        $users = $paginator->paginate(
+        $users = $this->paginator->paginate(
             $favorites,
             $request->query->getInt('page', $page),
             $this->getParameter('posts_per_page')
@@ -229,13 +233,13 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function showFriends(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function showFriends(Request $request, $page): Response
     {
-        $getUser = $userRepository->findOneby(['id' => $this->getUser()->getId()]);
-        $userFriends = $userRepository->findby(['id' => $getUser->getFriends()], ['id' => 'DESC']);
-        $userFriendRequests = $userRepository->findby(['id' => $getUser->getFriendRequests()], ['id' => 'DESC']);
+        $getUser = $this->userRepository->findOneby(['id' => $this->getUser()->getId()]);
+        $userFriends = $this->userRepository->findby(['id' => $getUser->getFriends()], ['id' => 'DESC']);
+        $userFriendRequests = $this->userRepository->findby(['id' => $getUser->getFriendRequests()], ['id' => 'DESC']);
 
-        $users = $paginator->paginate(
+        $users = $this->paginator->paginate(
             $userFriends,
             $request->query->getInt('page', $page),
             $this->getParameter('users_per_page')
@@ -247,10 +251,10 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function addFriendRequest(Request $request, $friend, UserRepository $userRepository): Response
+    public function addFriendRequest(Request $request, $friend): Response
     {
         $me = $this->getUser();
-        $user = $userRepository->findOneBy(['id' => $friend]);
+        $user = $this->userRepository->findOneBy(['id' => $friend]);
         if ($this->isCsrfTokenValid('add_friend_request'.$friend, $request->request->get('_token'))) {
 
             // Add my ID to user friendRequests
@@ -265,10 +269,10 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function addFriend(Request $request, $friend, UserRepository $userRepository): Response
+    public function addFriend(Request $request, $friend): Response
     {
         $me = $this->getUser();
-        $user = $userRepository->findOneBy(['id' => $friend]);
+        $user = $this->userRepository->findOneBy(['id' => $friend]);
 
         if ($this->isCsrfTokenValid('add_friend'.$friend, $request->request->get('_token'))) {
 
@@ -288,10 +292,10 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function deleteFriend(Request $request, $friend, UserRepository $userRepository): Response
+    public function deleteFriend(Request $request, $friend): Response
     {
         $me = $this->getUser();
-        $user = $userRepository->findOneBy(['id' => $friend]);
+        $user = $this->userRepository->findOneBy(['id' => $friend]);
 
         if ($this->isCsrfTokenValid('delete_friend'.$friend, $request->request->get('_token'))) {
 
@@ -325,13 +329,13 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function showVisitors(Request $request, UserRepository $userRepository, $page, PaginatorInterface $paginator): Response
+    public function showVisitors(Request $request, $page): Response
     {
-        $getUser = $userRepository->findOneby(['id' => $this->getUser()->getId()]);
+        $getUser = $this->userRepository->findOneby(['id' => $this->getUser()->getId()]);
 
-        $userVisitors = $userRepository->findByIdList(array_keys($getUser->getVisitors()));
+        $userVisitors = $this->userRepository->findByIdList(array_keys($getUser->getVisitors()));
 
-        $users = $paginator->paginate(
+        $users = $this->paginator->paginate(
             $userVisitors,
             $request->query->getInt('page', $page),
             $this->getParameter('users_per_page')
@@ -343,9 +347,9 @@ class UserController extends AbstractController
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function addImage(Request $request, $id, UserRepository $userRepository, ImageService $imageService): Response
+    public function addImage(Request $request, $id, ImageService $imageService): Response
     {
-        $user = (is_null($id)) ? $this->getUser() : $userRepository->findOneBy(['id' => $id]);
+        $user = (is_null($id)) ? $this->getUser() : $this->userRepository->findOneBy(['id' => $id]);
 
         $form = $this->createForm(ImageType::class, $user);
         $form->handleRequest($request);

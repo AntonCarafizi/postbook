@@ -19,36 +19,39 @@ class PostController extends AbstractController
 {
 
     private $entityManager;
-
     private $translator;
+    private $postRepository;
+    private $paginator;
 
-    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator, PostRepository $postRepository, PaginatorInterface $paginator)
     {
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->postRepository = $postRepository;
+        $this->paginator = $paginator;
     }
 
-    public function index(Request $request, PostRepository $postRepository, $page, PaginatorInterface $paginator, JsonService $jsonService): Response
+    public function index(Request $request, $page): Response
     {
         $search = $request->query->get('search');
         $from = $request->query->get('from');
         $to = $request->query->get('to');
 
-        $allPosts = $postRepository->findByFilter(['search' => $search, 'from' => $from, 'to' => $to], $this->getParameter('date_format'));
+        $allPosts = $this->postRepository->findByFilter(['search' => $search, 'from' => $from, 'to' => $to], $this->getParameter('date_format'));
 
-        $posts = $paginator->paginate(
+        $posts = $this->paginator->paginate(
         $allPosts,
         $request->query->getInt('page', $page),
         $this->getParameter('posts_per_page')
         );
 
 
-        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
+        /*if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
             $response = $jsonService->convert($posts);
             return new JsonResponse($response, Response::HTTP_OK, [], true);
-        } else {
+        } else { */
             return $this->render('post/index.html.twig', ['posts' => $posts, 'title' => 'all.posts']);
-        }
+        //}
     }
 
     public function new(Request $request): Response
